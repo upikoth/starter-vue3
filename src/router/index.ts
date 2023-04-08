@@ -1,21 +1,23 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/home-view.vue'
+
+export enum ViewName {
+	HomeView = 'HOME_VIEW',
+	AboutView = 'ABOUT_VIEW'
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: ViewName.HomeView,
       component: HomeView
     },
     {
       path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      name: ViewName.AboutView,
+      component: () => import('@/views/about-view.vue')
     }
   ]
 })
