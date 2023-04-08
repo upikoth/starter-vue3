@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { IonicVue } from '@ionic/vue';
 
-import App from './app-c.vue'
+import App from './app.vue'
 import router from './router'
 
 import './assets/css/index.css'
