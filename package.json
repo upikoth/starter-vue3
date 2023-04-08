@@ -4,17 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build": "vite build --base=/starter-vue3",
+    "android:update": "vite build && cap sync android",
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
-    "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint:ts": "type-check",
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@capacitor/android": "^4.7.3",
+    "@capacitor/core": "^4.7.3",
     "@ionic/vue": "^7.0.1",
     "@ionic/vue-router": "^7.0.1",
     "pinia": "^2.0.32",
@@ -22,6 +25,7 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@capacitor/cli": "^4.7.3",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
