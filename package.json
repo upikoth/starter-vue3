@@ -5,14 +5,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/starter-vue3",
-    "android:update": "vite build && cap sync android",
     "preview": "vite preview",
+    "android:update": "vite build && cap sync android",
+    "android:open": "cap open android",
+    "ios:update": "vite build && cap sync ios",
+    "ios:open": "cap open ios",
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "lint:ts": "type-check",
+    "lint:ts": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "format": "prettier --write src/"
   },
   "dependencies": {
