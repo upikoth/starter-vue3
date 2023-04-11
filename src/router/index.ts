@@ -1,24 +1,35 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router'
-import HomeView from '../views/home-view.vue'
+
+import HomeView from '@/views/home-view.vue'
 
 export enum ViewName {
 	HomeView = 'HOME_VIEW',
-	AboutView = 'ABOUT_VIEW'
+	DocumentationView = 'DOCUMENTAITION_VIEW'
 }
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      name: ViewName.HomeView,
-      component: HomeView
-    },
-    {
-      path: '/about',
-      name: ViewName.AboutView,
-      component: () => import('@/views/about-view.vue')
-    }
+		{
+			path: '',
+			component: () => import('@/layouts/base-layout.vue'),
+			children: [
+				{
+					path: 'home',
+					name: ViewName.HomeView,
+					component: HomeView
+				},
+				{
+					path: 'docs',
+					name: ViewName.DocumentationView,
+					component: () => import('@/views/documentation-view.vue')
+				}
+			]
+		},
+		{
+			path: '/:pathMatch(.*)*',
+			redirect: () => ({ name: ViewName.HomeView }),
+		},
   ]
 })
 
