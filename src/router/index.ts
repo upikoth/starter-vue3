@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router'
+import { createRouter, createWebHashHistory } from '@ionic/vue-router'
 
 import HomeView from '@/views/home-view.vue'
 
@@ -8,12 +8,16 @@ export enum ViewName {
 }
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
 		{
 			path: '',
 			component: () => import('@/layouts/base-layout.vue'),
 			children: [
+				{
+					path: '',
+					redirect: () => ({ name: ViewName.HomeView }),
+				},
 				{
 					path: 'home',
 					name: ViewName.HomeView,
