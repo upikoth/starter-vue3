@@ -66,7 +66,6 @@ const navigationItems = [
 						router-direction="root"
 						lines="none"
 						:href="navigationItem.href"
-						:tab="navigationItem.name"
 						@click.prevent="navigationItem.handler"
 					>
 						<ion-icon
@@ -89,13 +88,14 @@ const navigationItems = [
 		</ion-split-pane>
 
 		<ion-tabs v-else>
-			<ion-router-outlet />
+			<ion-router-outlet animated="false" />
 			<ion-tab-bar>
 				<ion-tab-button 
 					v-for="navigationItem in navigationItems"
 					:key="navigationItem.name"
 					:href="navigationItem.href"
-					:tab="navigationItem.name"
+					:selected="route.name === navigationItem.name"
+					@click.prevent="navigationItem.handler"
 				>
 					<ion-icon :icon="navigationItem.icon" />
 					<ion-label>{{ navigationItem.title }}</ion-label>
