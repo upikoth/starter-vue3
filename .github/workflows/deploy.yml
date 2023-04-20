@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
 
 jobs:
   deploy:
