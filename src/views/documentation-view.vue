@@ -2,6 +2,9 @@
 import {
 	IonPage,
 } from '@ionic/vue'
+
+const baseUrl = import.meta.env.BASE_URL
+const documentationSrc = baseUrl === '/' ? '/starter-docs/index.html' : 'https://upikoth.github.io/starter-docs/'
 </script>
 
 <template>
@@ -10,7 +13,7 @@ import {
 	>
 		<iframe
 			class="documentation-view__iframe"
-			src="https://upikoth.github.io/starter-docs/"
+			:src="documentationSrc"
 			title="Документация"
 		/>
 	</ion-page>
