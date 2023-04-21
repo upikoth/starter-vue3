@@ -69,8 +69,8 @@ const navigationItems = [
 						@click.prevent="navigationItem.handler"
 					>
 						<ion-icon
-							class="base-layout__sidebar-navigation-item-icon"
 							slot="start"
+							class="base-layout__sidebar-navigation-item-icon"
 							:icon="navigationItem.icon"
 						/>
 						<ion-label
