@@ -21,11 +21,10 @@ const documentationSrc = baseUrl === '/' ? '/starter-docs/index.html' : 'https:/
 
 <style lang="scss" scoped>
 .documentation-view {
-
 	&__iframe {
 		display: flex;
-		flex-grow: 1;
 		width: 100%;
+		flex-grow: 1;
 		border: none;
 	}
 }

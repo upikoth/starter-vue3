@@ -107,7 +107,6 @@ const navigationItems = [
 
 <style lang="scss" scoped>
 .base-layout {
-
 	&__split-pane {
 		--side-max-width: 270px;
 		--side-width: 270px;

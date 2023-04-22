@@ -14,8 +14,9 @@
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",
+    "lint:js": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts",
     "lint:ts": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "lint:css": "stylelint \"src/**/*.{vue,scss}\"",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -33,7 +34,8 @@
     "@capacitor/cli": "^4.7.3",
     "@types/jsdom": "^21.1.0",
     "@types/node": "^18.14.2",
-    "@upikoth/eslint-config-vue3": "^1.0.0",
+    "@upikoth/eslint-config-vue3": "^1.0.1",
+    "@upikoth/stylelint-config-vue3": "^1.0.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/test-utils": "^2.3.0",
     "@vue/tsconfig": "^0.1.3",
