@@ -3,6 +3,10 @@ import {
 	IonApp,
 	IonRouterOutlet
 } from '@ionic/vue'
+
+import api from '@/api'
+
+api.health.getHealth()
 </script>
 <template>
 	<ion-app>
