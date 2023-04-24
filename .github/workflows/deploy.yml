@@ -7,6 +7,7 @@ on:
 
 env:
   UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
+  VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
 jobs:
   deploy:
