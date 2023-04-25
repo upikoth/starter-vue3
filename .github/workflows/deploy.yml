@@ -7,7 +7,6 @@ on:
 
 env:
   UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
-  VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
 jobs:
   deploy:
@@ -15,17 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
+      - uses: webfactory/ssh-agent@v0.5.4
         with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           node-version: 16
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+      - run: npm ci
+      - run: npm run build
+      - run: rsync -e "ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no" --delete -r ./dist/ root@${{ secrets.SSH_HOST }}:${{ env.APP_SERVER_PATH }}
