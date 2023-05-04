@@ -9,7 +9,19 @@ env:
   UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+
+      - run: npm ci
+      - run: npm run lint
+
   deploy:
+    needs: lint
     runs-on: ubuntu-latest
     environment:
       name: prod
