@@ -8,8 +8,8 @@ export enum ViewName {
 }
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
-  routes: [
+	history: createWebHashHistory(import.meta.env.BASE_URL),
+	routes: [
 		{
 			path: '',
 			component: () => import('@/layouts/base-layout.vue'),
@@ -34,7 +34,7 @@ const router = createRouter({
 			path: '/:pathMatch(.*)*',
 			redirect: () => ({ name: ViewName.HomeView }),
 		},
-  ]
+	]
 })
 
 export default router

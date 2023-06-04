@@ -6,7 +6,7 @@ import { BreakpointEnum } from '@/constants'
 import { IStoreNameEnum } from './index.types'
 
 export const useScreenStore = defineStore(IStoreNameEnum.Screen, () => {
-  const windowWidth = ref(window.innerWidth)
+	const windowWidth = ref(window.innerWidth)
 
 	window.onresize = () => {
 		windowWidth.value = window.innerWidth
@@ -26,7 +26,7 @@ export const useScreenStore = defineStore(IStoreNameEnum.Screen, () => {
 	const isMdUp = computed(() => isMd.value || isLg.value || isXl.value)
 	const isLgUp = computed(() => isLg.value || isXl.value)
 
-  return {
+	return {
 		isXs,
 		isSm,
 		isMd,
