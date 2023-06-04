@@ -4,7 +4,6 @@ import HomeView from '@/views/home-view.vue'
 
 export enum ViewName {
 	HomeView = 'HOME_VIEW',
-	DocumentationView = 'DOCUMENTAITION_VIEW'
 }
 
 const router = createRouter({
@@ -23,11 +22,6 @@ const router = createRouter({
 					name: ViewName.HomeView,
 					component: HomeView
 				},
-				{
-					path: 'docs',
-					name: ViewName.DocumentationView,
-					component: () => import('@/views/documentation-view.vue')
-				}
 			]
 		},
 		{

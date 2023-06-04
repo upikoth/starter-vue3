@@ -8,7 +8,6 @@
     "preview": "vite preview",
     "android:update": "vite build && cap sync android",
     "android:open": "cap open android",
-    "docs:update": "cp -r ./node_modules/@upikoth/starter-docs/dist/ ./public/starter-docs",
     "ios:update": "vite build && cap sync ios",
     "ios:open": "cap open ios",
     "test:unit": "vitest",
@@ -26,7 +25,6 @@
     "@capacitor/ios": "^4.7.3",
     "@ionic/vue": "^7.0.1",
     "@ionic/vue-router": "^7.0.1",
-    "@upikoth/starter-docs": "^1.0.4",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"

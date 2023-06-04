@@ -12,7 +12,7 @@ import {
 	IonSplitPane,
 	IonMenu,
 } from '@ionic/vue';
-import { home, documentText } from 'ionicons/icons';
+import { home } from 'ionicons/icons';
 import { useRouter, useRoute } from 'vue-router'
 
 import { ViewName } from '@/router'
@@ -32,13 +32,6 @@ const navigationItems = [
 		name: ViewName.HomeView,
 		icon: home,
 		handler: () => router.push({ name: ViewName.HomeView }),
-	},
-	{
-		title: 'Документация',
-		href: router.resolve({ name: ViewName.DocumentationView }).href,
-		name: ViewName.DocumentationView,
-		icon: documentText,
-		handler: () => router.push({ name: ViewName.DocumentationView }),
 	}
 ]
 </script>
