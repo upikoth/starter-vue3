@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from '@ionic/vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 import HomeView from '@/views/home-view.vue'
 
