@@ -1,9 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import HomeView from '@/views/home-view.vue'
+import UsersView from '@/views/users-view.vue'
 
 export enum ViewName {
-	HomeView = 'HOME_VIEW',
+	UsersView = 'USERS_VIEW',
 }
 
 const router = createRouter({
@@ -15,18 +15,18 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewName.HomeView }),
+					redirect: () => ({ name: ViewName.UsersView }),
 				},
 				{
-					path: 'home',
-					name: ViewName.HomeView,
-					component: HomeView
+					path: 'users',
+					name: ViewName.UsersView,
+					component: UsersView
 				},
 			]
 		},
 		{
 			path: '/:pathMatch(.*)*',
-			redirect: () => ({ name: ViewName.HomeView }),
+			redirect: () => ({ name: ViewName.UsersView }),
 		},
 	]
 })

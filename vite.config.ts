@@ -23,6 +23,7 @@ export default defineConfig({
 		}
 	},
 	server: {
+		port: 8000,
 		proxy: {
 			'/api': {
 				target: env.VITE_API_URL,
