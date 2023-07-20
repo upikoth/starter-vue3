@@ -6,6 +6,7 @@ on:
       - main
 
 env:
+  UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   CONTAINER_NAME: starter-vue3
