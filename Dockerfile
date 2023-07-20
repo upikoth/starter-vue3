@@ -2,9 +2,11 @@
 
 FROM node:16-alpine as build
 
+ENV UPIKOTH_PACKAGES_READ=${UPIKOTH_PACKAGES_READ}
+
 WORKDIR /starter-vue3
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .npmrc ./
 
 RUN npm ci
 
