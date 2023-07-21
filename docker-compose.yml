@@ -1,15 +1,10 @@
 services:
   frontend:
-    depends_on:
-      - postgres
-      - backend
     image: ghcr.io/upikoth/starter-vue3
     env_file:
       - .env.local
     container_name: frontend
     ports:
       - 127.0.0.1:4001:80
-    networks:
-      starter_network:
     environment:
       VITE_API_URL: ${VITE_API_URL}
