@@ -96,5 +96,5 @@ jobs:
           echo "" > .env.local
           docker compose stop frontend
           docker compose pull frontend
-          docker compose up --no-deps -d frontend  -p "starter"
+          docker compose up --no-deps -d frontend -p "starter"
           docker system prune -f
