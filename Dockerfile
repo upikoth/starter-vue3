@@ -6,7 +6,8 @@ WORKDIR /starter-vue3
 
 COPY package.json package-lock.json .npmrc ./
 
-RUN --mount=type=secret,id=UPIKOTH_PACKAGES_READ,required=true source /run/secrets/UPIKOTH_PACKAGES_READ \
+RUN --mount=type=secret,id=UPIKOTH_PACKAGES_READ \
+	UPIKOTH_PACKAGES_READ=$(cat /run/secrets/UPIKOTH_PACKAGES_READ) \
 	&& export UPIKOTH_PACKAGES_READ=${UPIKOTH_PACKAGES_READ} \
 	&& npm ci
 
