@@ -45,22 +45,14 @@ services:
       - backend
     image: ghcr.io/upikoth/starter-vue3
     env_file:
-      - .env
+      - .env.local
     container_name: frontend
     ports:
       - 127.0.0.1:${APP_PORT}:${APP_PORT}
     networks:
       starter_network:
     environment:
-      APP_PORT: ${APP_PORT}
-      APP_ENV: ${APP_ENV}
-      APP_JWT_SECRET: ${APP_JWT_SECRET}
-      DATABASE_NAME: ${DATABASE_NAME}
-      # При запуске приложения в контейнере, оно должно обращаться к контейнеру postgres.
-      DATABASE_ADDR: postgres-network:5432
-      DATABASE_USER: ${DATABASE_USER}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      SENTRY_DSN: ${SENTRY_DSN}
+      VITE_API_URL: ${VITE_API_URL}
 
 volumes:
   postgres:
