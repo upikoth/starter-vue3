@@ -48,7 +48,7 @@ services:
       - .env.local
     container_name: frontend
     ports:
-      - 127.0.0.1:${APP_PORT}:${APP_PORT}
+      - 127.0.0.1:4001:80
     networks:
       starter_network:
     environment:
