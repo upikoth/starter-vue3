@@ -9,6 +9,9 @@
 		"src/**/__tests__/*"
 	],
 	"compilerOptions": {
+		"lib": [
+			"ES2017"
+		],
 		"composite": true,
 		"baseUrl": ".",
 		"paths": {

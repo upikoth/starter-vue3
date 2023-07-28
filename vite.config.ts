@@ -8,20 +8,10 @@ const env = loadEnv('', process.cwd())
 
 export default defineConfig({
 	plugins: [
-		vue({
-			template: {
-				transformAssetUrls
-			}
-		}),
-		quasar({
-			sassVariables: 'src/assets/quasar-variables.sass'
-		})
+		vue({ template: { transformAssetUrls } }),
+		quasar({ sassVariables: 'src/assets/quasar-variables.sass' })
 	],
-	resolve: {
-		alias: {
-			'@': fileURLToPath(new URL('./src', import.meta.url))
-		}
-	},
+	resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
 	server: {
 		port: 8000,
 		proxy: {

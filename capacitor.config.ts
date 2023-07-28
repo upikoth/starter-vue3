@@ -1,10 +1,10 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
 	appId: 'upikoth.github.io',
 	appName: 'starter-vue3',
 	webDir: 'dist',
-	bundledWebRuntime: false,
-};
+	bundledWebRuntime: false
+}
 
-export default config;
+export default config

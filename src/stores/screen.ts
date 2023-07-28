@@ -37,6 +37,6 @@ export const useScreenStore = defineStore(IStoreNameEnum.Screen, () => {
 		isLgDown,
 		isSmUp,
 		isMdUp,
-		isLgUp,
+		isLgUp
 	}
 })

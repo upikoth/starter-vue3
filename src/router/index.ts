@@ -15,19 +15,19 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewName.UsersView }),
+					redirect: () => ({ name: ViewName.UsersView })
 				},
 				{
 					path: 'users',
 					name: ViewName.UsersView,
 					component: UsersView
-				},
+				}
 			]
 		},
 		{
 			path: '/:pathMatch(.*)*',
-			redirect: () => ({ name: ViewName.UsersView }),
-		},
+			redirect: () => ({ name: ViewName.UsersView })
+		}
 	]
 })
 

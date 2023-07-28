@@ -15,7 +15,7 @@ const menuList = [
 		label: 'Пользователи',
 		separator: true,
 		name: ViewName.UsersView,
-		handler: () => router.push({ name: ViewName.UsersView }),
+		handler: () => router.push({ name: ViewName.UsersView })
 	},
 	{
 		icon: 'send',
@@ -109,7 +109,7 @@ function toggleLeftDrawer() {
 		<q-page-container>
 			<router-view />
 		</q-page-container>
-		
+
 		<q-footer elevated>
 			<q-toolbar>
 				<q-toolbar-title>
