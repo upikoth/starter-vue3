@@ -3,9 +3,11 @@ import axios from 'axios'
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
 import type { IResponse, IResponseError } from '@/types'
 
+import environment from '@/environment'
+
 const axiosInstance = axios.create({
 	timeout: MILLISECONDS_IN_MINUTE,
-	baseURL: import.meta.env.VITE_API_URL
+	baseURL: environment.API_URL
 })
 
 axiosInstance.interceptors.response.use(

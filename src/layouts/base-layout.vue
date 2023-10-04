@@ -13,9 +13,15 @@ const menuList = [
 	{
 		icon: 'group',
 		label: 'Пользователи',
-		separator: true,
 		name: ViewName.UsersView,
 		handler: () => router.push({ name: ViewName.UsersView })
+	},
+	{
+		icon: 'admin_panel_settings',
+		label: 'Сессии',
+		separator: true,
+		name: ViewName.SessionsView,
+		handler: () => router.push({ name: ViewName.SessionsView })
 	},
 	{
 		icon: 'send',
@@ -89,6 +95,7 @@ function toggleLeftDrawer() {
 							v-ripple
 							clickable
 							:active="menuItem.name === route.name"
+							@click="menuItem.handler"
 						>
 							<q-item-section avatar>
 								<q-icon :name="menuItem.icon" />

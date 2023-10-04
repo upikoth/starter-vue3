@@ -8,3 +8,4 @@ services:
       - 127.0.0.1:4001:80
     environment:
       VITE_API_URL: ${VITE_API_URL}
+      VITE_SENTRY_DNS: ${VITE_SENTRY_DNS}

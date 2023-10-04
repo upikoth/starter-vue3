@@ -1,9 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import UsersView from '@/views/users-view.vue'
+import SessionsView from '@/views/sessions-view.vue'
 
 export enum ViewName {
 	UsersView = 'USERS_VIEW',
+	SessionsView = 'SESSIONS_VIEW',
 }
 
 const router = createRouter({
@@ -21,6 +23,11 @@ const router = createRouter({
 					path: 'users',
 					name: ViewName.UsersView,
 					component: UsersView
+				},
+				{
+					path: 'sessions',
+					name: ViewName.SessionsView,
+					component: SessionsView
 				}
 			]
 		},
