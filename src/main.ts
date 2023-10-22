@@ -28,7 +28,10 @@ Sentry.init({
 	replaysOnErrorSampleRate: 1.0
 })
 
-app.use(Quasar, { plugins: { Notify } })
+app.use(Quasar, {
+	plugins: { Notify },
+	config: { screen: { bodyClasses: true } }
+})
 app.use(createPinia())
 app.use(router)
 
