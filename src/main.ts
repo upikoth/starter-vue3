@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar, Notify } from 'quasar'
 import * as Sentry from '@sentry/vue'
+import langRu from 'quasar/lang/ru'
 
 import environment from '@/environment'
 
@@ -32,7 +33,8 @@ if (environment.NODE_ENV !== 'development') {
 
 app.use(Quasar, {
 	plugins: { Notify },
-	config: { screen: { bodyClasses: true } }
+	config: { screen: { bodyClasses: true } },
+	lang: langRu
 })
 app.use(createPinia())
 app.use(router)
