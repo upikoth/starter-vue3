@@ -7,7 +7,7 @@ import environment from '@/environment'
 
 const axiosInstance = axios.create({
 	timeout: MILLISECONDS_IN_MINUTE,
-	baseURL: environment.API_URL
+	baseURL: environment.NODE_ENV !== 'development' ? environment.API_URL : undefined
 })
 
 axiosInstance.interceptors.response.use(

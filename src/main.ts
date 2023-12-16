@@ -13,20 +13,22 @@ import router from './router'
 
 const app = createApp(App)
 
-Sentry.init({
-	app,
-	dsn: environment.SENTRY_DNS,
-	integrations: [
-		new Sentry.BrowserTracing({
-			tracePropagationTargets: [window.location.host, /^\//],
-			routingInstrumentation: Sentry.vueRouterInstrumentation(router)
-		}),
-		new Sentry.Replay()
-	],
-	tracesSampleRate: 1.0,
-	replaysSessionSampleRate: 1.0,
-	replaysOnErrorSampleRate: 1.0
-})
+if (environment.NODE_ENV !== 'development') {
+	Sentry.init({
+		app,
+		dsn: environment.SENTRY_DNS,
+		integrations: [
+			new Sentry.BrowserTracing({
+				tracePropagationTargets: [window.location.host, /^\//],
+				routingInstrumentation: Sentry.vueRouterInstrumentation(router)
+			}),
+			new Sentry.Replay()
+		],
+		tracesSampleRate: 1.0,
+		replaysSessionSampleRate: 1.0,
+		replaysOnErrorSampleRate: 1.0
+	})
+}
 
 app.use(Quasar, {
 	plugins: { Notify },

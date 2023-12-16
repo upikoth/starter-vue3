@@ -1,7 +1,6 @@
 import type { IResponseErrorField } from '@/types'
 import { DEFAULT_ERROR_MESSAGE_TEXT } from '@/constants'
 
-
 export enum ApiErrorCode {
 	UserWithEmailAlreadyExist = '1005',
 	UnknownError = '1004'
