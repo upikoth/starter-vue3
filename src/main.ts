@@ -9,6 +9,8 @@ import environment from '@/environment'
 import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 
+import '@/assets/styles/index.scss'
+
 import App from './app.vue'
 import router from './router'
 

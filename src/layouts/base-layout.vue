@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 
 import { ViewName } from '@/router'
 
+const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
 
@@ -36,8 +38,11 @@ function toggleLeftDrawer() {
 </script>
 
 <template>
-	<q-layout view="lHh lpR lFf">
-		<q-header elevated>
+	<q-layout view="lHh LpR lFf">
+		<q-header
+			v-if="$q.screen.gt.xs"
+			elevated
+		>
 			<q-toolbar>
 				<q-btn
 					dense
@@ -46,10 +51,6 @@ function toggleLeftDrawer() {
 					icon="menu"
 					@click="toggleLeftDrawer"
 				/>
-
-				<q-toolbar-title>
-					Header
-				</q-toolbar-title>
 			</q-toolbar>
 		</q-header>
 
@@ -91,11 +92,18 @@ function toggleLeftDrawer() {
 			<router-view />
 		</q-page-container>
 
-		<q-footer elevated>
+		<q-footer
+			v-if="$q.screen.xs"
+			elevated
+		>
 			<q-toolbar>
-				<q-toolbar-title>
-					Footer
-				</q-toolbar-title>
+				<q-btn
+					dense
+					flat
+					round
+					icon="menu"
+					@click="toggleLeftDrawer"
+				/>
 			</q-toolbar>
 		</q-footer>
 	</q-layout>

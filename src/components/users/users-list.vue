@@ -1,20 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useQuasar } from 'quasar'
 import type { QTableProps } from 'quasar'
+import { useRouter } from 'vue-router'
 
 import api from '@/api'
 import type { IUser } from '@/models'
 import { paginationToLimitOffset } from '@/utils'
+import { ViewName } from '@/router'
+import { useNotification } from '@/composables'
 
-const $q = useQuasar()
+const router = useRouter()
+const notification = useNotification()
 
-const rowsPerPageOptions: QTableProps['rowsPerPageOptions'] = [5, 10, 25, 50, 100]
+const rowsPerPageOptions: QTableProps['rowsPerPageOptions'] = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
 	page: 1,
 	rowsPerPage: rowsPerPageOptions[0]
 })
 
+const isUsersLoading = ref(false)
 const users = ref<IUser[]>([])
 
 const columns: QTableProps['columns'] = [
@@ -23,14 +27,24 @@ const columns: QTableProps['columns'] = [
 		field: 'id',
 		label: 'Id',
 		required: true,
-		align: 'left'
+		align: 'left',
+		style: 'width: 50px',
+		headerStyle: 'width: 50px'
 	},
 	{
 		name: 'name',
 		field: 'name',
-		label: 'Name',
+		label: 'Имя',
 		required: true,
 		align: 'left'
+	},
+	{
+		name: 'actions',
+		field: 'actions',
+		label: 'Действия',
+		align: 'right',
+		style: 'width: 100px',
+		headerStyle: 'width: 100px'
 	}
 ]
 
@@ -45,6 +59,8 @@ async function updateUsersList(
 		const newPagination = props?.pagination || pagination.value
 		const { limit, offset } = paginationToLimitOffset(newPagination)
 
+		isUsersLoading.value = true
+
 		const { users: newUsers, total } = await api.users.getAll({
 			limit: limit,
 			offset: offset
@@ -56,12 +72,17 @@ async function updateUsersList(
 		pagination.value.page = newPagination.page
 		pagination.value.rowsPerPage = newPagination.rowsPerPage
 	} catch {
-		$q.notify({
-			type: 'negative',
-			message: 'Не удалось получить список пользователей',
-			position: 'top'
-		})
+		notification.error('Не удалось получить список пользователей')
+	} finally {
+		isUsersLoading.value = false
 	}
+}
+
+function redirectToUserPage(id: number) {
+	router.push({
+		name: ViewName.UsersEditView,
+		params: { id }
+	})
 }
 
 onCreated()
@@ -70,10 +91,43 @@ onCreated()
 <template>
 	<q-table
 		v-model:pagination="pagination"
-		title="Пользователи"
+		class="users-list"
 		:columns="columns"
 		:rows="users"
 		:rows-per-page-options="rowsPerPageOptions"
+		:loading="isUsersLoading"
+		hide-no-data
 		@request="updateUsersList"
-	/>
+		@row-click="(_, row) => redirectToUserPage(row.id)"
+	>
+		<template #body-cell-actions="props">
+			<q-td :props="props">
+				<q-btn
+					icon="edit"
+					color="primary"
+					size="sm"
+					round
+					outline
+					:to="{ name: ViewName.UsersEditView, params: { id: props.row.id } }"
+				/>
+			</q-td>
+		</template>
+		<template #loading>
+			<q-inner-loading
+				showing
+				color="primary"
+			/>
+		</template>
+	</q-table>
 </template>
+
+<style lang="scss" scoped>
+.users-list {
+	:deep(thead tr) {
+		position: sticky;
+		z-index: 1;
+		top: 0;
+		background-color: white;
+	}
+}
+</style>
