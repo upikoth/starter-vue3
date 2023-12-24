@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 import UsersForm from '@/components/users/users-form.vue'
 
 import { ViewName } from '@/router'
+
+const router = useRouter()
+
+function redirectToUsersPage() {
+	router.push({ name: ViewName.UsersView })
+}
 </script>
 
 <template>
@@ -19,7 +27,10 @@ import { ViewName } from '@/router'
 				Редактирование
 			</h1>
 		</div>
-		<users-form edit />
+		<users-form
+			edit
+			@success="redirectToUsersPage"
+		/>
 	</q-page>
 </template>
 

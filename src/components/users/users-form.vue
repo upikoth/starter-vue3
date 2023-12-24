@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { PropType } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import type { QForm } from 'quasar'
+import { useQuasar } from 'quasar'
 
 import api, { LoadingStateEnum } from '@/api'
-import { ViewName } from '@/router'
 import { useNotification } from '@/composables'
+import { UserStatusEnum } from '@/models'
 
 import UiAsyncDataWrapper from '@/components/ui/ui-async-data-wrapper.vue'
 
@@ -19,17 +20,22 @@ const props = defineProps({
 	}
 })
 
+const emit = defineEmits({ success: null })
+
 const route = useRoute()
-const router = useRouter()
 const notification = useNotification()
+const $q = useQuasar()
 
 const userForm = ref({ name: '' })
+const userStatus = ref(UserStatusEnum.Active)
 const formRef = ref<InstanceType<typeof QForm>>()
 
 const userLoadingState = ref(props.edit ? LoadingStateEnum.LoadingNotStarted : LoadingStateEnum.LoadedSuccess)
 
 const isUserCreateLoading = ref(false)
 const isUserUpdateLoading = ref(false)
+const isUserBlockLoading = ref(false)
+const isUserUnblockLoading = ref(false)
 
 const userFormRules = {
 	name: [
@@ -40,6 +46,8 @@ const userFormRules = {
 const userId = computed(() => {
 	return Number.parseInt(typeof route.params.id === 'string' ? route.params.id : '')
 })
+
+const isUserBlocked = computed(() => userStatus.value === UserStatusEnum.Blocked)
 
 function onCreated() {
 	if (props.edit) {
@@ -53,8 +61,9 @@ async function getUser(): Promise<void> {
 
 		const { user } = await api.users.get({ id: userId.value })
 
-		const { name } = user
+		const { name, status } = user
 		userForm.value = { name }
+		userStatus.value = status
 
 		userLoadingState.value = LoadingStateEnum.LoadedSuccess
 	} catch {
@@ -89,7 +98,7 @@ async function updateUser() {
 
 		notification.success('Информация о пользователе обновлена')
 
-		redirectToUsersPage()
+		emit('success')
 	} catch {
 		notification.error('Не удалось обновить информацию о пользователе')
 	} finally {
@@ -106,7 +115,7 @@ async function createUser() {
 
 		notification.success('Пользователь создан')
 
-		redirectToUsersPage()
+		emit('success')
 	} catch {
 		notification.error('Не удалось создать пользователя')
 	} finally {
@@ -114,8 +123,42 @@ async function createUser() {
 	}
 }
 
-function redirectToUsersPage() {
-	router.push({ name: ViewName.UsersView })
+async function blockUser() {
+	try {
+		isUserBlockLoading.value = true
+
+		await api.users.update({
+			id: userId.value,
+			status: UserStatusEnum.Blocked
+		})
+
+		notification.success('Пользователь заблокирован')
+
+		emit('success')
+	} catch {
+		notification.error('Не удалось заблокировать пользователя')
+	} finally {
+		isUserBlockLoading.value = false
+	}
+}
+
+async function unblockUser() {
+	try {
+		isUserUnblockLoading.value = true
+
+		await api.users.update({
+			id: userId.value,
+			status: UserStatusEnum.Active
+		})
+
+		notification.success('Пользователь разблокирован')
+
+		emit('success')
+	} catch {
+		notification.error('Не удалось разблокировать пользователя')
+	} finally {
+		isUserUnblockLoading.value = false
+	}
 }
 
 onCreated()
@@ -145,21 +188,33 @@ onCreated()
 				clearable
 				lazy-rules
 			/>
-			<q-btn
-				class="users-form__submit-button"
-				type="submit"
-				color="primary"
-				:label="props.edit ? 'Редактировать' : 'Создать'"
-				:icon="props.edit ? 'edit' : 'add'"
-				:loading="isUserUpdateLoading || isUserCreateLoading"
-			/>
+			<div class="users-form__action-buttons">
+				<q-btn
+					v-if="props.edit"
+					:color="isUserBlocked ? 'positive' : 'negative'"
+					:label="isUserBlocked ? 'Разблокировать' : 'Заблокировать'"
+					:icon="$q.screen.xs ? undefined : isUserBlocked ? 'add' : 'delete'"
+					:loading="isUserBlockLoading || isUserUnblockLoading"
+					outline
+					@click="isUserBlocked ? unblockUser() : blockUser()"
+				/>
+				<q-space />
+				<q-btn
+					type="submit"
+					color="primary"
+					:label="props.edit ? 'Сохранить' : 'Создать'"
+					:icon="$q.screen.xs ? undefined : props.edit ? 'edit' : 'add'"
+					:loading="isUserUpdateLoading || isUserCreateLoading"
+				/>
+			</div>
 		</q-form>
 	</ui-async-data-wrapper>
 </template>
 
 <style lang="scss" scoped>
 .users-form {
-	&__submit-button {
+	&__action-buttons {
+		display: flex;
 		margin-top: 12px;
 	}
 }

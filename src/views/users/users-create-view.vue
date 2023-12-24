@@ -27,7 +27,7 @@ function redirectToUsersPage() {
 				Создание
 			</h1>
 		</div>
-		<users-form />
+		<users-form @success="redirectToUsersPage" />
 	</q-page>
 </template>
 
