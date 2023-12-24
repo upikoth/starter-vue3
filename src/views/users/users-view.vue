@@ -36,7 +36,6 @@ const $q = useQuasar()
 	&__header {
 		display: flex;
 		align-items: center;
-		margin-bottom: 12px;
 	}
 
 	&__list {
