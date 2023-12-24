@@ -7,9 +7,20 @@ export function useNotification() {
 		$q.notify({
 			message,
 			type: 'negative',
-			position: $q.screen.xs ? 'top' : 'bottom-right'
+			position: $q.screen.xs ? 'top' : 'top-right'
 		})
 	}
 
-	return { error }
+	function success(message: string) {
+		$q.notify({
+			message,
+			type: 'positive',
+			position: $q.screen.xs ? 'top' : 'top-right'
+		})
+	}
+
+	return {
+		error,
+		success
+	}
 }

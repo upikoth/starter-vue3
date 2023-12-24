@@ -24,6 +24,6 @@ export default {
 	},
 
 	update(data: IUpdateUserRequest): Promise<IUpdateUserResponse> {
-		return axiosInstance.post('/api/v1/users', data)
+		return axiosInstance.patch(`/api/v1/users/${data.id}`, data)
 	}
 }

@@ -8,6 +8,13 @@ export * from './routes/users'
 
 export * from './errors'
 
+export enum LoadingStateEnum {
+	LoadingNotStarted = 'LOADING_NOT_STARTED',
+	Loading = 'LOADING',
+	LoadedSuccess = 'LOADED_SUCCESS',
+	LoadedError = 'LOADED_ERROR',
+}
+
 export default {
 	health,
 	users,

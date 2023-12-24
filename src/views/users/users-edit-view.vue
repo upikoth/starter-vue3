@@ -19,7 +19,7 @@ import { ViewName } from '@/router'
 				Редактирование
 			</h1>
 		</div>
-		<users-form />
+		<users-form edit />
 	</q-page>
 </template>
 
