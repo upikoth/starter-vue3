@@ -1,4 +1,4 @@
-import type { ApiErrorCode } from '@/api'
+import type { ApiErrorCodeEnum } from '@/api'
 
 export type IResponse = IResponseSuccess | IResponseError
 
@@ -13,7 +13,7 @@ export interface IResponseError {
 }
 
 export interface IResponseErrorField {
-	code: ApiErrorCode
+	code: ApiErrorCodeEnum
 	description: string
 	details?: string
 }

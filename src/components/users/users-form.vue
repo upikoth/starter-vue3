@@ -5,9 +5,10 @@ import { useRoute } from 'vue-router'
 import type { QForm } from 'quasar'
 import { useQuasar } from 'quasar'
 
-import api, { LoadingStateEnum } from '@/api'
+import api, { LoadingStateEnum, checkIsApiErrorField, getApiErrorMessageByErrorCode } from '@/api'
 import { useNotification } from '@/composables'
 import { UserStatusEnum } from '@/models'
+import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
 import UiAsyncDataWrapper from '@/components/ui/ui-async-data-wrapper.vue'
 
@@ -26,7 +27,7 @@ const route = useRoute()
 const notification = useNotification()
 const $q = useQuasar()
 
-const userForm = ref({ name: '' })
+const userForm = ref({ email: '' })
 const userStatus = ref(UserStatusEnum.Active)
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -38,8 +39,9 @@ const isUserBlockLoading = ref(false)
 const isUserUnblockLoading = ref(false)
 
 const userFormRules = {
-	name: [
-		(val: string) => !!val || 'Введите имя'
+	email: [
+		(val: string) => !!val || 'Введите email',
+		(val: string) => EMAIL_VALIDATION_REGEXP.test(val) || 'Введите корректный email'
 	]
 }
 
@@ -61,8 +63,8 @@ async function getUser(): Promise<void> {
 
 		const { user } = await api.users.get({ id: userId.value })
 
-		const { name, status } = user
-		userForm.value = { name }
+		const { email, status } = user
+		userForm.value = { email }
 		userStatus.value = status
 
 		userLoadingState.value = LoadingStateEnum.LoadedSuccess
@@ -90,17 +92,21 @@ async function updateUser() {
 	try {
 		isUserUpdateLoading.value = true
 
-		const { name } = userForm.value
+		const { email } = userForm.value
 		await api.users.update({
 			id: userId.value,
-			name
+			email
 		})
 
 		notification.success('Информация о пользователе обновлена')
 
 		emit('success')
-	} catch {
-		notification.error('Не удалось обновить информацию о пользователе')
+	} catch (err) {
+		if (checkIsApiErrorField(err)) {
+			notification.error(getApiErrorMessageByErrorCode(err.code))
+		} else {
+			notification.error('Не удалось обновить информацию о пользователе')
+		}
 	} finally {
 		isUserUpdateLoading.value = false
 	}
@@ -110,14 +116,18 @@ async function createUser() {
 	try {
 		isUserCreateLoading.value = true
 
-		const { name } = userForm.value
-		await api.users.create({ name })
+		const { email } = userForm.value
+		await api.users.create({ email })
 
 		notification.success('Пользователь создан')
 
 		emit('success')
-	} catch {
-		notification.error('Не удалось создать пользователя')
+	} catch (err) {
+		if (checkIsApiErrorField(err)) {
+			notification.error(getApiErrorMessageByErrorCode(err.code))
+		} else {
+			notification.error('Не удалось создать пользователя')
+		}
 	} finally {
 		isUserCreateLoading.value = false
 	}
@@ -182,9 +192,10 @@ onCreated()
 			@submit="onSubmit"
 		>
 			<q-input
-				v-model="userForm.name"
-				label="Имя"
-				:rules="userFormRules.name"
+				v-model="userForm.email"
+				label="Email"
+				:rules="userFormRules.email"
+				type="email"
 				clearable
 				lazy-rules
 			/>

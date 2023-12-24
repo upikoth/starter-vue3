@@ -5,7 +5,7 @@ import { useQuasar } from 'quasar'
 
 import { ViewName } from '@/router'
 import api from '@/api'
-import { ApiLoadingState } from '@/types'
+import { ApiLoadingState } from '@/models'
 
 const router = useRouter()
 const route = useRoute()

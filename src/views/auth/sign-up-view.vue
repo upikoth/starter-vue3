@@ -6,7 +6,7 @@ import type { QForm } from 'quasar'
 import { EMAIL_VALIDATION_REGEXP, DEFAULT_ERROR_MESSAGE_TEXT } from '@/constants'
 import { ViewName } from '@/router'
 import api, { checkIsApiErrorField, getApiErrorMessageByErrorCode } from '@/api'
-import { ApiLoadingState } from '@/types'
+import { ApiLoadingState } from '@/models'
 
 const $q = useQuasar()
 

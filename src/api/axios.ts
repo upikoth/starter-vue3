@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
-import type { IResponse, IResponseError } from '@/types'
+import type { IResponse, IResponseError } from '@/models'
 
 import environment from '@/environment'
 

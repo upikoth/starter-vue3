@@ -35,9 +35,9 @@ const columns: QTableProps['columns'] = [
 		headerStyle: 'width: 50px'
 	},
 	{
-		name: 'name',
-		field: 'name',
-		label: 'Имя',
+		name: 'email',
+		field: 'email',
+		label: 'Email',
 		required: true,
 		align: 'left'
 	},

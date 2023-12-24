@@ -1,22 +1,28 @@
-import type { IResponseErrorField } from '@/types'
+import type { IResponseErrorField } from '@/models'
 import { DEFAULT_ERROR_MESSAGE_TEXT } from '@/constants'
 
-export enum ApiErrorCode {
-	UserWithEmailAlreadyExist = '1005',
-	UnknownError = '1004'
+export enum ApiErrorCodeEnum {
+	UrlNotFound = 1,
+	Unknown = 2,
+	ValidationError = 3,
+	EntityNotFound = 4,
+	UserWithThisEmailAlreadyExist = 5,
 }
 
-const apiErrorMessageByErrorCode: Record<ApiErrorCode, string> = {
-	[ApiErrorCode.UnknownError]: DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCode.UserWithEmailAlreadyExist]: 'Пользователь с указанной почтой уже зарегистрирован'
+const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
+	[ApiErrorCodeEnum.Unknown]: DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.UrlNotFound]: 'Метод не найден',
+	[ApiErrorCodeEnum.ValidationError]: 'Проверьте корректность переданных данных',
+	[ApiErrorCodeEnum.EntityNotFound]: 'Не найдено',
+	[ApiErrorCodeEnum.UserWithThisEmailAlreadyExist]: 'Пользователь с указанной почтой уже зарегистрирован'
 }
 
-const allErorCodes = new Set(Object.keys(apiErrorMessageByErrorCode))
+const allErorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
 
 export const checkIsApiErrorField = (err: unknown): err is IResponseErrorField => {
-	return allErorCodes.has((err as IResponseErrorField).code)
+	return allErorCodes.has(String((err as IResponseErrorField).code))
 }
 
-export const getApiErrorMessageByErrorCode = (code: ApiErrorCode): string => {
-	return apiErrorMessageByErrorCode[code] || ''
+export const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string => {
+	return apiErrorCodeMessageMapping[code] || ''
 }
