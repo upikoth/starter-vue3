@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import type { PropType } from 'vue'
 import { useRoute } from 'vue-router'
-import type { QForm } from 'quasar'
+import type { QForm, QInput } from 'quasar'
 import { useQuasar } from 'quasar'
 
 import api, { LoadingStateEnum, checkIsApiErrorField, getApiErrorMessageByErrorCode } from '@/api'
@@ -27,7 +27,11 @@ const route = useRoute()
 const notification = useNotification()
 const $q = useQuasar()
 
-const userForm = ref({ email: '' })
+const userForm = ref({
+	email: '',
+	password: '',
+	passwordRepeat: ''
+})
 const userStatus = ref(UserStatusEnum.Active)
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -38,10 +42,24 @@ const isUserUpdateLoading = ref(false)
 const isUserBlockLoading = ref(false)
 const isUserUnblockLoading = ref(false)
 
+const passwordField = ref<InstanceType<typeof QInput>>()
+const passwordRepeatField = ref<InstanceType<typeof QInput>>()
+
+const isPasswordVisible = ref(false)
+const isPasswordRepeatVisible = ref(false)
+
 const userFormRules = {
 	email: [
 		(val: string) => !!val || 'Введите email',
 		(val: string) => EMAIL_VALIDATION_REGEXP.test(val) || 'Введите корректный email'
+	],
+	password: [
+		(val: string) => !!val || 'Введите пароль',
+		(val: string) => val === userForm.value.passwordRepeat || 'Пароли должны совпадать'
+	],
+	passwordRepeat: [
+		(val: string) => !!val || 'Введите пароль',
+		(val: string) => val === userForm.value.password || 'Пароли должны совпадать'
 	]
 }
 
@@ -64,7 +82,7 @@ async function getUser(): Promise<void> {
 		const { user } = await api.users.get({ id: userId.value })
 
 		const { email, status } = user
-		userForm.value = { email }
+		userForm.value.email = email
 		userStatus.value = status
 
 		userLoadingState.value = LoadingStateEnum.LoadedSuccess
@@ -116,8 +134,11 @@ async function createUser() {
 	try {
 		isUserCreateLoading.value = true
 
-		const { email } = userForm.value
-		await api.users.create({ email })
+		const { email, password } = userForm.value
+		await api.users.create({
+			email,
+			password
+		})
 
 		notification.success('Пользователь создан')
 
@@ -196,9 +217,42 @@ onCreated()
 				label="Email"
 				:rules="userFormRules.email"
 				type="email"
-				clearable
 				lazy-rules
 			/>
+			<q-input
+				ref="passwordField"
+				v-model="userForm.password"
+				label="Пароль"
+				:rules="userFormRules.password"
+				:type="isPasswordVisible ? 'text' : 'password'"
+				lazy-rules
+				@update:model-value="passwordRepeatField?.resetValidation()"
+			>
+				<template #append>
+					<q-icon
+						:name="isPasswordVisible ? 'visibility' : 'visibility_off'"
+						class="cursor-pointer"
+						@click="isPasswordVisible = !isPasswordVisible"
+					/>
+				</template>
+			</q-input>
+			<q-input
+				ref="passwordRepeatField"
+				v-model="userForm.passwordRepeat"
+				label="Повторите пароль"
+				:rules="userFormRules.passwordRepeat"
+				:type="isPasswordRepeatVisible ? 'text' : 'password'"
+				lazy-rules
+				@update:model-value="passwordField?.resetValidation()"
+			>
+				<template #append>
+					<q-icon
+						:name="isPasswordRepeatVisible ? 'visibility' : 'visibility_off'"
+						class="cursor-pointer"
+						@click="isPasswordRepeatVisible = !isPasswordRepeatVisible"
+					/>
+				</template>
+			</q-input>
 			<div class="users-form__action-buttons">
 				<q-btn
 					v-if="props.edit"
