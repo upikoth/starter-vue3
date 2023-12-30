@@ -16,6 +16,8 @@ const pagination = ref<NonNullable<QTableProps['pagination']>>({
 })
 
 const isSessionsLoading = ref(false)
+const deletingSessionsSet = ref(new Set())
+
 const sessions = ref<ISession[]>([])
 
 const columns: QTableProps['columns'] = [
@@ -75,12 +77,33 @@ async function updateSessionsList(
 	}
 }
 
+async function deleteSession(sessionId: number) {
+	try {
+		deletingSessionsSet.value.add(sessionId)
+
+		await api.sessions.delete({ id: sessionId })
+
+		updateSessionsList()
+	} catch {
+		notification.error('Не удалось удалить сессию')
+	} finally {
+		deletingSessionsSet.value.delete(sessionId)
+	}
+}
+
 onCreated()
 </script>
 
 <template>
 	<div class="sessions-list">
+		<p
+			v-if="!sessions.length"
+			class="text-body1"
+		>
+			Сессий пока нет
+		</p>
 		<q-table
+			v-else
 			v-model:pagination="pagination"
 			class="sessions-list__table"
 			:columns="columns"
@@ -96,8 +119,10 @@ onCreated()
 						icon="delete"
 						color="primary"
 						size="sm"
+						:loading="deletingSessionsSet.has(props.row.id)"
 						round
 						outline
+						@click="deleteSession(props.row.id)"
 					/>
 				</q-td>
 			</template>

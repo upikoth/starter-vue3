@@ -117,7 +117,14 @@ onCreated()
 				label="Заблокированные"
 			/>
 		</q-tabs>
+		<p
+			v-if="!users.length"
+			class="text-body1"
+		>
+			Пользователей пока нет
+		</p>
 		<q-table
+			v-else
 			v-model:pagination="pagination"
 			class="users-list__table"
 			:columns="columns"
