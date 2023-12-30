@@ -60,7 +60,7 @@ const router = createRouter({
 				{
 					path: 'sessions',
 					name: ViewName.SessionsView,
-					component:  () => import('@/views/sessions-view.vue')
+					component:  () => import('@/views/sessions/sessions-view.vue')
 				}
 			]
 		},
