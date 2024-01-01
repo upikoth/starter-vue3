@@ -1,3 +1,4 @@
 export enum IStoreNameEnum {
-	Screen = 'SCREEN',
+	User = 'USER',
+	Sessions = 'SESSIONS'
 }

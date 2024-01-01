@@ -2,7 +2,10 @@ import { axiosInstance } from '@/api/axios'
 import type {
 	IGetSessionsRequest,
 	IGetSessionsResponse,
-	IDeleteSessionRequest
+	IDeleteSessionRequest,
+	ICreateSessionRequest,
+	ICreateSessionResponse,
+	IGetCurrentSessionResponse
 } from '@/models'
 
 export default {
@@ -12,5 +15,13 @@ export default {
 
 	delete(data: IDeleteSessionRequest): Promise<void> {
 		return axiosInstance.delete(`/api/v1/sessions/${data.id}`)
+	},
+
+	create(data: ICreateSessionRequest): Promise<ICreateSessionResponse> {
+		return axiosInstance.post('/api/v1/sessions', data)
+	},
+
+	getCurrentSession(): Promise<IGetCurrentSessionResponse> {
+		return axiosInstance.get('/api/v1/session')
 	}
 }

@@ -15,7 +15,6 @@ export interface IResponseError {
 export interface IResponseErrorField {
 	code: ApiErrorCodeEnum
 	description: string
-	details?: string
 }
 
 export enum ApiLoadingState {

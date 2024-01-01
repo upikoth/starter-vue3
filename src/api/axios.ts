@@ -1,9 +1,11 @@
 import axios from 'axios'
 
+import environment from '@/environment'
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
 import type { IResponse, IResponseError } from '@/models'
+import { useSessionsStore, useUsersStore } from '@/stores'
 
-import environment from '@/environment'
+import { ApiErrorCodeEnum } from './errors'
 
 const axiosInstance = axios.create({
 	timeout: MILLISECONDS_IN_MINUTE,
@@ -22,6 +24,14 @@ axiosInstance.interceptors.response.use(
 	},
 	async (err) => {
 		const responseData = err.response.data as IResponseError
+
+		if (responseData.error.code === ApiErrorCodeEnum.Unauthorized) {
+			const usersStore = useUsersStore()
+			const sessionsStore = useSessionsStore()
+
+			usersStore.user = null
+			sessionsStore.sessionId = 0
+		}
 
 		return Promise.reject(responseData.error)
 	}

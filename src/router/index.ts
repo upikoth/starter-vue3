@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+import { useSessionsStore } from '@/stores'
+
 export enum ViewName {
 	AuthSignInView = 'AUTH_SIGN_IN_VIEW',
 	AuthSignUpView = 'AUTH_SIGN_UP_VIEW',
@@ -8,6 +10,17 @@ export enum ViewName {
 	UsersCreateView = 'USERS_CREATE_VIEW',
 	UsersEditView = 'USER_VIEW',
 	SessionsView = 'SESSIONS_VIEW',
+}
+
+export const UNAUTHORIZED_VIEWS = new Set([
+	ViewName.AuthSignInView,
+	ViewName.AuthSignUpConfirmEmail,
+	ViewName.AuthSignUpView
+])
+export const ALL_VIEWS = new Set(Object.values(ViewName))
+
+export function checkIsView(view: unknown): view is ViewName {
+	return ALL_VIEWS.has(view as ViewName)
 }
 
 const router = createRouter({
@@ -69,6 +82,36 @@ const router = createRouter({
 			redirect: () => ({ name: ViewName.UsersView })
 		}
 	]
+})
+
+router.beforeEach((to, _, next) => {
+	if (!checkIsView(to.name)) {
+		return next()
+	}
+
+	const sessionsStore = useSessionsStore()
+
+	if (!sessionsStore.isSessionInfoLoaded) {
+		return next()
+	}
+
+	// Если неавторизован и пытается перейти на страницы требующие авторизации, редиректим на страницу входа.
+	if (
+		!sessionsStore.isUserAuthorized &&
+		!UNAUTHORIZED_VIEWS.has(to.name)
+	) {
+		return next({ name: ViewName.AuthSignInView })
+	}
+
+	// Если авторизован и пытается перейти на страницы не требующие авторизации, редиректим на главную страницу.
+	if (
+		sessionsStore.isUserAuthorized &&
+		UNAUTHORIZED_VIEWS.has(to.name)
+	) {
+		return next({ name: ViewName.UsersView })
+	}
+
+	return next()
 })
 
 export default router

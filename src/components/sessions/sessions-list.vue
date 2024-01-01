@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 
-import api from '@/api'
+import api, { getApiErrorOrMessage } from '@/api'
 import type { ISession } from '@/models'
 import { paginationToLimitOffset } from '@/utils'
 import { useNotification } from '@/composables'
@@ -70,8 +70,8 @@ async function updateSessionsList(
 		pagination.value.rowsNumber = total
 		pagination.value.page = newPagination.page
 		pagination.value.rowsPerPage = newPagination.rowsPerPage
-	} catch {
-		notification.error('Не удалось получить список сессий')
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось получить список сессий'))
 	} finally {
 		isSessionsLoading.value = false
 	}

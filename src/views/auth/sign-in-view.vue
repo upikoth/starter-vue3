@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { QForm } from 'quasar'
+import { useRouter } from 'vue-router'
 
+import api, { getApiErrorOrMessage } from '@/api'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 import { ViewName } from '@/router'
+import { useNotification } from '@/composables'
+import { useSessionsStore, useUsersStore } from '@/stores'
+
+const notification = useNotification()
+const router = useRouter()
+const usersStore = useUsersStore()
+const sessionsStore = useSessionsStore()
 
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -28,6 +37,20 @@ async function onSubmit() {
 
 	if (!isFormDataValid) {
 		return
+	}
+
+	try {
+		const { user, session } = await api.sessions.create({
+			email: formData.value.email,
+			password: formData.value.password
+		})
+
+		usersStore.user = user
+		sessionsStore.sessionId = session.id
+
+		router.push({ name: ViewName.UsersView })
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err))
 	}
 }
 </script>

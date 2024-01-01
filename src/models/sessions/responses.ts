@@ -8,5 +8,15 @@ export interface IGetSessionsResponse {
 }
 
 export interface ICreateSessionResponse {
+	session: {
+		id: number;
+	},
+	user: IUser;
+}
+
+export interface IGetCurrentSessionResponse {
+	session: {
+		id: number;
+	},
 	user: IUser;
 }
