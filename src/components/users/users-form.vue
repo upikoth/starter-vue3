@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router'
 import type { QForm, QInput } from 'quasar'
 import { useQuasar } from 'quasar'
 
-import api, { LoadingStateEnum, checkIsApiErrorField, getApiErrorMessageByErrorCode } from '@/api'
+import api, { LoadingStateEnum, getApiErrorOrMessage } from '@/api'
 import { useNotification } from '@/composables'
 import { UserStatusEnum } from '@/models'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
@@ -86,9 +86,9 @@ async function getUser(): Promise<void> {
 		userStatus.value = status
 
 		userLoadingState.value = LoadingStateEnum.LoadedSuccess
-	} catch {
+	} catch (err) {
 		userLoadingState.value = LoadingStateEnum.LoadedError
-		notification.error('Не удалось получить информацию о пользователе')
+		notification.error(getApiErrorOrMessage(err, 'Не удалось получить информацию о пользователе'))
 	}
 }
 
@@ -120,11 +120,7 @@ async function updateUser() {
 
 		emit('success')
 	} catch (err) {
-		if (checkIsApiErrorField(err)) {
-			notification.error(getApiErrorMessageByErrorCode(err.code))
-		} else {
-			notification.error('Не удалось обновить информацию о пользователе')
-		}
+		notification.error(getApiErrorOrMessage(err, 'Не удалось обновить информацию о пользователе'))
 	} finally {
 		isUserUpdateLoading.value = false
 	}
@@ -144,11 +140,7 @@ async function createUser() {
 
 		emit('success')
 	} catch (err) {
-		if (checkIsApiErrorField(err)) {
-			notification.error(getApiErrorMessageByErrorCode(err.code))
-		} else {
-			notification.error('Не удалось создать пользователя')
-		}
+		notification.error(getApiErrorOrMessage(err, 'Не удалось создать пользователя'))
 	} finally {
 		isUserCreateLoading.value = false
 	}
@@ -166,8 +158,8 @@ async function blockUser() {
 		notification.success('Пользователь заблокирован')
 
 		emit('success')
-	} catch {
-		notification.error('Не удалось заблокировать пользователя')
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось заблокировать пользователя'))
 	} finally {
 		isUserBlockLoading.value = false
 	}
@@ -185,8 +177,8 @@ async function unblockUser() {
 		notification.success('Пользователь разблокирован')
 
 		emit('success')
-	} catch {
-		notification.error('Не удалось разблокировать пользователя')
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось разблокировать пользователя'))
 	} finally {
 		isUserUnblockLoading.value = false
 	}

@@ -84,8 +84,8 @@ async function deleteSession(sessionId: number) {
 		await api.sessions.delete({ id: sessionId })
 
 		updateSessionsList()
-	} catch {
-		notification.error('Не удалось удалить сессию')
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
 	} finally {
 		deletingSessionsSet.value.delete(sessionId)
 	}

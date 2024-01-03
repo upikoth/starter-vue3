@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 import { useRouter } from 'vue-router'
 
-import api from '@/api'
+import api, { getApiErrorOrMessage } from '@/api'
 import type { IUser } from '@/models'
 import { UserStatusEnum } from '@/models'
 import { paginationToLimitOffset } from '@/utils'
@@ -75,8 +75,8 @@ async function updateUsersList(
 		pagination.value.rowsNumber = total
 		pagination.value.page = newPagination.page
 		pagination.value.rowsPerPage = newPagination.rowsPerPage
-	} catch {
-		notification.error('Не удалось получить список пользователей')
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось получить список пользователей'))
 	} finally {
 		isUsersLoading.value = false
 	}

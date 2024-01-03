@@ -1,5 +1,6 @@
 import type { IResponseErrorField } from '@/models'
-import { DEFAULT_ERROR_MESSAGE_TEXT } from '@/constants'
+
+const DEFAULT_ERROR_MESSAGE_TEXT = 'Произошла ошибка. Попробуйте позже'
 
 export enum ApiErrorCodeEnum {
 	UrlNotFound = 1,
@@ -17,7 +18,7 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	[ApiErrorCodeEnum.Unknown]: DEFAULT_ERROR_MESSAGE_TEXT,
 	[ApiErrorCodeEnum.UrlNotFound]: 'Метод не найден',
 	[ApiErrorCodeEnum.ValidationError]: 'Проверьте корректность переданных данных',
-	[ApiErrorCodeEnum.EntityNotFound]: 'Не найдено',
+	[ApiErrorCodeEnum.EntityNotFound]: 'Сущность, над которой нужно совершить действие не найдена',
 	[ApiErrorCodeEnum.UserWithThisEmailAlreadyExist]: 'Пользователь с указанной почтой уже зарегистрирован',
 	[ApiErrorCodeEnum.EmailOrPasswordInvalid]: 'Email или пароль указаны некорректно',
 	[ApiErrorCodeEnum.SessionAlreadyExist]: 'Сессия уже существует',
@@ -25,13 +26,13 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	[ApiErrorCodeEnum.Unauthorized]: 'Пользователь не авторизован'
 }
 
-const allErorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
+const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
 
-export const checkIsApiErrorField = (err: unknown): err is IResponseErrorField => {
-	return allErorCodes.has(String((err as IResponseErrorField).code))
+const checkIsApiErrorField = (err: unknown): err is IResponseErrorField => {
+	return allErrorCodes.has(String((err as IResponseErrorField).code))
 }
 
-export const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string => {
+const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string => {
 	return apiErrorCodeMessageMapping[code] || DEFAULT_ERROR_MESSAGE_TEXT
 }
 

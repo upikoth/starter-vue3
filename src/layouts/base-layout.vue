@@ -4,10 +4,17 @@ import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 
 import { ViewName } from '@/router'
+import api, { getApiErrorOrMessage } from '@/api'
+import { useNotification } from '@/composables'
+import { useSessionsStore, useUsersStore } from '@/stores'
 
 const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
+const notification = useNotification()
+
+const sessionsStore = useSessionsStore()
+const usersStore = useUsersStore()
 
 const leftDrawerOpen = ref(false)
 
@@ -26,9 +33,21 @@ const menuList = [
 		handler: () => router.push({ name: ViewName.SessionsView })
 	},
 	{
-		icon: 'send',
-		label: 'Outbox',
-		separator: false
+		icon: 'logout',
+		label: 'Выйти',
+		separator: false,
+		handler: async () => {
+			try {
+				await api.sessions.delete({ id: sessionsStore.sessionId })
+
+				usersStore.user = null
+				sessionsStore.sessionId = 0
+
+				await router.push({ name: ViewName.AuthSignInView })
+			} catch (err) {
+				notification.error(getApiErrorOrMessage(err, 'Не удалось выйти из приложения'))
+			}
+		}
 	}
 ]
 
@@ -81,7 +100,6 @@ function toggleLeftDrawer() {
 						</q-item>
 						<q-separator
 							v-if="menuItem.separator"
-							:key="'sep' + index"
 						/>
 					</template>
 				</q-list>

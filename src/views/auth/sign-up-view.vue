@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useQuasar } from 'quasar'
 import type { QForm } from 'quasar'
 
-import { EMAIL_VALIDATION_REGEXP, DEFAULT_ERROR_MESSAGE_TEXT } from '@/constants'
+import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 import { ViewName } from '@/router'
-import api, { checkIsApiErrorField, getApiErrorMessageByErrorCode } from '@/api'
+import api, { getApiErrorOrMessage } from '@/api'
 import { ApiLoadingState } from '@/models'
+import { useNotification } from '@/composables'
 
-const $q = useQuasar()
+const notification = useNotification()
 
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -50,19 +50,8 @@ async function onSubmit() {
 		await api.registrations.create(formData.value)
 
 		registrationLoadingState.value = ApiLoadingState.LoadedSuccess
-	} catch (error) {
-		registrationLoadingState.value = ApiLoadingState.LoadedError
-		let msg = DEFAULT_ERROR_MESSAGE_TEXT
-
-		if (checkIsApiErrorField(error)) {
-			msg = getApiErrorMessageByErrorCode(error.code)
-		}
-
-		$q.notify({
-			type: 'negative',
-			message: msg,
-			position: 'top'
-		})
+	} catch (err) {
+		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
 	}
 }
 </script>
