@@ -10,6 +10,7 @@ export enum ViewName {
 	UsersCreateView = 'USERS_CREATE_VIEW',
 	UsersEditView = 'USER_VIEW',
 	SessionsView = 'SESSIONS_VIEW',
+	RegistrationsView = 'REGISTRATIONS_VIEW'
 }
 
 export const UNAUTHORIZED_VIEWS = new Set([
@@ -74,6 +75,11 @@ const router = createRouter({
 					path: 'sessions',
 					name: ViewName.SessionsView,
 					component:  () => import('@/views/sessions/sessions-view.vue')
+				},
+				{
+					path: 'registrations',
+					name: ViewName.RegistrationsView,
+					component:  () => import('@/views/registrations/registrations-view.vue')
 				}
 			]
 		},

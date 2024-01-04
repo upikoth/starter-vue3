@@ -20,6 +20,12 @@ const leftDrawerOpen = ref(false)
 
 const menuList = [
 	{
+		icon: 'app_registration',
+		label: 'Регистрации',
+		name: ViewName.RegistrationsView,
+		handler: () => router.push({ name: ViewName.RegistrationsView })
+	},
+	{
 		icon: 'group',
 		label: 'Пользователи',
 		name: ViewName.UsersView,
