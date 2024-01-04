@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useQuasar } from 'quasar'
 
 import { ViewName } from '@/router'
 import api from '@/api'
 import { ApiLoadingState } from '@/models'
+import { useNotification } from '@/composables'
 
 const router = useRouter()
 const route = useRoute()
-const $q = useQuasar()
+const notification = useNotification()
 
 const confirmationRegistrationState = ref(ApiLoadingState.Initial)
 
@@ -33,11 +33,8 @@ async function confirmRegistration() {
 		await api.registrations.confirm({ token: registrationConfirmationToken.value })
 
 		confirmationRegistrationState.value = ApiLoadingState.LoadedSuccess
-		$q.notify({
-			type: 'positive',
-			message: 'Учетная запись активирована',
-			position: 'top'
-		})
+
+		notification.success('Учетная запись активирована')
 
 		router.push({ name: ViewName.AuthSignInView })
 	} catch (error) {
