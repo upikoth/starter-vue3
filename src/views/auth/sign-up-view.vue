@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { QForm } from 'quasar'
+import type { QForm, QInput } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 import { ViewName } from '@/router'
@@ -13,28 +13,33 @@ const notification = useNotification()
 const formRef = ref<InstanceType<typeof QForm>>()
 
 const formData = ref({
-	name: '',
 	email: '',
-	password: ''
+	password: '',
+	passwordRepeat: ''
 })
 
-const isPasswordVisible = ref(false)
 const registrationLoadingState = ref(ApiLoadingState.Initial)
 
-const nameRules = [
-	(val: string) => !!val || 'Введите имя'
-]
+const isPasswordVisible = ref(false)
+const isPasswordRepeatVisible = ref(false)
 
-const emailRules = [
-	(val: string) => !!val || 'Введите email',
-	(val: string) => EMAIL_VALIDATION_REGEXP.test(val) || 'Введите корректный email'
-]
+const passwordField = ref<InstanceType<typeof QInput>>()
+const passwordRepeatField = ref<InstanceType<typeof QInput>>()
 
-const passwordRules = [
-	(val: string) => !!val || 'Введите пароль',
-	(val: string) => val.length > 5 || 'Длинна пароля должна быть больше 5 символов',
-	(val: string) => val.length < 72 || 'Длинна пароля должна быть меньше 72 символов'
-]
+const userFormRules = {
+	email: [
+		(val: string) => !!val || 'Введите email',
+		(val: string) => EMAIL_VALIDATION_REGEXP.test(val) || 'Введите корректный email'
+	],
+	password: [
+		(val: string) => !!val || 'Введите пароль',
+		(val: string) => val === formData.value.passwordRepeat || 'Пароли должны совпадать'
+	],
+	passwordRepeat: [
+		(val: string) => !!val || 'Введите пароль',
+		(val: string) => val === formData.value.password || 'Пароли должны совпадать'
+	]
+}
 
 const isUserRegistered = computed(() => registrationLoadingState.value === ApiLoadingState.LoadedSuccess)
 
@@ -47,18 +52,23 @@ async function onSubmit() {
 
 	try {
 		registrationLoadingState.value = ApiLoadingState.Loading
-		await api.registrations.create(formData.value)
+
+		await api.registrations.create({
+			email: formData.value.email,
+			password: formData.value.password
+		})
 
 		registrationLoadingState.value = ApiLoadingState.LoadedSuccess
 	} catch (err) {
+		registrationLoadingState.value = ApiLoadingState.LoadedError
 		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
 	}
 }
 </script>
 
 <template>
-	<q-page class="sign-in-view">
-		<q-card class="sign-in-view__card shadow-6">
+	<q-page class="sign-up-view">
+		<q-card class="sign-up-view__card shadow-6">
 			<p class="text-h6">
 				Регистрация
 			</p>
@@ -68,37 +78,48 @@ async function onSubmit() {
 				@submit="onSubmit"
 			>
 				<q-input
-					v-model="formData.name"
-					label="Имя"
-					:rules="nameRules"
-					lazy-rules
-				/>
-				<q-input
 					v-model="formData.email"
 					label="Email"
-					:rules="emailRules"
+					:rules="userFormRules.email"
 					type="email"
 					lazy-rules
 				/>
 				<q-input
+					ref="passwordField"
 					v-model="formData.password"
 					label="Пароль"
-					:rules="passwordRules"
+					:rules="userFormRules.password"
 					:type="isPasswordVisible ? 'text' : 'password'"
 					lazy-rules
+					@update:model-value="passwordRepeatField?.resetValidation()"
 				>
 					<template #append>
-						<q-btn
-							round
-							dense
-							flat
-							:icon="isPasswordVisible ? 'visibility_off' : 'visibility'"
+						<q-icon
+							:name="isPasswordVisible ? 'visibility' : 'visibility_off'"
+							class="cursor-pointer"
 							@click="isPasswordVisible = !isPasswordVisible"
 						/>
 					</template>
 				</q-input>
+				<q-input
+					ref="passwordRepeatField"
+					v-model="formData.passwordRepeat"
+					label="Повторите пароль"
+					:rules="userFormRules.passwordRepeat"
+					:type="isPasswordRepeatVisible ? 'text' : 'password'"
+					lazy-rules
+					@update:model-value="passwordField?.resetValidation()"
+				>
+					<template #append>
+						<q-icon
+							:name="isPasswordRepeatVisible ? 'visibility' : 'visibility_off'"
+							class="cursor-pointer"
+							@click="isPasswordRepeatVisible = !isPasswordRepeatVisible"
+						/>
+					</template>
+				</q-input>
 				<q-btn
-					class="sign-in-view__submit-button"
+					class="sign-up-view__submit-button"
 					type="submit"
 					color="primary"
 					:loading="registrationLoadingState === ApiLoadingState.Loading"
@@ -115,7 +136,7 @@ async function onSubmit() {
 				Перейдите по ссылка в письме, чтобы активировать учетную запись
 			</p>
 			<q-btn
-				class="sign-in-view__registration-button"
+				class="sign-up-view__registration-button"
 				flat
 				no-caps
 				color="primary"
@@ -128,7 +149,7 @@ async function onSubmit() {
 </template>
 
 <style lang="scss" scoped>
-.sign-in-view {
+.sign-up-view {
 	display: flex;
 	align-items: center;
 	justify-content: center;

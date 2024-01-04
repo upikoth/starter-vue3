@@ -21,21 +21,24 @@ watch(
 )
 
 async function onCreated() {
-	try {
-		const { user, session } = await api.sessions.getCurrentSession()
-		usersStore.user = user
-		sessionsStore.sessionId = session.id
-	} catch {
-		sessionsStore.isSessionInfoLoaded = true
-		return router.push({ name: ViewName.AuthSignInView })
-	}
-
 	if (!checkIsView(route.name)) {
 		await router.push({ name: ViewName.AuthSignInView })
 	}
 
 	if (!checkIsView(route.name)) {
 		return
+	}
+
+	try {
+		const { user, session } = await api.sessions.getCurrentSession()
+		usersStore.user = user
+		sessionsStore.sessionId = session.id
+	} catch {
+		if (!UNAUTHORIZED_VIEWS.has(route.name)) {
+			await router.push({ name: ViewName.AuthSignInView })
+			sessionsStore.isSessionInfoLoaded = true
+			return
+		}
 	}
 
 	// Если неавторизован и пытается перейти на страницы требующие авторизации, редиректим на страницу входа.
