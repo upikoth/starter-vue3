@@ -5,10 +5,13 @@ import { useRoute } from 'vue-router'
 import type { QForm, QInput } from 'quasar'
 import { useQuasar } from 'quasar'
 
-import api, { getApiErrorOrMessage } from '@/api'
-import { useNotification } from '@/composables'
-import { UserStatusEnum, LoadingStateEnum } from '@/models'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
+
+import api, { getApiErrorOrMessage } from '@/api'
+
+import { useNotification } from '@/composables'
+
+import { UserStatusEnum, LoadingStateEnum } from '@/models'
 
 import UiAsyncDataWrapper from '@/components/ui/ui-async-data-wrapper.vue'
 

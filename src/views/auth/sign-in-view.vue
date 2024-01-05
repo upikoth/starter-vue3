@@ -3,11 +3,15 @@ import { ref } from 'vue'
 import type { QForm } from 'quasar'
 import { useRouter } from 'vue-router'
 
-import api, { getApiErrorOrMessage } from '@/api'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
+
+import api, { getApiErrorOrMessage } from '@/api'
+
 import { ViewNameEnum } from '@/router'
-import { useNotification } from '@/composables'
+
 import { useSessionsStore, useUsersStore } from '@/stores'
+
+import { useNotification } from '@/composables'
 
 const notification = useNotification()
 const router = useRouter()

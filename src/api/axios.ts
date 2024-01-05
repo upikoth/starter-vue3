@@ -1,9 +1,12 @@
 import axios from 'axios'
 
 import environment from '@/environment'
+
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
-import type { IResponse, IResponseError } from '@/models'
+
 import { useSessionsStore, useUsersStore } from '@/stores'
+
+import type { IResponse, IResponseError } from '@/models'
 
 import { ApiErrorCodeEnum } from './errors'
 

@@ -3,12 +3,16 @@ import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 import { useRouter } from 'vue-router'
 
+import { paginationToLimitOffset } from '@/utils'
+
 import api, { getApiErrorOrMessage } from '@/api'
+
+import { ViewNameEnum } from '@/router'
+
+import { useNotification } from '@/composables'
+
 import type { IUser } from '@/models'
 import { UserStatusEnum } from '@/models'
-import { paginationToLimitOffset } from '@/utils'
-import { ViewNameEnum } from '@/router'
-import { useNotification } from '@/composables'
 
 const router = useRouter()
 const notification = useNotification()

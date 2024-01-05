@@ -3,10 +3,13 @@ import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 
-import { ViewNameEnum } from '@/router'
 import api, { getApiErrorOrMessage } from '@/api'
-import { useNotification } from '@/composables'
+
+import { ViewNameEnum } from '@/router'
+
 import { useSessionsStore, useUsersStore } from '@/stores'
+
+import { useNotification } from '@/composables'
 
 const $q = useQuasar()
 const route = useRoute()

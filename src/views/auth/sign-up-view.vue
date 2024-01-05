@@ -3,10 +3,14 @@ import { ref, computed } from 'vue'
 import type { QForm, QInput } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
-import { ViewNameEnum } from '@/router'
+
 import api, { getApiErrorOrMessage } from '@/api'
-import { LoadingStateEnum } from '@/models'
+
+import { ViewNameEnum } from '@/router'
+
 import { useNotification } from '@/composables'
+
+import { LoadingStateEnum } from '@/models'
 
 const notification = useNotification()
 

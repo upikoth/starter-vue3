@@ -3,8 +3,10 @@ import { watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import api from '@/api'
-import { useUsersStore, useSessionsStore } from '@/stores'
+
 import { UNAUTHORIZED_VIEWS, ViewNameEnum, checkIsView } from '@/router'
+
+import { useUsersStore, useSessionsStore } from '@/stores'
 
 const usersStore = useUsersStore()
 const sessionsStore = useSessionsStore()

@@ -2,10 +2,13 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { ViewNameEnum } from '@/router'
 import api from '@/api'
-import { LoadingStateEnum } from '@/models'
+
+import { ViewNameEnum } from '@/router'
+
 import { useNotification } from '@/composables'
+
+import { LoadingStateEnum } from '@/models'
 
 const router = useRouter()
 const route = useRoute()

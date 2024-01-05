@@ -2,10 +2,13 @@
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 
-import api, { getApiErrorOrMessage } from '@/api'
-import type { ISession } from '@/models'
 import { paginationToLimitOffset } from '@/utils'
+
+import api, { getApiErrorOrMessage } from '@/api'
+
 import { useNotification } from '@/composables'
+
+import type { ISession } from '@/models'
 
 const notification = useNotification()
 

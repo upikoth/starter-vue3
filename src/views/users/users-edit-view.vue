@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
-import UsersForm from '@/components/users/users-form.vue'
-
 import { ViewNameEnum } from '@/router'
+
+import UsersForm from '@/components/users/users-form.vue'
 
 const router = useRouter()
 

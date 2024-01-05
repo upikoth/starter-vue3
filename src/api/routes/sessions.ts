@@ -1,4 +1,5 @@
 import { axiosInstance } from '@/api/axios'
+
 import type {
 	IGetSessionsRequest,
 	IGetSessionsResponse,

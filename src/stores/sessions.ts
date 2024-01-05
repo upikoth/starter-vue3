@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 import { useUsersStore } from './users'
-
 import { IStoreNameEnum } from './index.types'
 
 export const useSessionsStore = defineStore(IStoreNameEnum.Sessions, () => {
