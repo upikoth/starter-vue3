@@ -97,7 +97,7 @@ onCreated()
 <template>
 	<div class="registrations-list">
 		<p
-			v-if="!registrations.length"
+			v-if="!registrations.length && !isRegistrationsLoading"
 			class="text-body1"
 		>
 			Сессий пока нет

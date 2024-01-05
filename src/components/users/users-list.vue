@@ -118,7 +118,7 @@ onCreated()
 			/>
 		</q-tabs>
 		<p
-			v-if="!users.length"
+			v-if="!users.length && !isUsersLoading"
 			class="text-body1"
 		>
 			Пользователей пока нет

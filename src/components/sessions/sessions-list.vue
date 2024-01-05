@@ -97,7 +97,7 @@ onCreated()
 <template>
 	<div class="sessions-list">
 		<p
-			v-if="!sessions.length"
+			v-if="!sessions.length && !isSessionsLoading"
 			class="text-body1"
 		>
 			Сессий пока нет
