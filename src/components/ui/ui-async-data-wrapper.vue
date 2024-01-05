@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import type { PropType } from 'vue'
 
-import { LoadingStateEnum } from '@/api'
+import { LoadingStateEnum } from '@/models'
 
 const props = defineProps({
 	state: {

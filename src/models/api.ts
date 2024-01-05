@@ -17,9 +17,9 @@ export interface IResponseErrorField {
 	description: string
 }
 
-export enum ApiLoadingStateEnum {
-	Initial = 'initial',
-	Loading = 'loading',
-	LoadedSuccess = 'loaded-success',
-	LoadedError = 'loaded-error'
+export enum LoadingStateEnum {
+	LoadingNotStarted = 'LOADING_NOT_STARTED',
+	Loading = 'LOADING',
+	LoadedSuccess = 'LOADED_SUCCESS',
+	LoadedError = 'LOADED_ERROR',
 }

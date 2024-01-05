@@ -4,14 +4,14 @@ import { useRouter, useRoute } from 'vue-router'
 
 import { ViewNameEnum } from '@/router'
 import api from '@/api'
-import { ApiLoadingStateEnum } from '@/models'
+import { LoadingStateEnum } from '@/models'
 import { useNotification } from '@/composables'
 
 const router = useRouter()
 const route = useRoute()
 const notification = useNotification()
 
-const confirmationRegistrationState = ref(ApiLoadingStateEnum.Initial)
+const confirmationRegistrationState = ref(LoadingStateEnum.LoadingNotStarted)
 
 const registrationConfirmationToken = computed(() => {
 	const { token } = route.query
@@ -29,16 +29,16 @@ async function confirmRegistration() {
 	}
 
 	try {
-		confirmationRegistrationState.value = ApiLoadingStateEnum.Loading
+		confirmationRegistrationState.value = LoadingStateEnum.Loading
 		await api.registrations.confirm({ token: registrationConfirmationToken.value })
 
-		confirmationRegistrationState.value = ApiLoadingStateEnum.LoadedSuccess
+		confirmationRegistrationState.value = LoadingStateEnum.LoadedSuccess
 
 		notification.success('Учетная запись активирована')
 
 		router.push({ name: ViewNameEnum.AuthSignInView })
 	} catch (error) {
-		confirmationRegistrationState.value = ApiLoadingStateEnum.LoadedError
+		confirmationRegistrationState.value = LoadingStateEnum.LoadedError
 	}
 }
 
@@ -52,7 +52,7 @@ onCreated()
 				Активация учетной записи
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingStateEnum.Initial"
+				v-if="confirmationRegistrationState === LoadingStateEnum.LoadingNotStarted"
 				class="text-body1"
 			>
 				<q-icon
@@ -63,13 +63,13 @@ onCreated()
 				Некорректная ссылка активации. Попробуйте позже или обратитесь к администратору
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingStateEnum.Loading"
+				v-if="confirmationRegistrationState === LoadingStateEnum.Loading"
 				class="text-body1"
 			>
 				Происходит активация, подождите...
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingStateEnum.LoadedSuccess"
+				v-if="confirmationRegistrationState === LoadingStateEnum.LoadedSuccess"
 				class="text-body1"
 			>
 				<q-icon
@@ -80,7 +80,7 @@ onCreated()
 				Учетная запись активирована
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingStateEnum.LoadedError"
+				v-if="confirmationRegistrationState === LoadingStateEnum.LoadedError"
 				class="text-body1"
 			>
 				<q-icon

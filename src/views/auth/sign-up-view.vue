@@ -5,7 +5,7 @@ import type { QForm, QInput } from 'quasar'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 import { ViewNameEnum } from '@/router'
 import api, { getApiErrorOrMessage } from '@/api'
-import { ApiLoadingStateEnum } from '@/models'
+import { LoadingStateEnum } from '@/models'
 import { useNotification } from '@/composables'
 
 const notification = useNotification()
@@ -18,7 +18,7 @@ const formData = ref({
 	passwordRepeat: ''
 })
 
-const registrationLoadingState = ref(ApiLoadingStateEnum.Initial)
+const registrationLoadingState = ref(LoadingStateEnum.LoadingNotStarted)
 
 const isPasswordVisible = ref(false)
 const isPasswordRepeatVisible = ref(false)
@@ -41,7 +41,7 @@ const userFormRules = {
 	]
 }
 
-const isUserRegistered = computed(() => registrationLoadingState.value === ApiLoadingStateEnum.LoadedSuccess)
+const isUserRegistered = computed(() => registrationLoadingState.value === LoadingStateEnum.LoadedSuccess)
 
 async function onSubmit() {
 	const isFormDataValid = await formRef.value?.validate()
@@ -51,16 +51,16 @@ async function onSubmit() {
 	}
 
 	try {
-		registrationLoadingState.value = ApiLoadingStateEnum.Loading
+		registrationLoadingState.value = LoadingStateEnum.Loading
 
 		await api.registrations.create({
 			email: formData.value.email,
 			password: formData.value.password
 		})
 
-		registrationLoadingState.value = ApiLoadingStateEnum.LoadedSuccess
+		registrationLoadingState.value = LoadingStateEnum.LoadedSuccess
 	} catch (err) {
-		registrationLoadingState.value = ApiLoadingStateEnum.LoadedError
+		registrationLoadingState.value = LoadingStateEnum.LoadedError
 		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
 	}
 }
@@ -122,7 +122,7 @@ async function onSubmit() {
 					class="sign-up-view__submit-button"
 					type="submit"
 					color="primary"
-					:loading="registrationLoadingState === ApiLoadingStateEnum.Loading"
+					:loading="registrationLoadingState === LoadingStateEnum.Loading"
 				>
 					Зарегистрироваться
 				</q-btn>
