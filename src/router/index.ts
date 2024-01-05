@@ -9,6 +9,7 @@ export enum ViewNameEnum {
 	UsersView = 'USERS_VIEW',
 	UsersCreateView = 'USERS_CREATE_VIEW',
 	UsersEditView = 'USER_VIEW',
+	UsersCurrentUserView = 'USERS_CURRENT_USER_VIEW',
 	SessionsView = 'SESSIONS_VIEW',
 	RegistrationsView = 'REGISTRATIONS_VIEW'
 }
@@ -70,6 +71,11 @@ const router = createRouter({
 					path: 'users/:id',
 					name: ViewNameEnum.UsersEditView,
 					component: () => import('@/views/users/users-edit-view.vue')
+				},
+				{
+					path: 'users/current-user',
+					name: ViewNameEnum.UsersCurrentUserView,
+					component: () => import('@/views/users/users-current-user-view.vue')
 				},
 				{
 					path: 'sessions',

@@ -23,10 +23,10 @@ const leftDrawerOpen = ref(false)
 
 const menuList = [
 	{
-		icon: 'app_registration',
-		label: 'Регистрации',
-		name: ViewNameEnum.RegistrationsView,
-		handler: () => router.push({ name: ViewNameEnum.RegistrationsView })
+		icon: 'person',
+		label: 'Мой профиль',
+		name: ViewNameEnum.UsersCurrentUserView,
+		handler: () => router.push({ name: ViewNameEnum.UsersCurrentUserView })
 	},
 	{
 		icon: 'group',
@@ -37,14 +37,19 @@ const menuList = [
 	{
 		icon: 'admin_panel_settings',
 		label: 'Сессии',
-		separator: true,
 		name: ViewNameEnum.SessionsView,
 		handler: () => router.push({ name: ViewNameEnum.SessionsView })
 	},
 	{
+		icon: 'app_registration',
+		label: 'Регистрации',
+		separator: true,
+		name: ViewNameEnum.RegistrationsView,
+		handler: () => router.push({ name: ViewNameEnum.RegistrationsView })
+	},
+	{
 		icon: 'logout',
 		label: 'Выйти',
-		separator: false,
 		handler: async () => {
 			try {
 				await api.sessions.delete({ id: sessionsStore.sessionId })

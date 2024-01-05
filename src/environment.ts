@@ -1,4 +1,5 @@
-const { env } = import.meta
+// eslint-disable-next-line prefer-destructuring
+const env = import.meta.env
 
 if (typeof env.VITE_API_URL !== 'string') {
 	throw new Error('Не задана env переменная VITE_API_URL')

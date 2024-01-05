@@ -9,6 +9,8 @@ import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
+import { useUsersStore } from '@/stores'
+
 import { useNotification } from '@/composables'
 
 import { UserStatusEnum, LoadingStateEnum } from '@/models'
@@ -29,6 +31,7 @@ const emit = defineEmits({ success: null })
 const route = useRoute()
 const notification = useNotification()
 const $q = useQuasar()
+const usersStore = useUsersStore()
 
 const userForm = ref({
 	email: '',
@@ -66,7 +69,8 @@ const userFormRules = {
 	]
 }
 
-const userId = computed(() => Number.parseInt(typeof route.params.id === 'string' ? route.params.id : ''))
+const userId = computed(() =>
+	Number.parseInt(typeof route.params.id === 'string' ? route.params.id : `${usersStore.user?.id}`))
 
 const isUserBlocked = computed(() => userStatus.value === UserStatusEnum.Blocked)
 
@@ -111,10 +115,8 @@ async function updateUser() {
 	try {
 		isUserUpdateLoading.value = true
 
-		const { email } = userForm.value
 		await api.users.update({
-			id: userId.value,
-			email
+			id: userId.value
 		})
 
 		notification.success('Информация о пользователе обновлена')
@@ -210,9 +212,11 @@ onCreated()
 				label="Email"
 				:rules="userFormRules.email"
 				type="email"
+				disable
 				lazy-rules
 			/>
 			<q-input
+				v-if="!props.edit"
 				ref="passwordField"
 				v-model="userForm.password"
 				label="Пароль"
@@ -230,6 +234,7 @@ onCreated()
 				</template>
 			</q-input>
 			<q-input
+				v-if="!props.edit"
 				ref="passwordRepeatField"
 				v-model="userForm.passwordRepeat"
 				label="Повторите пароль"

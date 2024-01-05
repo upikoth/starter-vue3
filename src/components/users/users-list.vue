@@ -9,6 +9,8 @@ import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
+import { useUsersStore } from '@/stores'
+
 import { useNotification } from '@/composables'
 
 import type { IUser } from '@/models'
@@ -16,6 +18,7 @@ import { UserStatusEnum } from '@/models'
 
 const router = useRouter()
 const notification = useNotification()
+const usersStore = useUsersStore()
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
@@ -94,10 +97,16 @@ function resetUsersList() {
 }
 
 function redirectToUserPage(id: number) {
-	router.push({
-		name: ViewNameEnum.UsersEditView,
-		params: { id }
-	})
+	if (usersStore.user?.id === id) {
+		router.push({
+			name: ViewNameEnum.UsersCurrentUserView
+		})
+	} else {
+		router.push({
+			name: ViewNameEnum.UsersEditView,
+			params: { id }
+		})
+	}
 }
 
 onCreated()
