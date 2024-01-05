@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 
 import { useSessionsStore } from '@/stores'
 
-export enum ViewName {
+export enum ViewNameEnum {
 	AuthSignInView = 'AUTH_SIGN_IN_VIEW',
 	AuthSignUpView = 'AUTH_SIGN_UP_VIEW',
 	AuthSignUpConfirmEmail = 'AUTH_SIGN_UP_CONFIRM_EMAIL',
@@ -14,14 +14,14 @@ export enum ViewName {
 }
 
 export const UNAUTHORIZED_VIEWS = new Set([
-	ViewName.AuthSignInView,
-	ViewName.AuthSignUpConfirmEmail,
-	ViewName.AuthSignUpView
+	ViewNameEnum.AuthSignInView,
+	ViewNameEnum.AuthSignUpConfirmEmail,
+	ViewNameEnum.AuthSignUpView
 ])
-export const ALL_VIEWS = new Set(Object.values(ViewName))
+export const ALL_VIEWS = new Set(Object.values(ViewNameEnum))
 
-export function checkIsView(view: unknown): view is ViewName {
-	return ALL_VIEWS.has(view as ViewName)
+export function checkIsView(view: unknown): view is ViewNameEnum {
+	return ALL_VIEWS.has(view as ViewNameEnum)
 }
 
 const router = createRouter({
@@ -33,17 +33,17 @@ const router = createRouter({
 			children: [
 				{
 					path: 'sign-in',
-					name: ViewName.AuthSignInView,
+					name: ViewNameEnum.AuthSignInView,
 					component: () => import('@/views/auth/sign-in-view.vue')
 				},
 				{
 					path: 'sign-up',
-					name: ViewName.AuthSignUpView,
+					name: ViewNameEnum.AuthSignUpView,
 					component: () => import('@/views/auth/sign-up-view.vue')
 				},
 				{
 					path: 'sign-up-confirm-email',
-					name: ViewName.AuthSignUpConfirmEmail,
+					name: ViewNameEnum.AuthSignUpConfirmEmail,
 					component: () => import('@/views/auth/sign-up-confirm-email-view.vue')
 				}
 			]
@@ -54,38 +54,38 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewName.UsersView })
+					redirect: () => ({ name: ViewNameEnum.UsersView })
 				},
 				{
 					path: 'users',
-					name: ViewName.UsersView,
+					name: ViewNameEnum.UsersView,
 					component: () => import('@/views/users/users-view.vue')
 				},
 				{
 					path: 'users/create',
-					name: ViewName.UsersCreateView,
+					name: ViewNameEnum.UsersCreateView,
 					component: () => import('@/views/users/users-create-view.vue')
 				},
 				{
 					path: 'users/:id',
-					name: ViewName.UsersEditView,
+					name: ViewNameEnum.UsersEditView,
 					component: () => import('@/views/users/users-edit-view.vue')
 				},
 				{
 					path: 'sessions',
-					name: ViewName.SessionsView,
-					component:  () => import('@/views/sessions/sessions-view.vue')
+					name: ViewNameEnum.SessionsView,
+					component: () => import('@/views/sessions/sessions-view.vue')
 				},
 				{
 					path: 'registrations',
-					name: ViewName.RegistrationsView,
-					component:  () => import('@/views/registrations/registrations-view.vue')
+					name: ViewNameEnum.RegistrationsView,
+					component: () => import('@/views/registrations/registrations-view.vue')
 				}
 			]
 		},
 		{
 			path: '/:pathMatch(.*)*',
-			redirect: () => ({ name: ViewName.UsersView })
+			redirect: () => ({ name: ViewNameEnum.UsersView })
 		}
 	]
 })
@@ -103,18 +103,18 @@ router.beforeEach((to, _, next) => {
 
 	// Если неавторизован и пытается перейти на страницы требующие авторизации, редиректим на страницу входа.
 	if (
-		!sessionsStore.isUserAuthorized &&
-		!UNAUTHORIZED_VIEWS.has(to.name)
+		!sessionsStore.isUserAuthorized
+		&& !UNAUTHORIZED_VIEWS.has(to.name)
 	) {
-		return next({ name: ViewName.AuthSignInView })
+		return next({ name: ViewNameEnum.AuthSignInView })
 	}
 
 	// Если авторизован и пытается перейти на страницы не требующие авторизации, редиректим на главную страницу.
 	if (
-		sessionsStore.isUserAuthorized &&
-		UNAUTHORIZED_VIEWS.has(to.name)
+		sessionsStore.isUserAuthorized
+		&& UNAUTHORIZED_VIEWS.has(to.name)
 	) {
-		return next({ name: ViewName.UsersView })
+		return next({ name: ViewNameEnum.UsersView })
 	}
 
 	return next()

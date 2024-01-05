@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar'
 
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 
 import UsersList from '@/components/users/users-list.vue'
 
@@ -20,7 +20,7 @@ const $q = useQuasar()
 				:label="$q.screen.lt.sm ? '' : 'Создать'"
 				size="md"
 				color="primary"
-				:to="{ name: ViewName.UsersCreateView }"
+				:to="{ name: ViewNameEnum.UsersCreateView }"
 			/>
 		</div>
 		<users-list class="users-view__list" />

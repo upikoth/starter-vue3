@@ -61,8 +61,8 @@ async function updateRegistrationsList(
 		isRegistrationsLoading.value = true
 
 		const { registrations: newRegistrations, total } = await api.registrations.getAll({
-			limit: limit,
-			offset: offset
+			limit,
+			offset
 		})
 
 		registrations.value = newRegistrations

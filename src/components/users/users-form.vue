@@ -63,9 +63,7 @@ const userFormRules = {
 	]
 }
 
-const userId = computed(() => {
-	return Number.parseInt(typeof route.params.id === 'string' ? route.params.id : '')
-})
+const userId = computed(() => Number.parseInt(typeof route.params.id === 'string' ? route.params.id : ''))
 
 const isUserBlocked = computed(() => userStatus.value === UserStatusEnum.Blocked)
 

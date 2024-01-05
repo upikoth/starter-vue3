@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 import api, { getApiErrorOrMessage } from '@/api'
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 import { useNotification } from '@/composables'
 import { useSessionsStore, useUsersStore } from '@/stores'
 
@@ -48,7 +48,7 @@ async function onSubmit() {
 		usersStore.user = user
 		sessionsStore.sessionId = session.id
 
-		router.push({ name: ViewName.UsersView })
+		router.push({ name: ViewNameEnum.UsersView })
 	} catch (err) {
 		notification.error(getApiErrorOrMessage(err))
 	}
@@ -102,7 +102,7 @@ async function onSubmit() {
 				flat
 				no-caps
 				color="primary"
-				:to="{ name: ViewName.AuthSignUpView }"
+				:to="{ name: ViewNameEnum.AuthSignUpView }"
 			>
 				Зарегистрироваться
 			</q-btn>

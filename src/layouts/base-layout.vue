@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 import api, { getApiErrorOrMessage } from '@/api'
 import { useNotification } from '@/composables'
 import { useSessionsStore, useUsersStore } from '@/stores'
@@ -22,21 +22,21 @@ const menuList = [
 	{
 		icon: 'app_registration',
 		label: 'Регистрации',
-		name: ViewName.RegistrationsView,
-		handler: () => router.push({ name: ViewName.RegistrationsView })
+		name: ViewNameEnum.RegistrationsView,
+		handler: () => router.push({ name: ViewNameEnum.RegistrationsView })
 	},
 	{
 		icon: 'group',
 		label: 'Пользователи',
-		name: ViewName.UsersView,
-		handler: () => router.push({ name: ViewName.UsersView })
+		name: ViewNameEnum.UsersView,
+		handler: () => router.push({ name: ViewNameEnum.UsersView })
 	},
 	{
 		icon: 'admin_panel_settings',
 		label: 'Сессии',
 		separator: true,
-		name: ViewName.SessionsView,
-		handler: () => router.push({ name: ViewName.SessionsView })
+		name: ViewNameEnum.SessionsView,
+		handler: () => router.push({ name: ViewNameEnum.SessionsView })
 	},
 	{
 		icon: 'logout',
@@ -49,7 +49,7 @@ const menuList = [
 				usersStore.user = null
 				sessionsStore.sessionId = 0
 
-				await router.push({ name: ViewName.AuthSignInView })
+				await router.push({ name: ViewNameEnum.AuthSignInView })
 			} catch (err) {
 				notification.error(getApiErrorOrMessage(err, 'Не удалось выйти из приложения'))
 			}

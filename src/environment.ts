@@ -1,4 +1,4 @@
-const env = import.meta.env
+const { env } = import.meta
 
 if (typeof env.VITE_API_URL !== 'string') {
 	throw new Error('Не задана env переменная VITE_API_URL')

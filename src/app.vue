@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import api from '@/api'
 import { useUsersStore, useSessionsStore } from '@/stores'
-import { UNAUTHORIZED_VIEWS, ViewName, checkIsView } from '@/router'
+import { UNAUTHORIZED_VIEWS, ViewNameEnum, checkIsView } from '@/router'
 
 const usersStore = useUsersStore()
 const sessionsStore = useSessionsStore()
@@ -15,14 +15,14 @@ watch(
 	() => sessionsStore.isUserAuthorized,
 	() => {
 		if (!sessionsStore.isUserAuthorized) {
-			router.push({ name: ViewName.AuthSignInView })
+			router.push({ name: ViewNameEnum.AuthSignInView })
 		}
 	}
 )
 
 async function onCreated() {
 	if (!checkIsView(route.name)) {
-		await router.push({ name: ViewName.AuthSignInView })
+		await router.push({ name: ViewNameEnum.AuthSignInView })
 	}
 
 	if (!checkIsView(route.name)) {
@@ -35,7 +35,7 @@ async function onCreated() {
 		sessionsStore.sessionId = session.id
 	} catch {
 		if (!UNAUTHORIZED_VIEWS.has(route.name)) {
-			await router.push({ name: ViewName.AuthSignInView })
+			await router.push({ name: ViewNameEnum.AuthSignInView })
 			sessionsStore.isSessionInfoLoaded = true
 			return
 		}
@@ -43,20 +43,22 @@ async function onCreated() {
 
 	// Если неавторизован и пытается перейти на страницы требующие авторизации, редиректим на страницу входа.
 	if (
-		!sessionsStore.isUserAuthorized &&
-		!UNAUTHORIZED_VIEWS.has(route.name)
+		!sessionsStore.isUserAuthorized
+		&& !UNAUTHORIZED_VIEWS.has(route.name)
 	) {
 		sessionsStore.isSessionInfoLoaded = true
-		return router.push({ name: ViewName.AuthSignInView })
+		router.push({ name: ViewNameEnum.AuthSignInView })
+		return
 	}
 
 	// Если авторизован и пытается перейти на страницы не требующие авторизации, редиректим на главную страницу.
 	if (
-		sessionsStore.isUserAuthorized &&
-		UNAUTHORIZED_VIEWS.has(route.name)
+		sessionsStore.isUserAuthorized
+		&& UNAUTHORIZED_VIEWS.has(route.name)
 	) {
 		sessionsStore.isSessionInfoLoaded = true
-		return router.push({ name: ViewName.UsersView })
+		router.push({ name: ViewNameEnum.UsersView })
+		return
 	}
 
 	sessionsStore.isSessionInfoLoaded = true

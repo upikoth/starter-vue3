@@ -17,7 +17,7 @@ export interface IResponseErrorField {
 	description: string
 }
 
-export enum ApiLoadingState {
+export enum ApiLoadingStateEnum {
 	Initial = 'initial',
 	Loading = 'loading',
 	LoadedSuccess = 'loaded-success',

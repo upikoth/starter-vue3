@@ -3,12 +3,12 @@ import { useRouter } from 'vue-router'
 
 import UsersForm from '@/components/users/users-form.vue'
 
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 
 const router = useRouter()
 
 function redirectToUsersPage() {
-	router.push({ name: ViewName.UsersView })
+	router.push({ name: ViewNameEnum.UsersView })
 }
 </script>
 
@@ -21,7 +21,7 @@ function redirectToUsersPage() {
 				size="sm"
 				round
 				flat
-				:to="{ name: ViewName.UsersView }"
+				:to="{ name: ViewNameEnum.UsersView }"
 			/>
 			<h1 class="text-h1">
 				Редактирование

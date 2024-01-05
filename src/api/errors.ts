@@ -28,13 +28,11 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
 
-const checkIsApiErrorField = (err: unknown): err is IResponseErrorField => {
-	return allErrorCodes.has(String((err as IResponseErrorField).code))
-}
+const checkIsApiErrorField = (err: unknown): err is IResponseErrorField =>
+	allErrorCodes.has(String((err as IResponseErrorField).code))
 
-const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string => {
-	return apiErrorCodeMessageMapping[code] || DEFAULT_ERROR_MESSAGE_TEXT
-}
+const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string =>
+	apiErrorCodeMessageMapping[code] || DEFAULT_ERROR_MESSAGE_TEXT
 
 export const getApiErrorOrMessage = (err: unknown, message?: string): string => {
 	if (checkIsApiErrorField(err)) {

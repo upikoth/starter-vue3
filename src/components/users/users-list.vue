@@ -7,7 +7,7 @@ import api, { getApiErrorOrMessage } from '@/api'
 import type { IUser } from '@/models'
 import { UserStatusEnum } from '@/models'
 import { paginationToLimitOffset } from '@/utils'
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 import { useNotification } from '@/composables'
 
 const router = useRouter()
@@ -65,8 +65,8 @@ async function updateUsersList(
 		isUsersLoading.value = true
 
 		const { users: newUsers, total } = await api.users.getAll({
-			limit: limit,
-			offset: offset,
+			limit,
+			offset,
 			status: filters.value.status
 		})
 
@@ -91,7 +91,7 @@ function resetUsersList() {
 
 function redirectToUserPage(id: number) {
 	router.push({
-		name: ViewName.UsersEditView,
+		name: ViewNameEnum.UsersEditView,
 		params: { id }
 	})
 }
@@ -143,7 +143,7 @@ onCreated()
 						size="sm"
 						round
 						outline
-						:to="{ name: ViewName.UsersEditView, params: { id: props.row.id } }"
+						:to="{ name: ViewNameEnum.UsersEditView, params: { id: props.row.id } }"
 					/>
 				</q-td>
 			</template>

@@ -11,17 +11,11 @@ const props = defineProps({
 	}
 })
 
-const isLoading = computed(() => {
-	return props.state === LoadingStateEnum.Loading
-})
+const isLoading = computed(() => props.state === LoadingStateEnum.Loading)
 
-const isSuccessLoaded = computed(() => {
-	return props.state === LoadingStateEnum.LoadedSuccess
-})
+const isSuccessLoaded = computed(() => props.state === LoadingStateEnum.LoadedSuccess)
 
-const isErorrLoaded = computed(() => {
-	return props.state === LoadingStateEnum.LoadedError
-})
+const isErorrLoaded = computed(() => props.state === LoadingStateEnum.LoadedError)
 </script>
 
 <template>

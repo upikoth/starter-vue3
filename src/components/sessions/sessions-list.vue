@@ -61,8 +61,8 @@ async function updateSessionsList(
 		isSessionsLoading.value = true
 
 		const { sessions: newSessions, total } = await api.sessions.getAll({
-			limit: limit,
-			offset: offset
+			limit,
+			offset
 		})
 
 		sessions.value = newSessions

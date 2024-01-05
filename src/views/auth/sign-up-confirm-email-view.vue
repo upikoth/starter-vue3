@@ -2,19 +2,19 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 import api from '@/api'
-import { ApiLoadingState } from '@/models'
+import { ApiLoadingStateEnum } from '@/models'
 import { useNotification } from '@/composables'
 
 const router = useRouter()
 const route = useRoute()
 const notification = useNotification()
 
-const confirmationRegistrationState = ref(ApiLoadingState.Initial)
+const confirmationRegistrationState = ref(ApiLoadingStateEnum.Initial)
 
 const registrationConfirmationToken = computed(() => {
-	const token = route.query.token
+	const { token } = route.query
 
 	return typeof token === 'string' ? token : ''
 })
@@ -29,16 +29,16 @@ async function confirmRegistration() {
 	}
 
 	try {
-		confirmationRegistrationState.value = ApiLoadingState.Loading
+		confirmationRegistrationState.value = ApiLoadingStateEnum.Loading
 		await api.registrations.confirm({ token: registrationConfirmationToken.value })
 
-		confirmationRegistrationState.value = ApiLoadingState.LoadedSuccess
+		confirmationRegistrationState.value = ApiLoadingStateEnum.LoadedSuccess
 
 		notification.success('Учетная запись активирована')
 
-		router.push({ name: ViewName.AuthSignInView })
+		router.push({ name: ViewNameEnum.AuthSignInView })
 	} catch (error) {
-		confirmationRegistrationState.value = ApiLoadingState.LoadedError
+		confirmationRegistrationState.value = ApiLoadingStateEnum.LoadedError
 	}
 }
 
@@ -52,7 +52,7 @@ onCreated()
 				Активация учетной записи
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingState.Initial"
+				v-if="confirmationRegistrationState === ApiLoadingStateEnum.Initial"
 				class="text-body1"
 			>
 				<q-icon
@@ -63,13 +63,13 @@ onCreated()
 				Некорректная ссылка активации. Попробуйте позже или обратитесь к администратору
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingState.Loading"
+				v-if="confirmationRegistrationState === ApiLoadingStateEnum.Loading"
 				class="text-body1"
 			>
 				Происходит активация, подождите...
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingState.LoadedSuccess"
+				v-if="confirmationRegistrationState === ApiLoadingStateEnum.LoadedSuccess"
 				class="text-body1"
 			>
 				<q-icon
@@ -80,7 +80,7 @@ onCreated()
 				Учетная запись активирована
 			</p>
 			<p
-				v-if="confirmationRegistrationState === ApiLoadingState.LoadedError"
+				v-if="confirmationRegistrationState === ApiLoadingStateEnum.LoadedError"
 				class="text-body1"
 			>
 				<q-icon
@@ -95,7 +95,7 @@ onCreated()
 				flat
 				no-caps
 				color="primary"
-				:to="{ name: ViewName.AuthSignInView }"
+				:to="{ name: ViewNameEnum.AuthSignInView }"
 			>
 				Войти в личный кабинет
 			</q-btn>

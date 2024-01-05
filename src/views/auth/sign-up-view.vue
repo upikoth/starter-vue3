@@ -3,9 +3,9 @@ import { ref, computed } from 'vue'
 import type { QForm, QInput } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
-import { ViewName } from '@/router'
+import { ViewNameEnum } from '@/router'
 import api, { getApiErrorOrMessage } from '@/api'
-import { ApiLoadingState } from '@/models'
+import { ApiLoadingStateEnum } from '@/models'
 import { useNotification } from '@/composables'
 
 const notification = useNotification()
@@ -18,7 +18,7 @@ const formData = ref({
 	passwordRepeat: ''
 })
 
-const registrationLoadingState = ref(ApiLoadingState.Initial)
+const registrationLoadingState = ref(ApiLoadingStateEnum.Initial)
 
 const isPasswordVisible = ref(false)
 const isPasswordRepeatVisible = ref(false)
@@ -41,7 +41,7 @@ const userFormRules = {
 	]
 }
 
-const isUserRegistered = computed(() => registrationLoadingState.value === ApiLoadingState.LoadedSuccess)
+const isUserRegistered = computed(() => registrationLoadingState.value === ApiLoadingStateEnum.LoadedSuccess)
 
 async function onSubmit() {
 	const isFormDataValid = await formRef.value?.validate()
@@ -51,16 +51,16 @@ async function onSubmit() {
 	}
 
 	try {
-		registrationLoadingState.value = ApiLoadingState.Loading
+		registrationLoadingState.value = ApiLoadingStateEnum.Loading
 
 		await api.registrations.create({
 			email: formData.value.email,
 			password: formData.value.password
 		})
 
-		registrationLoadingState.value = ApiLoadingState.LoadedSuccess
+		registrationLoadingState.value = ApiLoadingStateEnum.LoadedSuccess
 	} catch (err) {
-		registrationLoadingState.value = ApiLoadingState.LoadedError
+		registrationLoadingState.value = ApiLoadingStateEnum.LoadedError
 		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
 	}
 }
@@ -122,7 +122,7 @@ async function onSubmit() {
 					class="sign-up-view__submit-button"
 					type="submit"
 					color="primary"
-					:loading="registrationLoadingState === ApiLoadingState.Loading"
+					:loading="registrationLoadingState === ApiLoadingStateEnum.Loading"
 				>
 					Зарегистрироваться
 				</q-btn>
@@ -140,7 +140,7 @@ async function onSubmit() {
 				flat
 				no-caps
 				color="primary"
-				:to="{ name: ViewName.AuthSignInView }"
+				:to="{ name: ViewNameEnum.AuthSignInView }"
 			>
 				Войти в личный кабинет
 			</q-btn>
