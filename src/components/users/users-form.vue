@@ -7,13 +7,19 @@ import { useQuasar } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
+import { userRoleRoleNameMapping } from '@/utils'
+
 import api, { getApiErrorOrMessage } from '@/api'
 
 import { useUsersStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
-import { UserStatusEnum, LoadingStateEnum } from '@/models'
+import {
+	UserStatusEnum,
+	UserRoleEnum,
+	LoadingStateEnum
+} from '@/models'
 
 import UiAsyncDataWrapper from '@/components/ui/ui-async-data-wrapper.vue'
 
@@ -33,8 +39,18 @@ const notification = useNotification()
 const $q = useQuasar()
 const usersStore = useUsersStore()
 
-const userForm = ref({
+interface IUserForm {
+	email: string;
+	role: {
+		label: string;
+		value: UserRoleEnum
+	} | null,
+	password: string;
+	passwordRepeat: string;
+}
+const userForm = ref<IUserForm>({
 	email: '',
+	role: null,
 	password: '',
 	passwordRepeat: ''
 })
@@ -74,6 +90,23 @@ const userId = computed(() =>
 
 const isUserBlocked = computed(() => userStatus.value === UserStatusEnum.Blocked)
 
+const isCurrentUser = computed(() => userId.value === usersStore.user?.id)
+
+const userRoleAllOptions = computed(() => {
+	const options = Object.values(UserRoleEnum).map((el) => ({
+		value: el,
+		label: userRoleRoleNameMapping[el]
+	}))
+
+	return usersStore.user?.role === UserRoleEnum.SuperAdmin
+		? options
+		: options.filter((option) => option.value !== UserRoleEnum.SuperAdmin)
+})
+
+const userRoleResultOptions = computed(() => (userForm.value.role?.value === UserRoleEnum.SuperAdmin
+	? userRoleAllOptions.value.filter((option) => option.value !== UserRoleEnum.SuperAdmin)
+	: userRoleAllOptions.value))
+
 function onCreated() {
 	if (props.edit) {
 		getUser()
@@ -86,8 +119,10 @@ async function getUser(): Promise<void> {
 
 		const { user } = await api.users.get({ id: userId.value })
 
-		const { email, status } = user
+		const { email, status, role } = user
 		userForm.value.email = email
+		userForm.value.role = userRoleAllOptions.value.find((option) => option.value === role) || null
+
 		userStatus.value = status
 
 		userLoadingState.value = LoadingStateEnum.LoadedSuccess
@@ -116,7 +151,8 @@ async function updateUser() {
 		isUserUpdateLoading.value = true
 
 		await api.users.update({
-			id: userId.value
+			id: userId.value,
+			role: userForm.value.role?.value
 		})
 
 		notification.success('Информация о пользователе обновлена')
@@ -215,6 +251,12 @@ onCreated()
 				disable
 				lazy-rules
 			/>
+			<q-select
+				v-model="userForm.role"
+				:options="userRoleResultOptions"
+				:disable="userForm.role?.value === UserRoleEnum.SuperAdmin || isCurrentUser"
+				label="Роль"
+			/>
 			<q-input
 				v-if="!props.edit"
 				ref="passwordField"
@@ -253,7 +295,7 @@ onCreated()
 			</q-input>
 			<div class="users-form__action-buttons">
 				<q-btn
-					v-if="props.edit"
+					v-if="props.edit && !isCurrentUser"
 					:color="isUserBlocked ? 'positive' : 'negative'"
 					:label="isUserBlocked ? 'Разблокировать' : 'Заблокировать'"
 					:icon="$q.screen.xs ? undefined : isUserBlocked ? 'add' : 'delete'"

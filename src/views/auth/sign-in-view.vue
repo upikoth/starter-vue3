@@ -52,7 +52,7 @@ async function onSubmit() {
 		usersStore.user = user
 		sessionsStore.sessionId = session.id
 
-		router.push({ name: ViewNameEnum.UsersView })
+		router.push({ name: ViewNameEnum.UsersCurrentUserView })
 	} catch (err) {
 		notification.error(getApiErrorOrMessage(err))
 	}

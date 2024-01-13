@@ -91,7 +91,7 @@ const router = createRouter({
 		},
 		{
 			path: '/:pathMatch(.*)*',
-			redirect: () => ({ name: ViewNameEnum.UsersView })
+			redirect: () => ({ name: ViewNameEnum.UsersCurrentUserView })
 		}
 	]
 })
@@ -120,7 +120,7 @@ router.beforeEach((to, _, next) => {
 		sessionsStore.isUserAuthorized
 		&& UNAUTHORIZED_VIEWS.has(to.name)
 	) {
-		return next({ name: ViewNameEnum.UsersView })
+		return next({ name: ViewNameEnum.UsersCurrentUserView })
 	}
 
 	return next()

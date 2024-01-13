@@ -12,6 +12,7 @@ export enum ApiErrorCodeEnum {
 	SessionAlreadyExist = 7,
 	UserBlocked = 8,
 	Unauthorized = 9,
+	Forbidden = 10,
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
@@ -23,7 +24,8 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	[ApiErrorCodeEnum.EmailOrPasswordInvalid]: 'Email или пароль указаны некорректно',
 	[ApiErrorCodeEnum.SessionAlreadyExist]: 'Сессия уже существует',
 	[ApiErrorCodeEnum.UserBlocked]: 'Пользователь заблокирован',
-	[ApiErrorCodeEnum.Unauthorized]: 'Пользователь не авторизован'
+	[ApiErrorCodeEnum.Unauthorized]: 'Пользователь не авторизован',
+	[ApiErrorCodeEnum.Forbidden]: 'Недостаточно прав для выполнения действия'
 }
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))

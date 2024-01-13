@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
-import { useRouter } from 'vue-router'
 
-import { paginationToLimitOffset } from '@/utils'
+import {
+	paginationToLimitOffset,
+	userRoleRoleNameMapping,
+	checkIsUserHasAccessToAction
+} from '@/utils'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
@@ -13,10 +16,11 @@ import { useUsersStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
-import type { IUser } from '@/models'
-import { UserStatusEnum } from '@/models'
+import { UserRoleEnum, UserActionEnum, UserStatusEnum } from '@/models'
+import type {
+	IUser
+} from '@/models'
 
-const router = useRouter()
 const notification = useNotification()
 const usersStore = useUsersStore()
 
@@ -45,6 +49,13 @@ const columns: QTableProps['columns'] = [
 		name: 'email',
 		field: 'email',
 		label: 'Email',
+		required: true,
+		align: 'left'
+	},
+	{
+		name: 'role',
+		field: 'role',
+		label: 'Роль',
 		required: true,
 		align: 'left'
 	},
@@ -96,16 +107,26 @@ function resetUsersList() {
 	updateUsersList()
 }
 
-function redirectToUserPage(id: number) {
-	if (usersStore.user?.id === id) {
-		router.push({
-			name: ViewNameEnum.UsersCurrentUserView
-		})
-	} else {
-		router.push({
-			name: ViewNameEnum.UsersEditView,
-			params: { id }
-		})
+function checkIsUserCanUpdateAthonerUser(userToUpdate: IUser) {
+	if (!usersStore.user) {
+		return false
+	}
+
+	if (checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserInfo)) {
+		return true
+	}
+
+	switch (userToUpdate.role) {
+	case UserRoleEnum.SuperAdmin:
+		return false
+	case UserRoleEnum.Admin:
+		return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleAdminInfo)
+	case UserRoleEnum.User:
+		return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleUserInfo)
+	default: {
+		const exhaustiveCheck: never = userToUpdate.role
+		return exhaustiveCheck
+	}
 	}
 }
 
@@ -113,7 +134,10 @@ onCreated()
 </script>
 
 <template>
-	<div class="users-list">
+	<div
+		v-if="usersStore.user"
+		class="users-list"
+	>
 		<q-tabs
 			v-model="filters.status"
 			class="users-list__tabs"
@@ -146,25 +170,26 @@ onCreated()
 			:loading="isUsersLoading"
 			hide-no-data
 			@request="updateUsersList"
-			@row-click="(_, row) => redirectToUserPage(row.id)"
 		>
+			<template #body-cell-role="props">
+				<q-td :props="props">
+					{{ userRoleRoleNameMapping[props.row.role as UserRoleEnum] }}
+				</q-td>
+			</template>
 			<template #body-cell-actions="props">
 				<q-td :props="props">
 					<q-btn
+						v-if="checkIsUserCanUpdateAthonerUser(props.row)"
 						icon="edit"
 						color="primary"
 						size="sm"
 						round
 						outline
-						:to="{ name: ViewNameEnum.UsersEditView, params: { id: props.row.id } }"
+						:to="usersStore.user?.id === props.row.id ?
+							{ name: ViewNameEnum.UsersCurrentUserView } :
+							{ name: ViewNameEnum.UsersEditView, params: { id: props.row.id } }
+						"
 					/>
-				</q-td>
-			</template>
-			<template #body-cell-name="props">
-				<q-td :props="props">
-					<span :class="{ 'text-negative': props.row.status === UserStatusEnum.Blocked }">
-						{{ props.row.name }}
-					</span>
 				</q-td>
 			</template>
 			<template #loading>

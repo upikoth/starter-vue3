@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
+
+import { checkIsUserHasAccessToAction } from '@/utils'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
@@ -10,6 +12,8 @@ import { ViewNameEnum } from '@/router'
 import { useSessionsStore, useUsersStore } from '@/stores'
 
 import { useNotification } from '@/composables'
+
+import { UserActionEnum } from '@/models'
 
 const $q = useQuasar()
 const route = useRoute()
@@ -21,35 +25,43 @@ const usersStore = useUsersStore()
 
 const leftDrawerOpen = ref(false)
 
-const menuList = [
+const menuList = computed(() => ([
 	{
 		icon: 'person',
 		label: 'Мой профиль',
 		name: ViewNameEnum.UsersCurrentUserView,
-		handler: () => router.push({ name: ViewNameEnum.UsersCurrentUserView })
+		handler: () => router.push({ name: ViewNameEnum.UsersCurrentUserView }),
+		isVisible: () => usersStore.user
+			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetMyUserInfo)
 	},
 	{
 		icon: 'group',
 		label: 'Пользователи',
 		name: ViewNameEnum.UsersView,
-		handler: () => router.push({ name: ViewNameEnum.UsersView })
+		handler: () => router.push({ name: ViewNameEnum.UsersView }),
+		isVisible: () => usersStore.user
+			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnyUserInfo)
 	},
 	{
 		icon: 'admin_panel_settings',
 		label: 'Сессии',
 		name: ViewNameEnum.SessionsView,
-		handler: () => router.push({ name: ViewNameEnum.SessionsView })
+		handler: () => router.push({ name: ViewNameEnum.SessionsView }),
+		isVisible: () => usersStore.user
+			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnySession)
 	},
 	{
 		icon: 'app_registration',
 		label: 'Регистрации',
-		separator: true,
 		name: ViewNameEnum.RegistrationsView,
-		handler: () => router.push({ name: ViewNameEnum.RegistrationsView })
+		handler: () => router.push({ name: ViewNameEnum.RegistrationsView }),
+		isVisible: () => usersStore.user
+			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnyRegistration)
 	},
 	{
 		icon: 'logout',
 		label: 'Выйти',
+		separator: true,
 		handler: async () => {
 			try {
 				await api.sessions.delete({ id: sessionsStore.sessionId })
@@ -61,9 +73,11 @@ const menuList = [
 			} catch (err) {
 				notification.error(getApiErrorOrMessage(err, 'Не удалось выйти из приложения'))
 			}
-		}
+		},
+		isVisible: () => usersStore.user
+				&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.DeleteMySession)
 	}
-]
+].filter((menuItem) => menuItem.isVisible())))
 
 function toggleLeftDrawer() {
 	leftDrawerOpen.value = !leftDrawerOpen.value
@@ -99,6 +113,9 @@ function toggleLeftDrawer() {
 						v-for="(menuItem, index) in menuList"
 						:key="index"
 					>
+						<q-separator
+							v-if="menuItem.separator"
+						/>
 						<q-item
 							v-ripple
 							clickable
@@ -112,9 +129,6 @@ function toggleLeftDrawer() {
 								{{ menuItem.label }}
 							</q-item-section>
 						</q-item>
-						<q-separator
-							v-if="menuItem.separator"
-						/>
 					</template>
 				</q-list>
 			</q-scroll-area>

@@ -2,15 +2,19 @@
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 
-import { paginationToLimitOffset } from '@/utils'
+import { paginationToLimitOffset, checkIsUserHasAccessToAction } from '@/utils'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
+import { useUsersStore } from '@/stores'
+
 import { useNotification } from '@/composables'
 
+import { UserActionEnum } from '@/models'
 import type { ISession } from '@/models'
 
 const notification = useNotification()
+const usersStore = useUsersStore()
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
@@ -98,7 +102,10 @@ onCreated()
 </script>
 
 <template>
-	<div class="sessions-list">
+	<div
+		v-if="usersStore.user"
+		class="sessions-list"
+	>
 		<p
 			v-if="!sessions.length && !isSessionsLoading"
 			class="text-body1"
@@ -119,6 +126,7 @@ onCreated()
 			<template #body-cell-actions="props">
 				<q-td :props="props">
 					<q-btn
+						v-if="checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.DeleteAnySession)"
 						icon="delete"
 						color="primary"
 						size="sm"
