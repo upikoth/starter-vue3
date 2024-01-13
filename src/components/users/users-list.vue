@@ -117,16 +117,16 @@ function checkIsUserCanUpdateAthonerUser(userToUpdate: IUser) {
 	}
 
 	switch (userToUpdate.role) {
-	case UserRoleEnum.SuperAdmin:
-		return false
-	case UserRoleEnum.Admin:
-		return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleAdminInfo)
-	case UserRoleEnum.User:
-		return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleUserInfo)
-	default: {
-		const exhaustiveCheck: never = userToUpdate.role
-		return exhaustiveCheck
-	}
+		case UserRoleEnum.SuperAdmin:
+			return false
+		case UserRoleEnum.Admin:
+			return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleAdminInfo)
+		case UserRoleEnum.User:
+			return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleUserInfo)
+		default: {
+			const exhaustiveCheck: never = userToUpdate.role
+			return exhaustiveCheck
+		}
 	}
 }
 
