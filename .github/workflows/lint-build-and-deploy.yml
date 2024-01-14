@@ -73,12 +73,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          build-args: |
-            VITE_API_URL=${{ vars.VITE_API_URL }}
-            VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VITE_API_URL=${{ vars.VITE_API_URL }}
+            VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}
           secrets: |
             UPIKOTH_PACKAGES_READ=${{ env.UPIKOTH_PACKAGES_READ }}
 
