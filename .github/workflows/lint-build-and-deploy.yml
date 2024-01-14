@@ -48,6 +48,11 @@ jobs:
     permissions:
       contents: read
       packages: write
+    environment:
+      name: prod
+    env:
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
+      VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS}}
 
     steps:
       - name: Checkout repository
@@ -84,9 +89,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prod
-    env:
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
-      VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS}}
 
     steps:
       - name: Checkout repository
