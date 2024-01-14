@@ -1,6 +1,6 @@
 # Stage 1. Build.
 
-FROM node:16-alpine as build
+FROM node:20-alpine as build
 
 WORKDIR /starter-vue3
 
@@ -9,6 +9,8 @@ COPY package.json package-lock.json .npmrc ./
 RUN --mount=type=secret,id=UPIKOTH_PACKAGES_READ \
 	UPIKOTH_PACKAGES_READ=$(cat /run/secrets/UPIKOTH_PACKAGES_READ) \
 	&& export UPIKOTH_PACKAGES_READ=${UPIKOTH_PACKAGES_READ} \
+	&& export VITE_API_URL=${VITE_API_URL} \
+	&& export VITE_SENTRY_DNS=${VITE_SENTRY_DNS} \
 	&& npm ci
 
 COPY . ./
