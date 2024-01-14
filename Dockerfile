@@ -1,4 +1,6 @@
 # Stage 1. Build.
+ARG VITE_API_URL
+ARG VITE_SENTRY_DNS
 
 FROM node:20-alpine as build
 
