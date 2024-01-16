@@ -21,8 +21,6 @@ FROM nginx:1.25-alpine-slim
 
 COPY --from=build /starter-vue3/dist/ /usr/share/nginx/html/
 
-COPY environment.sh /usr/share/nginx/html/
-
 CMD echo "{\
 	\"VITE_API_URL\":\"$VITE_API_URL\",\
 	\"VITE_SENTRY_DNS\":\"$VITE_SENTRY_DNS\"\
