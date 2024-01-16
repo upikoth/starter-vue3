@@ -48,8 +48,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    environment:
-      name: prod
 
     steps:
       - name: Checkout repository
@@ -76,13 +74,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            VITE_API_URL=${{ vars.VITE_API_URL }}
-            VITE_SENTRY_DNS=${{ secrets.VITE_SENTRY_DNS }}
           secrets: |
             UPIKOTH_PACKAGES_READ=${{ env.UPIKOTH_PACKAGES_READ }}
 
-  deploy:
+  deploy-prod:
     needs:
       - lint
       - build-and-push-image
@@ -113,7 +108,6 @@ jobs:
 
       - name: Deploy
         run: |
-          echo "" > .env.local
           docker compose stop frontend
           docker compose pull frontend
           docker compose -p "starter" up --no-deps -d frontend
