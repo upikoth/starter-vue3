@@ -1,6 +1,7 @@
 const environment = {
 	API_URL: '',
 	SENTRY_DNS: '',
+	S3_DOMAIN_NAME: '',
 	NODE_ENV: 'development' as NodeEnv
 }
 
@@ -21,6 +22,10 @@ export async function loadEnvironmentVariables() {
 		throw new Error('Не задана env переменная SENTRY_DNS')
 	}
 
+	if (typeof env.S3_DOMAIN_NAME !== 'string') {
+		throw new Error('Не задана env переменная S3_DOMAIN_NAME')
+	}
+
 	if (!checkIsNodeEnv(process.env.NODE_ENV)) {
 		throw new Error('Не задана env переменная NODE_ENV')
 	}
@@ -28,6 +33,7 @@ export async function loadEnvironmentVariables() {
 	Object.assign(environment, {
 		API_URL: env.VITE_API_URL,
 		SENTRY_DNS: env.VITE_SENTRY_DNS,
+		S3_DOMAIN_NAME: env.S3_DOMAIN_NAME,
 		NODE_ENV: process.env.NODE_ENV
 	})
 }

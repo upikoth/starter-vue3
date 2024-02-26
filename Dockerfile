@@ -23,7 +23,8 @@ COPY --from=build /starter-vue3/dist/ /usr/share/nginx/html/
 
 CMD echo "{\
 	\"VITE_API_URL\":\"$VITE_API_URL\",\
-	\"VITE_SENTRY_DNS\":\"$VITE_SENTRY_DNS\"\
+	\"VITE_SENTRY_DNS\":\"$VITE_SENTRY_DNS\",\
+	\"S3_DOMAIN_NAME\":\"$S3_DOMAIN_NAME\"\
 	}" > /usr/share/nginx/html/environment.json;\
 	nginx;\
 	while true; do sleep infinity; done

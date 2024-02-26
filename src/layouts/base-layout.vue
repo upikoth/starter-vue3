@@ -35,6 +35,14 @@ const menuList = computed(() => ([
 			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetMyUserInfo)
 	},
 	{
+		icon: 'person',
+		label: 'Файлы',
+		name: ViewNameEnum.FilesView,
+		handler: () => router.push({ name: ViewNameEnum.FilesView }),
+		isVisible: () => usersStore.user
+			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetMyUserInfo)
+	},
+	{
 		icon: 'group',
 		label: 'Пользователи',
 		name: ViewNameEnum.UsersView,

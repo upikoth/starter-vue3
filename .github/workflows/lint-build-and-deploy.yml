@@ -87,6 +87,7 @@ jobs:
     env:
       VITE_API_URL: ${{ vars.VITE_API_URL }}
       VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+      S3_DOMAIN_NAME: ${{ vars.S3_DOMAIN_NAME }}
 
     steps:
       - name: Checkout repository

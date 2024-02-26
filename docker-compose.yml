@@ -7,3 +7,4 @@ services:
     environment:
       VITE_API_URL: ${VITE_API_URL}
       VITE_SENTRY_DNS: ${VITE_SENTRY_DNS}
+      S3_DOMAIN_NAME: ${S3_DOMAIN_NAME}
