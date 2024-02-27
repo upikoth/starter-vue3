@@ -12,7 +12,7 @@ function checkIsNodeEnv(nodeEnv?: string): nodeEnv is NodeEnv {
 }
 
 export async function loadEnvironmentVariables() {
-	const env = await (await fetch('environment.json')).json()
+	const env = await (await fetch(`environment.json?${Date.now()}`)).json()
 
 	if (typeof env.VITE_API_URL !== 'string') {
 		throw new Error('Не задана env переменная VITE_API_URL')

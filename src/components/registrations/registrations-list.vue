@@ -110,7 +110,7 @@ onCreated()
 			v-if="!registrations.length && !isRegistrationsLoading"
 			class="text-body1"
 		>
-			Сессий пока нет
+			Регистраций пока нет
 		</p>
 		<q-table
 			v-else

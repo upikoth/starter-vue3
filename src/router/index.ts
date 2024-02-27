@@ -56,7 +56,7 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewNameEnum.UsersView })
+					redirect: () => ({ name: ViewNameEnum.UsersCurrentUserView })
 				},
 				{
 					path: 'users',
