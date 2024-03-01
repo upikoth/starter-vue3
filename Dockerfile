@@ -22,8 +22,8 @@ FROM nginx:1.25-alpine-slim
 COPY --from=build /starter-vue3/dist/ /usr/share/nginx/html/
 
 CMD echo "{\
-	\"VITE_API_URL\":\"$VITE_API_URL\",\
-	\"VITE_SENTRY_DNS\":\"$VITE_SENTRY_DNS\",\
+	\"API_URL\":\"$API_URL\",\
+	\"SENTRY_DNS\":\"$SENTRY_DNS\",\
 	\"S3_DOMAIN_NAME\":\"$S3_DOMAIN_NAME\"\
 	}" > /usr/share/nginx/html/environment.json;\
 	nginx;\

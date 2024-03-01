@@ -42,8 +42,44 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  test-environment:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+    env:
+      API_URL: ${{ vars.API_URL }}
+      SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
+      S3_DOMAIN_NAME: ${{ vars.S3_DOMAIN_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache npm dependencies
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test environment variables
+        run: npm run test:environment
+
   build-and-push-image:
-    needs: lint
+    needs:
+      - lint
+      - test-environment
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,14 +115,13 @@ jobs:
 
   deploy-prod:
     needs:
-      - lint
       - build-and-push-image
     runs-on: ubuntu-latest
     environment:
       name: prod
     env:
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
-      VITE_SENTRY_DNS: ${{ secrets.VITE_SENTRY_DNS }}
+      API_URL: ${{ vars.API_URL }}
+      SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
       S3_DOMAIN_NAME: ${{ vars.S3_DOMAIN_NAME }}
 
     steps:

@@ -1,5 +1,5 @@
 {
-	"VITE_API_URL": "",
-	"VITE_SENTRY_DNS": "",
+	"API_URL": "",
+	"SENTRY_DNS": "",
 	"S3_DOMAIN_NAME": ""
 }

@@ -7,34 +7,26 @@ const environment = {
 
 type NodeEnv = 'production' | 'development'
 
-function checkIsNodeEnv(nodeEnv?: string): nodeEnv is NodeEnv {
-	return ['production', 'development'].includes(nodeEnv as NodeEnv)
+export const environmentVariablesChecks = {
+	API_URL: (value: unknown) => typeof value === 'string' && value !== '',
+	SENTRY_DNS: (value: unknown) => typeof value === 'string' && value !== '',
+	S3_DOMAIN_NAME: (value: unknown) => typeof value === 'string' && value !== ''
 }
 
 export async function loadEnvironmentVariables() {
 	const env = await (await fetch(`environment.json?${Date.now()}`)).json()
 
-	if (typeof env.VITE_API_URL !== 'string') {
-		throw new Error('Не задана env переменная VITE_API_URL')
-	}
-
-	if (typeof env.VITE_SENTRY_DNS !== 'string') {
-		throw new Error('Не задана env переменная SENTRY_DNS')
-	}
-
-	if (typeof env.S3_DOMAIN_NAME !== 'string') {
-		throw new Error('Не задана env переменная S3_DOMAIN_NAME')
-	}
-
-	if (!checkIsNodeEnv(process.env.NODE_ENV)) {
-		throw new Error('Не задана env переменная NODE_ENV')
-	}
+	Object.entries(environmentVariablesChecks).forEach(([envVariableName, validator]) => {
+		if (!validator(env[envVariableName])) {
+			throw new Error(`Не задана env переменная ${envVariableName}`)
+		}
+	})
 
 	Object.assign(environment, {
-		API_URL: env.VITE_API_URL,
-		SENTRY_DNS: env.VITE_SENTRY_DNS,
+		API_URL: env.API_URL,
+		SENTRY_DNS: env.SENTRY_DNS,
 		S3_DOMAIN_NAME: env.S3_DOMAIN_NAME,
-		NODE_ENV: process.env.NODE_ENV
+		NODE_ENV: process.env.NODE_ENV as NodeEnv
 	})
 }
 
