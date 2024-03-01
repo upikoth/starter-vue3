@@ -95,6 +95,7 @@ async function onSubmit() {
 					:rules="userFormRules.password"
 					:type="isPasswordVisible ? 'text' : 'password'"
 					lazy-rules
+					data-sentry-mask
 					@update:model-value="passwordRepeatField?.resetValidation()"
 				>
 					<template #append>
@@ -112,6 +113,7 @@ async function onSubmit() {
 					:rules="userFormRules.passwordRepeat"
 					:type="isPasswordRepeatVisible ? 'text' : 'password'"
 					lazy-rules
+					data-sentry-mask
 					@update:model-value="passwordField?.resetValidation()"
 				>
 					<template #append>

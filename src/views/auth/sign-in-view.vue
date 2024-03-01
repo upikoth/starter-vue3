@@ -82,6 +82,7 @@ async function onSubmit() {
 					:rules="passwordRules"
 					:type="isPasswordVisible ? 'text' : 'password'"
 					lazy-rules
+					data-sentry-mask
 				>
 					<template #append>
 						<q-btn
