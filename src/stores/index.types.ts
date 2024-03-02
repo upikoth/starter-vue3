@@ -1,4 +1,4 @@
 export enum IStoreNameEnum {
-	User = 'USER',
+	Users = 'USERS',
 	Sessions = 'SESSIONS'
 }

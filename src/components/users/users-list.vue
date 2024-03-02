@@ -2,9 +2,10 @@
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 
+import { userRoleRoleNameMapping } from '@/constants'
+
 import {
 	paginationToLimitOffset,
-	userRoleRoleNameMapping,
 	checkIsUserHasAccessToAction
 } from '@/utils'
 

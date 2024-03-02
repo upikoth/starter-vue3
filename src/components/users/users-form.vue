@@ -5,9 +5,7 @@ import { useRoute } from 'vue-router'
 import type { QForm, QInput } from 'quasar'
 import { useQuasar } from 'quasar'
 
-import { EMAIL_VALIDATION_REGEXP } from '@/constants'
-
-import { userRoleRoleNameMapping } from '@/utils'
+import { EMAIL_VALIDATION_REGEXP, userRoleRoleNameMapping } from '@/constants'
 
 import api, { getApiErrorOrMessage } from '@/api'
 

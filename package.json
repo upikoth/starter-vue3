@@ -18,6 +18,7 @@
     "lint:ts": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint:css": "stylelint \"src/**/*.{vue,scss}\"",
     "lint": "run-p lint:js lint:ts lint:css",
+    "test": "run-p test:unit",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -54,6 +55,6 @@
     "yorkie": "^2.0.0"
   },
   "gitHooks": {
-    "pre-commit": "npm run lint"
+    "pre-commit": "run-p lint test"
   }
 }
