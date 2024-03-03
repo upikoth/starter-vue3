@@ -18,7 +18,7 @@
     "lint:ts": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint:css": "stylelint \"src/**/*.{vue,scss}\"",
     "lint": "run-p lint:js lint:ts lint:css",
-    "test": "run-p test:unit",
+    "test": "run-p test:unit test:e2e",
     "format": "prettier --write src/"
   },
   "dependencies": {
