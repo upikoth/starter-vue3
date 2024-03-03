@@ -82,8 +82,6 @@ jobs:
         with:
           build: npm run build
           start: npm run preview
-          browser: chrome
-          record: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
