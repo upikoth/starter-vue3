@@ -16,6 +16,7 @@ const axiosInstance = axios.create({
 })
 
 axiosInstance.interceptors.response.use(
+	// @ts-ignore
 	(res) => {
 		const responseData = res.data as IResponse
 
