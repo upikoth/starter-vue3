@@ -3,7 +3,7 @@
 describe('My First Test', () => {
 	it('visits the app root url', () => {
 		cy.intercept('GET', '/api/v1/session', { fixture: 'example.json', statusCode: 401 })
-		cy.intercept('GET', 'environment.json', { fixture: 'environment.json', statusCode: 200 })
+		cy.intercept('GET', '/environment.json', { fixture: 'environment.json', statusCode: 200 })
 
 		cy.visit('/')
 
