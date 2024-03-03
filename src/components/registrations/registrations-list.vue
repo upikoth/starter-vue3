@@ -6,7 +6,7 @@ import { paginationToLimitOffset, checkIsUserHasAccessToAction } from '@/utils'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
-import { useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
@@ -14,7 +14,7 @@ import { UserActionEnum } from '@/models'
 import type { IRegistration } from '@/models'
 
 const notification = useNotification()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
@@ -103,7 +103,7 @@ onCreated()
 
 <template>
 	<div
-		v-if="usersStore.user"
+		v-if="userSessionStore.user"
 		class="registrations-list"
 	>
 		<p
@@ -126,7 +126,7 @@ onCreated()
 			<template #body-cell-actions="props">
 				<q-td :props="props">
 					<q-btn
-						v-if="checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.DeleteAnyRegistration)"
+						v-if="checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.DeleteAnyRegistration)"
 						icon="delete"
 						color="primary"
 						size="sm"

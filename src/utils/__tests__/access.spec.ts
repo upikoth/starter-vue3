@@ -13,5 +13,5 @@ test('Проверяет что checkIsUserHasAccessToAction работает н
 		status: UserStatusEnum.Active
 	}
 
-	expect(checkIsUserHasAccessToAction(user, UserActionEnum.GetMyUserInfo)).toBeTruthy()
+	expect(checkIsUserHasAccessToAction(user, UserActionEnum.GetMyUserInfo)).toBe(true)
 })

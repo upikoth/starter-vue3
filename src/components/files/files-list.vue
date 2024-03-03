@@ -8,14 +8,14 @@ import { paginationToLimitOffset } from '@/utils'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
-import { useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
 import type { IFile } from '@/models'
 
 const notification = useNotification()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
@@ -35,7 +35,7 @@ async function updateFilesList(
 	props?: { pagination: NonNullable<QTableProps['pagination']>}
 ): Promise<void> {
 	try {
-		if (!usersStore.user) {
+		if (!userSessionStore.user) {
 			return
 		}
 
@@ -47,7 +47,7 @@ async function updateFilesList(
 		const { files: newFiles, total } = await api.files.getAll({
 			limit,
 			offset,
-			uploadedByUserId: usersStore.user.id
+			uploadedByUserId: userSessionStore.user.id
 		})
 
 		files.value = newFiles

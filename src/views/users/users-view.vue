@@ -5,19 +5,19 @@ import { checkIsUserHasAccessToAction } from '@/utils'
 
 import { ViewNameEnum } from '@/router'
 
-import { useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { UserActionEnum } from '@/models'
 
 import UsersList from '@/components/users/users-list.vue'
 
 const $q = useQuasar()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 </script>
 
 <template>
 	<q-page
-		v-if="usersStore.user"
+		v-if="userSessionStore.user"
 		class="users-view"
 	>
 		<div class="users-view__header">
@@ -26,7 +26,7 @@ const usersStore = useUsersStore()
 			</h1>
 			<q-space />
 			<q-btn
-				v-if="checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.CreateUser)"
+				v-if="checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.CreateUser)"
 				icon="add"
 				:label="$q.screen.lt.sm ? '' : 'Создать'"
 				size="md"

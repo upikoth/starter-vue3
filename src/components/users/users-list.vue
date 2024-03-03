@@ -13,7 +13,7 @@ import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
-import { useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
@@ -23,7 +23,7 @@ import type {
 } from '@/models'
 
 const notification = useNotification()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
@@ -109,11 +109,11 @@ function resetUsersList() {
 }
 
 function checkIsUserCanUpdateAthonerUser(userToUpdate: IUser) {
-	if (!usersStore.user) {
+	if (!userSessionStore.user) {
 		return false
 	}
 
-	if (checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserInfo)) {
+	if (checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.UpdateAnyUserInfo)) {
 		return true
 	}
 
@@ -121,9 +121,9 @@ function checkIsUserCanUpdateAthonerUser(userToUpdate: IUser) {
 		case UserRoleEnum.SuperAdmin:
 			return false
 		case UserRoleEnum.Admin:
-			return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleAdminInfo)
+			return checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.UpdateAnyUserWuthRoleAdminInfo)
 		case UserRoleEnum.User:
-			return checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.UpdateAnyUserWuthRoleUserInfo)
+			return checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.UpdateAnyUserWuthRoleUserInfo)
 		default: {
 			const exhaustiveCheck: never = userToUpdate.role
 			return exhaustiveCheck
@@ -136,7 +136,7 @@ onCreated()
 
 <template>
 	<div
-		v-if="usersStore.user"
+		v-if="userSessionStore.user"
 		class="users-list"
 	>
 		<q-tabs
@@ -186,7 +186,7 @@ onCreated()
 						size="sm"
 						round
 						outline
-						:to="usersStore.user?.id === props.row.id ?
+						:to="userSessionStore.user?.id === props.row.id ?
 							{ name: ViewNameEnum.UsersCurrentUserView } :
 							{ name: ViewNameEnum.UsersEditView, params: { id: props.row.id } }
 						"

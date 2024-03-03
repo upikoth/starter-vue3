@@ -5,6 +5,6 @@ import { environmentVariablesChecks } from '@/environment'
 test.each(Object.entries(environmentVariablesChecks))(
 	'Проверяет что в окружении есть переменная с именем %s',
 	(envVariableName, validator) => {
-		expect(validator(process.env[envVariableName])).toBeTruthy()
+		expect(validator(process.env[envVariableName])).toBe(true)
 	}
 )

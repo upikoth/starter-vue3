@@ -9,7 +9,7 @@ import { EMAIL_VALIDATION_REGEXP, userRoleRoleNameMapping } from '@/constants'
 
 import api, { getApiErrorOrMessage } from '@/api'
 
-import { useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
@@ -35,7 +35,7 @@ const emit = defineEmits({ success: null })
 const route = useRoute()
 const notification = useNotification()
 const $q = useQuasar()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 
 interface IUserForm {
 	email: string;
@@ -84,11 +84,11 @@ const userFormRules = {
 }
 
 const userId = computed(() =>
-	Number.parseInt(typeof route.params.id === 'string' ? route.params.id : `${usersStore.user?.id}`))
+	Number.parseInt(typeof route.params.id === 'string' ? route.params.id : `${userSessionStore.user?.id}`))
 
 const isUserBlocked = computed(() => userStatus.value === UserStatusEnum.Blocked)
 
-const isCurrentUser = computed(() => userId.value === usersStore.user?.id)
+const isCurrentUser = computed(() => userId.value === userSessionStore.user?.id)
 
 const userRoleAllOptions = computed(() => {
 	const options = Object.values(UserRoleEnum).map((el) => ({
@@ -96,7 +96,7 @@ const userRoleAllOptions = computed(() => {
 		label: userRoleRoleNameMapping[el]
 	}))
 
-	return usersStore.user?.role === UserRoleEnum.SuperAdmin
+	return userSessionStore.user?.role === UserRoleEnum.SuperAdmin
 		? options
 		: options.filter((option) => option.value !== UserRoleEnum.SuperAdmin)
 })

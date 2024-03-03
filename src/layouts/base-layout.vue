@@ -9,7 +9,7 @@ import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
-import { useSessionsStore, useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
@@ -20,8 +20,7 @@ const route = useRoute()
 const router = useRouter()
 const notification = useNotification()
 
-const sessionsStore = useSessionsStore()
-const usersStore = useUsersStore()
+const userSessionStore = useUserSessionStore()
 
 const leftDrawerOpen = ref(false)
 
@@ -31,40 +30,40 @@ const menuList = computed(() => ([
 		label: 'Мой профиль',
 		name: ViewNameEnum.UsersCurrentUserView,
 		handler: () => router.push({ name: ViewNameEnum.UsersCurrentUserView }),
-		isVisible: () => usersStore.user
-			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetMyUserInfo)
+		isVisible: () => userSessionStore.user
+			&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.GetMyUserInfo)
 	},
 	{
 		icon: 'person',
 		label: 'Файлы',
 		name: ViewNameEnum.FilesView,
 		handler: () => router.push({ name: ViewNameEnum.FilesView }),
-		isVisible: () => usersStore.user
-			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetMyUserInfo)
+		isVisible: () => userSessionStore.user
+			&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.GetMyUserInfo)
 	},
 	{
 		icon: 'group',
 		label: 'Пользователи',
 		name: ViewNameEnum.UsersView,
 		handler: () => router.push({ name: ViewNameEnum.UsersView }),
-		isVisible: () => usersStore.user
-			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnyUserInfo)
+		isVisible: () => userSessionStore.user
+			&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.GetAnyUserInfo)
 	},
 	{
 		icon: 'admin_panel_settings',
 		label: 'Сессии',
 		name: ViewNameEnum.SessionsView,
 		handler: () => router.push({ name: ViewNameEnum.SessionsView }),
-		isVisible: () => usersStore.user
-			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnySession)
+		isVisible: () => userSessionStore.user
+			&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.GetAnySession)
 	},
 	{
 		icon: 'app_registration',
 		label: 'Регистрации',
 		name: ViewNameEnum.RegistrationsView,
 		handler: () => router.push({ name: ViewNameEnum.RegistrationsView }),
-		isVisible: () => usersStore.user
-			&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.GetAnyRegistration)
+		isVisible: () => userSessionStore.user
+			&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.GetAnyRegistration)
 	},
 	{
 		icon: 'logout',
@@ -72,18 +71,17 @@ const menuList = computed(() => ([
 		separator: true,
 		handler: async () => {
 			try {
-				await api.sessions.delete({ id: sessionsStore.sessionId })
+				await api.sessions.delete({ id: userSessionStore.sessionId })
 
-				usersStore.user = null
-				sessionsStore.sessionId = 0
+				userSessionStore.clearUserAndSessionId()
 
 				await router.push({ name: ViewNameEnum.AuthSignInView })
 			} catch (err) {
 				notification.error(getApiErrorOrMessage(err, 'Не удалось выйти из приложения'))
 			}
 		},
-		isVisible: () => usersStore.user
-				&& checkIsUserHasAccessToAction(usersStore.user, UserActionEnum.DeleteMySession)
+		isVisible: () => userSessionStore.user
+				&& checkIsUserHasAccessToAction(userSessionStore.user, UserActionEnum.DeleteMySession)
 	}
 ].filter((menuItem) => menuItem.isVisible())))
 

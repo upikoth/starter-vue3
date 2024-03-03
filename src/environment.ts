@@ -5,7 +5,7 @@ const environment = {
 	NODE_ENV: 'development' as NodeEnv
 }
 
-type NodeEnv = 'production' | 'development'
+type NodeEnv = 'production' | 'development' | 'test'
 
 export const environmentVariablesChecks = {
 	API_URL: (value: unknown) => typeof value === 'string' && value !== '',

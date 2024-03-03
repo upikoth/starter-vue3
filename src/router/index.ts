@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
-import { useSessionsStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 export enum ViewNameEnum {
 	AuthSignInView = 'AUTH_SIGN_IN_VIEW',
@@ -107,15 +107,15 @@ router.beforeEach((to, _, next) => {
 		return next()
 	}
 
-	const sessionsStore = useSessionsStore()
+	const userSessionStore = useUserSessionStore()
 
-	if (!sessionsStore.isSessionInfoLoaded) {
+	if (!userSessionStore.isSessionInfoLoaded) {
 		return next()
 	}
 
 	// Если неавторизован и пытается перейти на страницы требующие авторизации, редиректим на страницу входа.
 	if (
-		!sessionsStore.isUserAuthorized
+		!userSessionStore.isUserAuthorized
 		&& !UNAUTHORIZED_VIEWS.has(to.name)
 	) {
 		return next({ name: ViewNameEnum.AuthSignInView })
@@ -123,7 +123,7 @@ router.beforeEach((to, _, next) => {
 
 	// Если авторизован и пытается перейти на страницы не требующие авторизации, редиректим на главную страницу.
 	if (
-		sessionsStore.isUserAuthorized
+		userSessionStore.isUserAuthorized
 		&& UNAUTHORIZED_VIEWS.has(to.name)
 	) {
 		return next({ name: ViewNameEnum.UsersCurrentUserView })

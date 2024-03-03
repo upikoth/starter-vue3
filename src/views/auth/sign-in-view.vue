@@ -9,14 +9,13 @@ import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
-import { useSessionsStore, useUsersStore } from '@/stores'
+import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
 const notification = useNotification()
 const router = useRouter()
-const usersStore = useUsersStore()
-const sessionsStore = useSessionsStore()
+const userSessionStore = useUserSessionStore()
 
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -49,8 +48,7 @@ async function onSubmit() {
 			password: formData.value.password
 		})
 
-		usersStore.user = user
-		sessionsStore.sessionId = session.id
+		userSessionStore.setUserAndSessionId(user, session.id)
 
 		router.push({ name: ViewNameEnum.UsersCurrentUserView })
 	} catch (err) {
