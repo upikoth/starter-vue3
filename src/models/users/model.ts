@@ -27,6 +27,6 @@ export enum UserActionEnum {
 export interface IUser {
 	id: number;
 	email: string;
-	role: UserRoleEnum;
-	status: UserStatusEnum;
+	role: 'user' | 'admin' | 'super-admin';
+	status: 'active' | 'blocked';
 }

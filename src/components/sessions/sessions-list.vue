@@ -11,7 +11,7 @@ import { useUserSessionStore } from '@/stores'
 import { useNotification } from '@/composables'
 
 import { UserActionEnum } from '@/models'
-import type { ISession } from '@/models'
+import type { IGetSessionsResponseData } from '@/models'
 
 const notification = useNotification()
 const userSessionStore = useUserSessionStore()
@@ -25,7 +25,7 @@ const pagination = ref<NonNullable<QTableProps['pagination']>>({
 const isSessionsLoading = ref(false)
 const deletingSessionsSet = ref(new Set())
 
-const sessions = ref<ISession[]>([])
+const sessions = ref<IGetSessionsResponseData['sessions']>([])
 
 const columns: QTableProps['columns'] = [
 	{

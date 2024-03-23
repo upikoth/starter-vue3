@@ -52,7 +52,7 @@ const userForm = ref<IUserForm>({
 	password: '',
 	passwordRepeat: ''
 })
-const userStatus = ref(UserStatusEnum.Active)
+const userStatus = ref<'active' | 'blocked'>('active')
 const formRef = ref<InstanceType<typeof QForm>>()
 
 const userLoadingState = ref(props.edit ? LoadingStateEnum.LoadingNotStarted : LoadingStateEnum.LoadedSuccess)

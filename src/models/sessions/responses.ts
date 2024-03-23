@@ -1,22 +1,13 @@
-import type { IUser, ISession } from '@/models'
+import type { components } from '@/models/schema'
 
-export interface IGetSessionsResponse {
-	sessions: ISession[];
-	limit: number;
-	offset: number;
-	total: number;
-}
+type GetSessionsResponseData = components['schemas']['sessionsGetAllSessionSuccessResponse']['data']
 
-export interface ICreateSessionResponse {
-	session: {
-		id: number;
-	},
-	user: IUser;
-}
+export interface IGetSessionsResponseData extends GetSessionsResponseData {}
 
-export interface IGetCurrentSessionResponse {
-	session: {
-		id: number;
-	},
-	user: IUser;
-}
+type CreateSessionResponseData = components['schemas']['sessionsCreateSessionSuccessResponse']['data']
+
+export interface ICreateSessionResponseData extends CreateSessionResponseData {}
+
+type GetCurrentSessionResponseData = components['schemas']['sessionsGetCurrentSessionSuccessResponse']['data']
+
+export interface IGetCurrentSessionResponseData extends GetCurrentSessionResponseData {}
