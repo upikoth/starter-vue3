@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  UPIKOTH_PACKAGES_READ: ${{ secrets.UPIKOTH_PACKAGES_READ }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
