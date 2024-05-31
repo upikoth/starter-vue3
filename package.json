@@ -26,7 +26,7 @@
     "@capacitor/android": "^4.7.3",
     "@capacitor/core": "^4.7.3",
     "@capacitor/ios": "^4.7.3",
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.16.11",
     "@sentry/vue": "^7.73.0",
     "pinia": "^2.0.32",
     "quasar": "^2.12.0",
