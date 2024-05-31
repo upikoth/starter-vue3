@@ -95,7 +95,7 @@ jobs:
       name: prod
     env:
       STARTER_API_URL: ${{ vars.STARTER_API_URL }}
-      SENTRY_DNS: ${{ secrets.SENTRY_DNS }}
+      SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
