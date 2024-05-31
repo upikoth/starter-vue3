@@ -1,5 +1,4 @@
 {
 	"API_URL": "",
-	"SENTRY_DNS": "",
-	"S3_DOMAIN_NAME": ""
+	"SENTRY_DNS": ""
 }

@@ -20,7 +20,7 @@
     "lint": "run-p lint:js lint:ts lint:css",
     "test": "run-p test:unit test:e2e",
     "format": "prettier --write src/",
-    "update-types": "openapi-typescript https://raw.githubusercontent.com/upikoth/starter-bun/main/docs/openapi.yaml -o ./src/models/schema.ts && eslint ./src/models/schema.ts --fix"
+    "update-types": "openapi-generator-cli generate -i https://raw.githubusercontent.com/upikoth/starter-go/main/docs/starter/docs.yml -g typescript-axios -o src/generated/starter"
   },
   "dependencies": {
     "@capacitor/android": "^4.7.3",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^4.7.3",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@quasar/vite-plugin": "^1.3.3",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.11.24",
@@ -46,7 +47,6 @@
     "cypress": "^13.6.6",
     "jsdom": "^24.0.0",
     "npm-run-all2": "^5.0.0",
-    "openapi-typescript": "^6.7.5",
     "prettier": "^2.8.4",
     "sass": "^1.32.12",
     "start-server-and-test": "^2.0.3",

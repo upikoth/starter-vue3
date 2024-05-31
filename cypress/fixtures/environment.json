@@ -1,5 +1,4 @@
 {
   "API_URL": "http://localhost:4001",
-  "SENTRY_DNS": "https://399d6b035f0143e246dfee37c7ae3075@o1149686.ingest.sentry.io/4505991751598080",
-  "S3_DOMAIN_NAME": "https://starter.obs.ru-moscow-1.hc.sbercloud.ru"
+  "SENTRY_DNS": "https://399d6b035f0143e246dfee37c7ae3075@o1149686.ingest.sentry.io/4505991751598080"
 }

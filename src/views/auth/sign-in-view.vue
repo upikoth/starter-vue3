@@ -5,17 +5,17 @@ import { useRouter } from 'vue-router'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
-import api, { getApiErrorOrMessage } from '@/api'
+// import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
-import { useUserSessionStore } from '@/stores'
+// import { useUserSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
 const notification = useNotification()
 const router = useRouter()
-const userSessionStore = useUserSessionStore()
+// const userSessionStore = useUserSessionStore()
 
 const formRef = ref<InstanceType<typeof QForm>>()
 
@@ -36,24 +36,24 @@ const passwordRules = [
 ]
 
 async function onSubmit() {
-	const isFormDataValid = await formRef.value?.validate()
+	// const isFormDataValid = await formRef.value?.validate()
 
-	if (!isFormDataValid) {
-		return
-	}
+	// if (!isFormDataValid) {
+	// 	return
+	// }
 
-	try {
-		const { user, session } = await api.sessions.create({
-			email: formData.value.email,
-			password: formData.value.password
-		})
+	// try {
+	// 	const { user, session } = await api.sessions.create({
+	// 		email: formData.value.email,
+	// 		password: formData.value.password
+	// 	})
 
-		userSessionStore.setUserAndSessionId(user, session.id)
+	// 	userSessionStore.setUserAndSessionId(user, session.id)
 
-		router.push({ name: ViewNameEnum.UsersCurrentUserView })
-	} catch (err) {
-		notification.error(getApiErrorOrMessage(err))
-	}
+	// 	router.push({ name: ViewNameEnum.UsersCurrentUserView })
+	// } catch (err) {
+	// 	notification.error(getApiErrorOrMessage(err))
+	// }
 }
 </script>
 

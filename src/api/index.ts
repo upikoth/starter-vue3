@@ -1,15 +1,18 @@
-import health from './routes/health'
-import registrations from './routes/registrations'
-import users from './routes/users'
-import sessions from './routes/sessions'
-import files from './routes/files'
+import axios from 'axios'
 
-export * from './errors'
+import environment from '@/environment'
+
+import { MILLISECONDS_IN_MINUTE } from '@/constants'
+
+import { HealthApi } from '@/generated/starter'
+
+const axiosInstance = axios.create({
+	timeout: MILLISECONDS_IN_MINUTE,
+	baseURL: environment.NODE_ENV !== 'development' ? environment.API_URL : undefined
+})
+
+const health = new HealthApi(undefined, undefined, axiosInstance)
 
 export default {
-	health,
-	users,
-	registrations,
-	sessions,
-	files
+	health
 }

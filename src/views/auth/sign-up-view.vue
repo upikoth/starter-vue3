@@ -4,7 +4,7 @@ import type { QForm, QInput } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
-import api, { getApiErrorOrMessage } from '@/api'
+// import api, { getApiErrorOrMessage } from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
@@ -48,25 +48,25 @@ const userFormRules = {
 const isUserRegistered = computed(() => registrationLoadingState.value === LoadingStateEnum.LoadedSuccess)
 
 async function onSubmit() {
-	const isFormDataValid = await formRef.value?.validate()
+	// const isFormDataValid = await formRef.value?.validate()
 
-	if (!isFormDataValid) {
-		return
-	}
+	// if (!isFormDataValid) {
+	// 	return
+	// }
 
-	try {
-		registrationLoadingState.value = LoadingStateEnum.Loading
+	// try {
+	// 	registrationLoadingState.value = LoadingStateEnum.Loading
 
-		await api.registrations.create({
-			email: formData.value.email,
-			password: formData.value.password
-		})
+	// 	await api.registrations.create({
+	// 		email: formData.value.email,
+	// 		password: formData.value.password
+	// 	})
 
-		registrationLoadingState.value = LoadingStateEnum.LoadedSuccess
-	} catch (err) {
-		registrationLoadingState.value = LoadingStateEnum.LoadedError
-		notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
-	}
+	// 	registrationLoadingState.value = LoadingStateEnum.LoadedSuccess
+	// } catch (err) {
+	// 	registrationLoadingState.value = LoadingStateEnum.LoadedError
+	// 	notification.error(getApiErrorOrMessage(err, 'Не удалось удалить сессию'))
+	// }
 }
 </script>
 

@@ -27,22 +27,22 @@ function onCreated() {
 }
 
 async function confirmRegistration() {
-	if (!registrationConfirmationToken.value) {
-		return
-	}
+	// if (!registrationConfirmationToken.value) {
+	// 	return
+	// }
 
-	try {
-		confirmationRegistrationState.value = LoadingStateEnum.Loading
-		await api.registrations.confirm({ token: registrationConfirmationToken.value })
+	// try {
+	// 	confirmationRegistrationState.value = LoadingStateEnum.Loading
+	// 	await api.registrations.confirm({ token: registrationConfirmationToken.value })
 
-		confirmationRegistrationState.value = LoadingStateEnum.LoadedSuccess
+	// 	confirmationRegistrationState.value = LoadingStateEnum.LoadedSuccess
 
-		notification.success('Учетная запись активирована')
+	// 	notification.success('Учетная запись активирована')
 
-		router.push({ name: ViewNameEnum.AuthSignInView })
-	} catch (error) {
-		confirmationRegistrationState.value = LoadingStateEnum.LoadedError
-	}
+	// 	router.push({ name: ViewNameEnum.AuthSignInView })
+	// } catch (error) {
+	// 	confirmationRegistrationState.value = LoadingStateEnum.LoadedError
+	// }
 }
 
 onCreated()
