@@ -21,7 +21,7 @@ async function initApp() {
 
 	Sentry.init({
 		app,
-		dsn: environment.SENTRY_DNS,
+		dsn: environment.SENTRY_DSN,
 		environment: environment.NODE_ENV,
 		integrations: [
 			new Sentry.BrowserTracing({

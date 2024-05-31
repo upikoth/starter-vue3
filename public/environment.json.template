@@ -1,4 +1,4 @@
 {
 	"STARTER_API_URL": "",
-	"SENTRY_DNS": ""
+	"SENTRY_DSN": ""
 }
