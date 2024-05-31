@@ -27,6 +27,11 @@ module.exports = {
 					},
 					{
 						group: 'internal',
+						pattern: '@/generated{/**/*,}',
+						position: 'after'
+					},
+					{
+						group: 'internal',
 						pattern: '@/utils{/**/*,}',
 						position: 'after'
 					},

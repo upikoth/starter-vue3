@@ -9,14 +9,5 @@ export default defineConfig({
 		vue({ template: { transformAssetUrls } }),
 		quasar({ sassVariables: 'src/assets/quasar-variables.sass' })
 	],
-	resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-	server: {
-		port: 4001,
-		proxy: {
-			'/api': {
-				target: 'http://localhost:8000',
-				changeOrigin: true
-			}
-		}
-	}
+	resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } }
 })

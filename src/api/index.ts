@@ -4,15 +4,25 @@ import environment from '@/environment'
 
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
 
-import { HealthApi } from '@/generated/starter'
+import {
+	HealthApi,
+	RegistrationApi
+} from '@/generated/starter'
 
-const axiosInstance = axios.create({
-	timeout: MILLISECONDS_IN_MINUTE,
-	baseURL: environment.NODE_ENV !== 'development' ? environment.API_URL : undefined
-})
+import { getApiErrorOrMessage } from './errors'
 
-const health = new HealthApi(undefined, undefined, axiosInstance)
+export default function useApi() {
+	const axiosInstance = axios.create({
+		timeout: MILLISECONDS_IN_MINUTE,
+		baseURL: environment.STARTER_API_URL
+	})
 
-export default {
-	health
+	const health = new HealthApi(undefined, undefined, axiosInstance)
+	const registrations = new RegistrationApi(undefined, undefined, axiosInstance)
+
+	return {
+		health,
+		registrations,
+		getApiErrorOrMessage
+	}
 }

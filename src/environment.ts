@@ -1,5 +1,5 @@
 const environment = {
-	API_URL: '',
+	STARTER_API_URL: '',
 	SENTRY_DNS: '',
 	NODE_ENV: 'development' as NodeEnv
 }
@@ -7,7 +7,7 @@ const environment = {
 type NodeEnv = 'production' | 'development' | 'test'
 
 export const environmentVariablesChecks = {
-	API_URL: (value: unknown) => typeof value === 'string' && value !== '',
+	STARTER_API_URL: (value: unknown) => typeof value === 'string' && value !== '',
 	SENTRY_DNS: (value: unknown) => typeof value === 'string' && value !== ''
 }
 
@@ -21,7 +21,7 @@ export async function loadEnvironmentVariables() {
 	})
 
 	Object.assign(environment, {
-		API_URL: env.API_URL,
+		STARTER_API_URL: env.STARTER_API_URL,
 		SENTRY_DNS: env.SENTRY_DNS,
 		NODE_ENV: process.env.NODE_ENV as NodeEnv
 	})
