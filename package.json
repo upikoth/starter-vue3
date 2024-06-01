@@ -47,7 +47,7 @@
     "cypress": "^13.10.0",
     "jsdom": "^24.1.0",
     "npm-run-all2": "^6.2.0",
-    "prettier": "^2.8.8",
+    "prettier": "^3.3.0",
     "sass": "^1.77.4",
     "start-server-and-test": "^2.0.3",
     "typescript": "^5.4.5",
