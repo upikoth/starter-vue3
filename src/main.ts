@@ -22,13 +22,13 @@ async function initApp() {
 	Sentry.init({
 		app,
 		dsn: environment.SENTRY_DSN,
-		environment: environment.NODE_ENV,
+		environment: environment.ENVIRONMENT,
 		integrations: [
-			new Sentry.BrowserTracing({
-				tracePropagationTargets: [/^\/api\//],
-				routingInstrumentation: Sentry.vueRouterInstrumentation(router)
+			Sentry.browserTracingIntegration({
+				router,
+				tracePropagationTargets: [environment.STARTER_API_URL]
 			}),
-			new Sentry.Replay({
+			Sentry.replayIntegration({
 				maskAllText: false,
 				maskAllInputs: false,
 				blockAllMedia: false,

@@ -96,6 +96,7 @@ jobs:
     env:
       STARTER_API_URL: ${{ vars.STARTER_API_URL }}
       SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -183,7 +184,8 @@ jobs:
           name: environment.json
           json: '{
             "STARTER_API_URL":"${{ vars.STARTER_API_URL }}",
-            "SENTRY_DSN":"${{ vars.SENTRY_DSN }}"
+            "SENTRY_DSN":"${{ vars.SENTRY_DSN }}",
+            "ENVIRONMENT":"${{ vars.ENVIRONMENT }}"
             }'
           dir: ./dist
 

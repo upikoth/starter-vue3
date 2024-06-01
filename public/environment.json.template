@@ -1,4 +1,5 @@
 {
 	"STARTER_API_URL": "",
-	"SENTRY_DSN": ""
+	"SENTRY_DSN": "",
+	"ENVIRONMENT": ""
 }
