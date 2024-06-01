@@ -30,7 +30,7 @@
     "@sentry/vue": "^7.116.0",
     "pinia": "^2.0.32",
     "quasar": "^2.16.4",
-    "vue": "^3.2.47",
+    "vue": "^3.4.27",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
