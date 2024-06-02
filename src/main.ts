@@ -23,10 +23,11 @@ async function initApp() {
 		app,
 		dsn: environment.SENTRY_DSN,
 		environment: environment.ENVIRONMENT,
+		tracePropagationTargets: [environment.STARTER_API_URL],
 		integrations: [
 			Sentry.browserTracingIntegration({
 				router,
-				tracePropagationTargets: [environment.STARTER_API_URL]
+				routeLabel: 'path'
 			}),
 			Sentry.replayIntegration({
 				maskAllText: false,
