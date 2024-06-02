@@ -23,9 +23,9 @@
     "update-types": "openapi-generator-cli generate -i https://raw.githubusercontent.com/upikoth/starter-go/main/docs/starter/docs.yml -g typescript-axios -o src/generated/starter"
   },
   "dependencies": {
-    "@capacitor/android": "^4.8.2",
-    "@capacitor/core": "^4.8.2",
-    "@capacitor/ios": "^4.8.2",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
     "@quasar/extras": "^1.16.11",
     "@sentry/vue": "^7.116.0",
     "pinia": "^2.1.7",
@@ -34,7 +34,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.8.2",
+    "@capacitor/cli": "^6.0.0",
     "@openapitools/openapi-generator-cli": "^2.13.4",
     "@quasar/vite-plugin": "^1.7.0",
     "@types/jsdom": "^21.1.7",
