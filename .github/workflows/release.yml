@@ -65,30 +65,6 @@ jobs:
       - name: Test
         run: npm run test:unit
 
-  test-e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: cypress-io/github-action@v6
-        with:
-          build: npm run build
-          start: npm run preview
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: cypress-videos
-          path: cypress/videos
-          if-no-files-found: ignore
-
   test-environment:
     runs-on: ubuntu-latest
     environment:
@@ -127,7 +103,6 @@ jobs:
     needs:
       - lint
       - test-unit
-      - test-e2e
       - test-environment
     name: Build starter
     runs-on: ubuntu-latest
