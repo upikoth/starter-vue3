@@ -17,6 +17,7 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	}
 
 	return {
+		token,
 		isAuthorized,
 		setSessionToken,
 		clearSessionToken

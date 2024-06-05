@@ -29,6 +29,15 @@ export default function useApi() {
 		baseURL: environment.STARTER_API_URL
 	})
 
+	axiosInstance.interceptors.request.use(
+		(req) => {
+			if (sessionStore.isAuthorized) {
+				req.headers['Authorization-Token'] = sessionStore.token
+			}
+			return req
+		}
+	)
+
 	axiosInstance.interceptors.response.use(
 		(res: AxiosResponse) => res,
 		(err: AxiosError) => {
