@@ -2,21 +2,45 @@ import type { ErrorResponseError } from '@/generated/starter'
 
 const DEFAULT_ERROR_MESSAGE_TEXT = 'Произошла ошибка. Попробуйте позже'
 
-enum ApiErrorCodeEnum {
+export enum ApiErrorCodeEnum {
 	ErrorCodeValidationByOpenapi = '1',
-	ErrorCodeRegistrationSMTPSendEmail = '2',
-	ErrorCodeRegistrationYdbStarterCreateEmail = '3',
+	ErrorCodeUserUnauthorized = '2',
+
+	ErrorCodeRegistrationSMTPSendEmail = '100',
+	ErrorCodeRegistrationYdbStarterCreateRegistration = '101',
+	ErrorCodeRegistrationYdbStarterFindUser = '102',
+	ErrorCodeRegistrationUserWithThisEmailAlreadyExist = '103',
+
+	ErrorCodeRegistrationYdbStarterCheckConfirmationToken = '200',
+	ErrorCodeRegistrationRegistrationNotFound = '201',
+	ErrorCodeRegistrationGeneratePasswordHash = '202',
+	ErrorCodeRegistrationCreateSession = '203'
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	[ApiErrorCodeEnum.ErrorCodeValidationByOpenapi]: 'Не удалось выполнить действие. Один из параметров задан неверно',
+	[ApiErrorCodeEnum.ErrorCodeUserUnauthorized]: 'Авторизуйтесь для выполнения действия',
+
 	[ApiErrorCodeEnum.ErrorCodeRegistrationSMTPSendEmail]: 'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbStarterCreateEmail]: 'Не удалось зарегистрироваться. Попробуйте позже'
+	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbStarterCreateRegistration]:
+		'Не удалось зарегистрироваться. Попробуйте позже',
+	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbStarterFindUser]: 'Не удалось зарегистрироваться. Попробуйте позже',
+	[ApiErrorCodeEnum.ErrorCodeRegistrationUserWithThisEmailAlreadyExist]:
+		'Пользователь с указанным email уже существует',
+
+	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbStarterCheckConfirmationToken]:
+		'Не удалось зарегистрироваться. Попробуйте позже',
+	[ApiErrorCodeEnum.ErrorCodeRegistrationRegistrationNotFound]:
+		'Регистрация не найдена. Попробуйте зарегистрироваться заново',
+	[ApiErrorCodeEnum.ErrorCodeRegistrationGeneratePasswordHash]:
+		'Не удалось зарегистрироваться. Попробуйте позже',
+	[ApiErrorCodeEnum.ErrorCodeRegistrationCreateSession]:
+		'Не удалось зарегистрироваться. Попробуйте позже'
 }
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
 
-const checkIsApiErrorField = (err: unknown): err is ErrorResponseError =>
+export const checkIsApiErrorField = (err: unknown): err is ErrorResponseError =>
 	allErrorCodes.has(String((err as ErrorResponseError).code))
 
 const getApiErrorMessageByErrorCode = (code: ApiErrorCodeEnum): string =>

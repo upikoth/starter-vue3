@@ -90,7 +90,7 @@ async function onSubmit() {
 				Перейдите по ссылка в письме, чтобы завершить регистрацию
 			</p>
 			<q-btn
-				class="sign-up-view__registration-button"
+				class="sign-up-view__back-to-login-button"
 				flat
 				no-caps
 				color="primary"
@@ -121,12 +121,8 @@ async function onSubmit() {
 		}
 	}
 
-	&__submit-button {
-		width: 100%;
-		margin-top: 16px;
-	}
-
-	&__registration-button {
+	&__submit-button,
+	&__back-to-login-button {
 		width: 100%;
 		margin-top: 16px;
 	}
