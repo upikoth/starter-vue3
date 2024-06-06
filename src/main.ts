@@ -13,6 +13,7 @@ import '@/assets/styles/index.scss'
 
 import App from './app.vue'
 import router from './router'
+import { useSessionStore } from './stores'
 
 async function initApp() {
 	await loadEnvironmentVariables()
@@ -48,6 +49,9 @@ async function initApp() {
 	})
 	app.use(createPinia())
 	app.use(router)
+
+	const sessionStore = useSessionStore()
+	await sessionStore.checkSession()
 
 	router.isReady().then(() => {
 		app.mount('#app')

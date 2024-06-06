@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+import { useSessionStore } from '@/stores'
+
 export enum ViewNameEnum {
 	AuthSignInView = 'AUTH_SIGN_IN_VIEW',
 	AuthSignUpView = 'AUTH_SIGN_UP_VIEW',
@@ -47,10 +49,49 @@ const router = createRouter({
 			]
 		},
 		{
+			path: '/',
+			component: () => import('@/layouts/base-layout.vue'),
+			children: [
+				{
+					path: '',
+					redirect: () => ({ name: ViewNameEnum.Home })
+				},
+				{
+					path: 'home',
+					name: ViewNameEnum.Home,
+					component: () => import('@/views/home-view.vue')
+				}
+			]
+		},
+		{
 			path: '/:pathMatch(.*)*',
 			redirect: () => ({ name: ViewNameEnum.AuthSignInView })
 		}
 	]
+})
+
+router.beforeEach((to, _, next) => {
+	if (!checkIsView(to.name)) {
+		return next()
+	}
+
+	const sessionStore = useSessionStore()
+
+	if (
+		!sessionStore.isAuthorized
+		&& !UNAUTHORIZED_VIEWS.has(to.name)
+	) {
+		return next({ name: ViewNameEnum.AuthSignInView })
+	}
+
+	if (
+		sessionStore.isAuthorized
+		&& UNAUTHORIZED_VIEWS.has(to.name)
+	) {
+		return next({ name: getDefaultView() })
+	}
+
+	return next()
 })
 
 export default router

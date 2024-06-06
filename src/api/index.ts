@@ -8,7 +8,8 @@ import { MILLISECONDS_IN_MINUTE } from '@/constants'
 import type { ErrorResponse } from '@/generated/starter'
 import {
 	HealthApi,
-	RegistrationApi
+	RegistrationsApi,
+	SessionsApi
 } from '@/generated/starter'
 
 import { useSessionStore } from '@/stores'
@@ -30,7 +31,7 @@ export default function useApi() {
 	})
 
 	axiosInstance.interceptors.request.use(
-		(req) => {
+		async (req) => {
 			if (sessionStore.isAuthorized) {
 				req.headers['Authorization-Token'] = sessionStore.token
 			}
@@ -52,11 +53,13 @@ export default function useApi() {
 	)
 
 	const health = new HealthApi(undefined, undefined, axiosInstance)
-	const registrations = new RegistrationApi(undefined, undefined, axiosInstance)
+	const registrations = new RegistrationsApi(undefined, undefined, axiosInstance)
+	const sessions = new SessionsApi(undefined, undefined, axiosInstance)
 
 	return {
 		health,
 		registrations,
+		sessions,
 		getApiErrorOrMessage,
 		checkIsApiErrorField
 	}
