@@ -32,8 +32,10 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 
 		return res
 	})
-	const token = computed(() => session.value.token)
-	const isAuthorized = computed(() => !!token.value)
+
+	const sessionToken = computed(() => session.value.token)
+	const sessionId = computed(() => session.value.id)
+	const isAuthorized = computed(() => !!sessionToken.value)
 
 	function setSession(newSession: Session) {
 		tokenStorage.value = JSON.stringify(newSession)
@@ -44,12 +46,12 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	}
 
 	async function checkSession() {
-		if (!token.value) {
+		if (!sessionToken.value) {
 			return
 		}
 
 		try {
-			await api.sessions.v1CheckCurrentSession(token.value)
+			await api.sessions.v1CheckCurrentSession(sessionToken.value)
 		} catch (err) {
 			clearSession()
 			api.getApiErrorOrMessage(err, 'Ошибка при проверке сессии пользователя')
@@ -57,7 +59,8 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	}
 
 	return {
-		token,
+		sessionId,
+		sessionToken,
 		isAuthorized,
 		setSession,
 		clearSession,

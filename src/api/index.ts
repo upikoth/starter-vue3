@@ -33,7 +33,7 @@ export default function useApi() {
 	axiosInstance.interceptors.request.use(
 		async (req) => {
 			if (sessionStore.isAuthorized) {
-				req.headers['Authorization-Token'] = sessionStore.token
+				req.headers['Authorization-Token'] = sessionStore.sessionToken
 			}
 			return req
 		}

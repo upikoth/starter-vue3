@@ -35,8 +35,7 @@ const menuList = computed(() => ([
 		separator: true,
 		handler: async () => {
 			try {
-				// await api.sessions.delete({ id: userSessionStore.sessionId })
-
+				await api.sessions.v1DeleteSession(sessionStore.sessionId)
 				sessionStore.clearSession()
 
 				await router.push({ name: ViewNameEnum.AuthSignInView })
