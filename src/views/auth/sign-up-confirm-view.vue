@@ -64,8 +64,8 @@ async function onSubmit() {
 			confirmationToken: registrationConfirmationToken.value,
 			password: formData.value.password
 		})
-		const { token } = data.data
-		sessionStore.setSessionToken(token)
+		const { session } = data.data
+		sessionStore.setSession(session)
 
 		notification.success('Регистрация успешно завершена')
 

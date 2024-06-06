@@ -45,7 +45,7 @@ export default function useApi() {
 			const errResponse = err.response?.data as ErrorResponse
 
 			if (errResponse.error.code === ApiErrorCodeEnum.ErrorCodeUserUnauthorized) {
-				sessionStore.clearSessionToken()
+				sessionStore.clearSession()
 			}
 
 			return Promise.reject(errResponse.error)

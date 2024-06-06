@@ -6,19 +6,40 @@ import useApi from '@/api'
 
 import { IStoreNameEnum } from './index.types'
 
+interface Session {
+	id: string;
+	token: string;
+}
+
 export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	const api = useApi()
 
 	const tokenStorage = useLocalStorage<string | null>('auth-token-storage', null)
 
-	const token = computed(() => tokenStorage.value)
+	const session = computed(():Session => {
+		let res = {
+			id: '',
+			token: ''
+		}
+
+		try {
+			if (tokenStorage.value) {
+				res = JSON.parse(tokenStorage.value)
+			}
+		} catch {
+			// Не нужно дополнительной обработки.
+		}
+
+		return res
+	})
+	const token = computed(() => session.value.token)
 	const isAuthorized = computed(() => !!token.value)
 
-	function setSessionToken(newToken: string) {
-		tokenStorage.value = newToken
+	function setSession(newSession: Session) {
+		tokenStorage.value = JSON.stringify(newSession)
 	}
 
-	function clearSessionToken() {
+	function clearSession() {
 		tokenStorage.value = null
 	}
 
@@ -28,9 +49,9 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 		}
 
 		try {
-			await api.sessions.v1GetCurrentSession(token.value)
+			await api.sessions.v1CheckCurrentSession(token.value)
 		} catch (err) {
-			clearSessionToken()
+			clearSession()
 			api.getApiErrorOrMessage(err, 'Ошибка при проверке сессии пользователя')
 		}
 	}
@@ -38,8 +59,8 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	return {
 		token,
 		isAuthorized,
-		setSessionToken,
-		clearSessionToken,
+		setSession,
+		clearSession,
 		checkSession
 	}
 })

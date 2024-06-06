@@ -132,8 +132,27 @@ export interface V1RegistrationsConfirmRegistrationResponse {
 export interface V1RegistrationsConfirmRegistrationResponseData {
     /**
      * 
-     * @type {string}
+     * @type {V1RegistrationsConfirmRegistrationResponseDataSession}
      * @memberof V1RegistrationsConfirmRegistrationResponseData
+     */
+    'session': V1RegistrationsConfirmRegistrationResponseDataSession;
+}
+/**
+ * 
+ * @export
+ * @interface V1RegistrationsConfirmRegistrationResponseDataSession
+ */
+export interface V1RegistrationsConfirmRegistrationResponseDataSession {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1RegistrationsConfirmRegistrationResponseDataSession
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof V1RegistrationsConfirmRegistrationResponseDataSession
      */
     'token': string;
 }
@@ -504,6 +523,42 @@ export class RegistrationsApi extends BaseAPI {
 export const SessionsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Получить информацию валидна ли текущая сессия
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CheckCurrentSession: async (authorizationToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorizationToken' is not null or undefined
+            assertParamExists('v1CheckCurrentSession', 'authorizationToken', authorizationToken)
+            const localVarPath = `/api/v1/session`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorizationToken != null) {
+                localVarHeaderParameter['Authorization-Token'] = String(authorizationToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Создание сессии пользователя
          * @param {V1SessionsCreateSessionRequestBody} v1SessionsCreateSessionRequestBody Запрос для создания сессии для пользователя
          * @param {*} [options] Override http request option.
@@ -538,42 +593,6 @@ export const SessionsApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * Получить информацию о сессии пользователя
-         * @param {string} authorizationToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        v1GetCurrentSession: async (authorizationToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'authorizationToken' is not null or undefined
-            assertParamExists('v1GetCurrentSession', 'authorizationToken', authorizationToken)
-            const localVarPath = `/api/v1/session`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (authorizationToken != null) {
-                localVarHeaderParameter['Authorization-Token'] = String(authorizationToken);
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -585,6 +604,18 @@ export const SessionsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = SessionsApiAxiosParamCreator(configuration)
     return {
         /**
+         * Получить информацию валидна ли текущая сессия
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CheckCurrentSession(authorizationToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CheckCurrentSession(authorizationToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SessionsApi.v1CheckCurrentSession']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Создание сессии пользователя
          * @param {V1SessionsCreateSessionRequestBody} v1SessionsCreateSessionRequestBody Запрос для создания сессии для пользователя
          * @param {*} [options] Override http request option.
@@ -594,18 +625,6 @@ export const SessionsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1CreateSession(v1SessionsCreateSessionRequestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['SessionsApi.v1CreateSession']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * Получить информацию о сессии пользователя
-         * @param {string} authorizationToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async v1GetCurrentSession(authorizationToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SuccessResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.v1GetCurrentSession(authorizationToken, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['SessionsApi.v1GetCurrentSession']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -619,6 +638,15 @@ export const SessionsApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = SessionsApiFp(configuration)
     return {
         /**
+         * Получить информацию валидна ли текущая сессия
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CheckCurrentSession(authorizationToken: string, options?: any): AxiosPromise<SuccessResponse> {
+            return localVarFp.v1CheckCurrentSession(authorizationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Создание сессии пользователя
          * @param {V1SessionsCreateSessionRequestBody} v1SessionsCreateSessionRequestBody Запрос для создания сессии для пользователя
          * @param {*} [options] Override http request option.
@@ -626,15 +654,6 @@ export const SessionsApiFactory = function (configuration?: Configuration, baseP
          */
         v1CreateSession(v1SessionsCreateSessionRequestBody: V1SessionsCreateSessionRequestBody, options?: any): AxiosPromise<V1SessionsCreateSessionResponse> {
             return localVarFp.v1CreateSession(v1SessionsCreateSessionRequestBody, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Получить информацию о сессии пользователя
-         * @param {string} authorizationToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        v1GetCurrentSession(authorizationToken: string, options?: any): AxiosPromise<SuccessResponse> {
-            return localVarFp.v1GetCurrentSession(authorizationToken, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -647,6 +666,17 @@ export const SessionsApiFactory = function (configuration?: Configuration, baseP
  */
 export class SessionsApi extends BaseAPI {
     /**
+     * Получить информацию валидна ли текущая сессия
+     * @param {string} authorizationToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SessionsApi
+     */
+    public v1CheckCurrentSession(authorizationToken: string, options?: RawAxiosRequestConfig) {
+        return SessionsApiFp(this.configuration).v1CheckCurrentSession(authorizationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Создание сессии пользователя
      * @param {V1SessionsCreateSessionRequestBody} v1SessionsCreateSessionRequestBody Запрос для создания сессии для пользователя
      * @param {*} [options] Override http request option.
@@ -655,17 +685,6 @@ export class SessionsApi extends BaseAPI {
      */
     public v1CreateSession(v1SessionsCreateSessionRequestBody: V1SessionsCreateSessionRequestBody, options?: RawAxiosRequestConfig) {
         return SessionsApiFp(this.configuration).v1CreateSession(v1SessionsCreateSessionRequestBody, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Получить информацию о сессии пользователя
-     * @param {string} authorizationToken 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SessionsApi
-     */
-    public v1GetCurrentSession(authorizationToken: string, options?: RawAxiosRequestConfig) {
-        return SessionsApiFp(this.configuration).v1GetCurrentSession(authorizationToken, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
