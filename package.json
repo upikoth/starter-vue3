@@ -24,7 +24,7 @@
     "@capacitor/core": "^6.0.0",
     "@capacitor/ios": "^6.0.0",
     "@quasar/extras": "^1.16.11",
-    "@sentry/vue": "^8.7.0",
+    "@sentry/vue": "^8.8.0",
     "@vueuse/core": "^10.10.0",
     "pinia": "^2.1.7",
     "quasar": "^2.16.4",
