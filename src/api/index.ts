@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type { AxiosResponse, AxiosError } from 'axios'
+import { useRouter } from 'vue-router'
 
 import environment from '@/environment'
 
@@ -11,6 +12,8 @@ import {
 	RegistrationsApi,
 	SessionsApi
 } from '@/generated/starter'
+
+import { ViewNameEnum } from '@/router'
 
 import { useSessionStore } from '@/stores'
 
@@ -24,6 +27,7 @@ export { ApiErrorCodeEnum } from './errors'
 
 export default function useApi() {
 	const sessionStore = useSessionStore()
+	const router = useRouter()
 
 	const axiosInstance = axios.create({
 		timeout: MILLISECONDS_IN_MINUTE,
@@ -46,6 +50,7 @@ export default function useApi() {
 
 			if (errResponse.error.code === ApiErrorCodeEnum.ErrorCodeUserUnauthorized) {
 				sessionStore.clearSession()
+				router.push({ name: ViewNameEnum.AuthSignInView })
 			}
 
 			return Promise.reject(errResponse.error)
