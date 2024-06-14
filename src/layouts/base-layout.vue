@@ -25,8 +25,8 @@ const menuList = computed(() => ([
 	{
 		icon: 'person',
 		label: 'Мой профиль',
-		name: ViewNameEnum.Home,
-		handler: () => router.push({ name: ViewNameEnum.Home }),
+		name: ViewNameEnum.HomeView,
+		handler: () => router.push({ name: ViewNameEnum.HomeView }),
 		isVisible: () => true
 	},
 	{

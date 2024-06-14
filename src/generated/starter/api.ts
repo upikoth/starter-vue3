@@ -89,6 +89,76 @@ export interface SuccessResponse {
 /**
  * 
  * @export
+ * @interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody
+ */
+export interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody
+     */
+    'confirmationToken': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody
+     */
+    'newPassword': string;
+}
+/**
+ * 
+ * @export
+ * @interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse
+ */
+export interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {V1RegistrationsConfirmRegistrationResponseData}
+     * @memberof V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse
+     */
+    'data': V1RegistrationsConfirmRegistrationResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody
+ */
+export interface V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody
+     */
+    'email': string;
+}
+/**
+ * 
+ * @export
+ * @interface V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse
+ */
+export interface V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {V1RegistrationsCreateRegistrationResponseData}
+     * @memberof V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse
+     */
+    'data': V1RegistrationsCreateRegistrationResponseData;
+}
+/**
+ * 
+ * @export
  * @interface V1RegistrationsConfirmRegistrationRequestBody
  */
 export interface V1RegistrationsConfirmRegistrationRequestBody {
@@ -338,6 +408,179 @@ export class HealthApi extends BaseAPI {
      */
     public v1CheckHealth(options?: RawAxiosRequestConfig) {
         return HealthApiFp(this.configuration).v1CheckHealth(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PasswordRecoveryRequestsApi - axios parameter creator
+ * @export
+ */
+export const PasswordRecoveryRequestsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Подтверждение заявки на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody Запрос для подтверждения восстановления пароля, и авторизации
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1ConfirmPasswordRecoveryRequest: async (v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody' is not null or undefined
+            assertParamExists('v1ConfirmPasswordRecoveryRequest', 'v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody', v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody)
+            const localVarPath = `/api/v1/passwordRecoveryRequests`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Создать заявку на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody Запрос для создания заявки на восстановление пароля
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CreatePasswordRecoveryRequest: async (v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody' is not null or undefined
+            assertParamExists('v1CreatePasswordRecoveryRequest', 'v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody', v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody)
+            const localVarPath = `/api/v1/passwordRecoveryRequests`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PasswordRecoveryRequestsApi - functional programming interface
+ * @export
+ */
+export const PasswordRecoveryRequestsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PasswordRecoveryRequestsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Подтверждение заявки на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody Запрос для подтверждения восстановления пароля, и авторизации
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PasswordRecoveryRequestsApi.v1ConfirmPasswordRecoveryRequest']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Создать заявку на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody Запрос для создания заявки на восстановление пароля
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PasswordRecoveryRequestsApi.v1CreatePasswordRecoveryRequest']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PasswordRecoveryRequestsApi - factory interface
+ * @export
+ */
+export const PasswordRecoveryRequestsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PasswordRecoveryRequestsApiFp(configuration)
+    return {
+        /**
+         * Подтверждение заявки на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody Запрос для подтверждения восстановления пароля, и авторизации
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options?: any): AxiosPromise<V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestResponse> {
+            return localVarFp.v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Создать заявку на восстановление пароля
+         * @param {V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody Запрос для создания заявки на восстановление пароля
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options?: any): AxiosPromise<V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestResponse> {
+            return localVarFp.v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PasswordRecoveryRequestsApi - object-oriented interface
+ * @export
+ * @class PasswordRecoveryRequestsApi
+ * @extends {BaseAPI}
+ */
+export class PasswordRecoveryRequestsApi extends BaseAPI {
+    /**
+     * Подтверждение заявки на восстановление пароля
+     * @param {V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody Запрос для подтверждения восстановления пароля, и авторизации
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PasswordRecoveryRequestsApi
+     */
+    public v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options?: RawAxiosRequestConfig) {
+        return PasswordRecoveryRequestsApiFp(this.configuration).v1ConfirmPasswordRecoveryRequest(v1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Создать заявку на восстановление пароля
+     * @param {V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody} v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody Запрос для создания заявки на восстановление пароля
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PasswordRecoveryRequestsApi
+     */
+    public v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody: V1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options?: RawAxiosRequestConfig) {
+        return PasswordRecoveryRequestsApiFp(this.configuration).v1CreatePasswordRecoveryRequest(v1PasswordRecoveryRequestsCreatePasswordRecoveryRequestRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

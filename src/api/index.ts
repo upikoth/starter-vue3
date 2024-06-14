@@ -10,7 +10,8 @@ import type { ErrorResponse } from '@/generated/starter'
 import {
 	HealthApi,
 	RegistrationsApi,
-	SessionsApi
+	SessionsApi,
+	PasswordRecoveryRequestsApi
 } from '@/generated/starter'
 
 import { ViewNameEnum } from '@/router'
@@ -60,11 +61,13 @@ export default function useApi() {
 	const health = new HealthApi(undefined, undefined, axiosInstance)
 	const registrations = new RegistrationsApi(undefined, undefined, axiosInstance)
 	const sessions = new SessionsApi(undefined, undefined, axiosInstance)
+	const passwordRecoveryRequest = new PasswordRecoveryRequestsApi(undefined, undefined, axiosInstance)
 
 	return {
 		health,
 		registrations,
 		sessions,
+		passwordRecoveryRequest,
 		getApiErrorOrMessage,
 		checkIsApiErrorField
 	}

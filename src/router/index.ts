@@ -5,14 +5,18 @@ import { useSessionStore } from '@/stores'
 export enum ViewNameEnum {
 	AuthSignInView = 'AUTH_SIGN_IN_VIEW',
 	AuthSignUpView = 'AUTH_SIGN_UP_VIEW',
-	AuthSignUpConfirm = 'AUTH_SIGN_UP_CONFIRM_VIEW',
-	Home = 'HOME',
+	AuthSignUpConfirmView = 'AUTH_SIGN_UP_CONFIRM_VIEW',
+	AuthRecoveryPasswordView = 'AUTH_RECOVERY_PASSWORD_VIEW',
+	AuthRecoveryPasswordConfirmView = 'AUTH_RECOVERY_PASSWORD_CONFIRM_VIEW',
+	HomeView = 'HOME_VIEW',
 }
 
 export const UNAUTHORIZED_VIEWS = new Set([
 	ViewNameEnum.AuthSignInView,
-	ViewNameEnum.AuthSignUpConfirm,
-	ViewNameEnum.AuthSignUpView
+	ViewNameEnum.AuthSignUpConfirmView,
+	ViewNameEnum.AuthSignUpView,
+	ViewNameEnum.AuthRecoveryPasswordView,
+	ViewNameEnum.AuthRecoveryPasswordConfirmView
 ])
 export const ALL_VIEWS = new Set(Object.values(ViewNameEnum))
 
@@ -21,7 +25,7 @@ export function checkIsView(view: unknown): view is ViewNameEnum {
 }
 
 export function getDefaultView(): ViewNameEnum {
-	return ViewNameEnum.Home
+	return ViewNameEnum.HomeView
 }
 
 const router = createRouter({
@@ -43,8 +47,18 @@ const router = createRouter({
 				},
 				{
 					path: 'sign-up-confirm',
-					name: ViewNameEnum.AuthSignUpConfirm,
+					name: ViewNameEnum.AuthSignUpConfirmView,
 					component: () => import('@/views/auth/sign-up-confirm-view.vue')
+				},
+				{
+					path: 'recovery-password',
+					name: ViewNameEnum.AuthRecoveryPasswordView,
+					component: () => import('@/views/auth/recovery-password-view.vue')
+				},
+				{
+					path: 'recovery-password-confirm',
+					name: ViewNameEnum.AuthRecoveryPasswordConfirmView,
+					component: () => import('@/views/auth/recovery-password-confirm-view.vue')
 				}
 			]
 		},
@@ -54,11 +68,11 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewNameEnum.Home })
+					redirect: () => ({ name: ViewNameEnum.HomeView })
 				},
 				{
 					path: 'home',
-					name: ViewNameEnum.Home,
+					name: ViewNameEnum.HomeView,
 					component: () => import('@/views/home-view.vue')
 				}
 			]

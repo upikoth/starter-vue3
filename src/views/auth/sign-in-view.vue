@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
-import useApi from '@/api'
+import useApi, { ApiErrorCodeEnum } from '@/api'
 
 import { ViewNameEnum, getDefaultView } from '@/router'
 
@@ -26,6 +26,7 @@ const formData = ref({
 })
 
 const isPasswordVisible = ref(false)
+const isRecoveryPasswordButtonVisible = ref(false)
 
 const emailRules = [
 	(val: string) => !!val || 'Введите email',
@@ -54,6 +55,13 @@ async function onSubmit() {
 		router.push({ name: getDefaultView() })
 	} catch (err) {
 		notification.error(api.getApiErrorOrMessage(err))
+
+		if (
+			api.checkIsApiErrorField(err)
+			&& err.code === ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionWrongEmailOrPassword
+		) {
+			isRecoveryPasswordButtonVisible.value = true
+		}
 	}
 }
 </script>
@@ -110,6 +118,16 @@ async function onSubmit() {
 			>
 				Зарегистрироваться
 			</q-btn>
+			<q-btn
+				v-if="isRecoveryPasswordButtonVisible"
+				class="sign-in-view__recovery-password-button"
+				flat
+				no-caps
+				color="primary"
+				:to="{ name: ViewNameEnum.AuthRecoveryPasswordView }"
+			>
+				Восстановить пароль
+			</q-btn>
 		</q-card>
 	</q-page>
 </template>
@@ -141,6 +159,11 @@ async function onSubmit() {
 	&__registration-button {
 		width: 100%;
 		margin-top: 16px;
+	}
+
+	&__recovery-password-button {
+		width: 100%;
+		margin-top: 8px;
 	}
 }
 </style>

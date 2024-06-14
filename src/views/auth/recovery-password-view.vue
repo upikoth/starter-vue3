@@ -4,7 +4,7 @@ import type { QForm, QInput } from 'quasar'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
-import useApi, { ApiErrorCodeEnum } from '@/api'
+import useApi from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
@@ -21,8 +21,7 @@ const formData = ref({
 	email: ''
 })
 
-const registrationLoadingState = ref(LoadingStateEnum.LoadingNotStarted)
-const isRecoveryPasswordButtonVisible = ref(false)
+const passwordRecoveryLoadingState = ref(LoadingStateEnum.LoadingNotStarted)
 
 const userFormRules = {
 	email: [
@@ -31,7 +30,7 @@ const userFormRules = {
 	]
 }
 
-const isUserRegistered = computed(() => registrationLoadingState.value === LoadingStateEnum.LoadedSuccess)
+const isRequestForRecoverySended = computed(() => passwordRecoveryLoadingState.value === LoadingStateEnum.LoadedSuccess)
 
 async function onSubmit() {
 	const isFormDataValid = await formRef.value?.validate()
@@ -41,35 +40,28 @@ async function onSubmit() {
 	}
 
 	try {
-		registrationLoadingState.value = LoadingStateEnum.Loading
+		passwordRecoveryLoadingState.value = LoadingStateEnum.Loading
 
-		await api.registrations.v1CreateRegistration({
+		await api.passwordRecoveryRequest.v1CreatePasswordRecoveryRequest({
 			email: formData.value.email
 		})
 
-		registrationLoadingState.value = LoadingStateEnum.LoadedSuccess
+		passwordRecoveryLoadingState.value = LoadingStateEnum.LoadedSuccess
 	} catch (err) {
-		registrationLoadingState.value = LoadingStateEnum.LoadedError
-		notification.error(api.getApiErrorOrMessage(err, 'Не удалось зарегистрироваться. Попробуйте позже'))
-
-		if (
-			api.checkIsApiErrorField(err)
-			&& err.code === ApiErrorCodeEnum.ErrorCodeRegistrationUserWithThisEmailAlreadyExist
-		) {
-			isRecoveryPasswordButtonVisible.value = true
-		}
+		passwordRecoveryLoadingState.value = LoadingStateEnum.LoadedError
+		notification.error(api.getApiErrorOrMessage(err, 'Не удалось восстановить пароль. Попробуйте позже'))
 	}
 }
 </script>
 
 <template>
-	<q-page class="sign-up-view">
-		<q-card class="sign-up-view__card shadow-6">
+	<q-page class="recovery-password-view">
+		<q-card class="recovery-password-view__card shadow-6">
 			<p class="text-h6">
-				Регистрация
+				Восстановление пароля
 			</p>
 			<q-form
-				v-if="!isUserRegistered"
+				v-if="!isRequestForRecoverySended"
 				ref="formRef"
 				@submit="onSubmit"
 			>
@@ -81,12 +73,12 @@ async function onSubmit() {
 					lazy-rules
 				/>
 				<q-btn
-					class="sign-up-view__submit-button"
+					class="recovery-password-view__submit-button"
 					type="submit"
 					color="primary"
-					:loading="registrationLoadingState === LoadingStateEnum.Loading"
+					:loading="passwordRecoveryLoadingState === LoadingStateEnum.Loading"
 				>
-					Зарегистрироваться
+					Восстановить пароль
 				</q-btn>
 			</q-form>
 			<p
@@ -95,10 +87,10 @@ async function onSubmit() {
 			>
 				Отправили письмо на почту.
 				<br>
-				Перейдите по ссылка в письме, чтобы завершить регистрацию
+				Перейдите по ссылка в письме, чтобы восстановить пароль
 			</p>
 			<q-btn
-				class="sign-up-view__back-to-login-button"
+				class="recovery-password-view__back-to-login-button"
 				flat
 				no-caps
 				color="primary"
@@ -106,22 +98,12 @@ async function onSubmit() {
 			>
 				Войти в личный кабинет
 			</q-btn>
-			<q-btn
-				v-if="isRecoveryPasswordButtonVisible"
-				class="sign-up-view__recovery-password-button"
-				flat
-				no-caps
-				color="primary"
-				:to="{ name: ViewNameEnum.AuthRecoveryPasswordView }"
-			>
-				Восстановить пароль
-			</q-btn>
 		</q-card>
 	</q-page>
 </template>
 
 <style lang="scss" scoped>
-.sign-up-view {
+.recovery-password-view {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -143,11 +125,6 @@ async function onSubmit() {
 	&__back-to-login-button {
 		width: 100%;
 		margin-top: 16px;
-	}
-
-	&__recovery-password-button {
-		width: 100%;
-		margin-top: 8px;
 	}
 }
 </style>

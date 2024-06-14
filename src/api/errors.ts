@@ -14,7 +14,24 @@ export enum ApiErrorCodeEnum {
 	ErrorCodeRegistrationYdbStarterCheckConfirmationToken = '200',
 	ErrorCodeRegistrationRegistrationNotFound = '201',
 	ErrorCodeRegistrationGeneratePasswordHash = '202',
-	ErrorCodeRegistrationCreateSession = '203'
+	ErrorCodeRegistrationCreateSession = '203',
+
+	ErrorCodeSessionsCreateSessionDbError = '300',
+	ErrorCodeSessionsCreateSessionWrongEmailOrPassword = '301',
+
+	ErrorCodeSessionsDeleteSessionDbError = '400',
+	ErrorCodeSessionsDeleteSessionNotFound = '401',
+
+	ErrorCodePasswordRecoveryRequestYdbStarterFindUser = '500',
+	ErrorCodePasswordRecoveryRequestYdbStarterCreatePasswordRecoveryRequest = '501',
+	ErrorCodePasswordRecoveryRequestSMTPSendEmail = '502',
+
+	ErrorCodePasswordRecoveryRequestYdbStarterCheckConfirmationToken = '600',
+	ErrorCodePasswordRecoveryRequestPasswordRecoveryRequestNotFound = '601',
+	ErrorCodePasswordRecoveryRequestGeneratePasswordHash = '602',
+	ErrorCodePasswordRecoveryRequestFindUserByEmail = '603',
+	ErrorCodePasswordRecoveryRequestCreateSession = '604',
+	ErrorCodePasswordRecoveryRequestUpdateUserPassword = '605',
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
@@ -35,7 +52,37 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	[ApiErrorCodeEnum.ErrorCodeRegistrationGeneratePasswordHash]:
 		'Не удалось зарегистрироваться. Попробуйте позже',
 	[ApiErrorCodeEnum.ErrorCodeRegistrationCreateSession]:
-		'Не удалось зарегистрироваться. Попробуйте позже'
+		'Не удалось зарегистрироваться. Попробуйте позже',
+
+	[ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionDbError]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionWrongEmailOrPassword]:
+		'Неверные email или пароль',
+
+	[ApiErrorCodeEnum.ErrorCodeSessionsDeleteSessionDbError]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodeSessionsDeleteSessionNotFound]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbStarterFindUser]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbStarterCreatePasswordRecoveryRequest]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestSMTPSendEmail]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbStarterCheckConfirmationToken]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestPasswordRecoveryRequestNotFound]:
+		'Запрос не найден. Попробуйте заново',
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestGeneratePasswordHash]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestFindUserByEmail]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestCreateSession]:
+		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestUpdateUserPassword]:
+		DEFAULT_ERROR_MESSAGE_TEXT
 }
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
