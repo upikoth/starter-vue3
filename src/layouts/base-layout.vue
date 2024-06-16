@@ -7,7 +7,7 @@ import useApi from '@/api'
 
 import { ViewNameEnum } from '@/router'
 
-import { useSessionStore } from '@/stores'
+import { useSessionStore, UserAction } from '@/stores'
 
 import { useNotification } from '@/composables'
 
@@ -28,6 +28,13 @@ const menuList = computed(() => ([
 		name: ViewNameEnum.HomeView,
 		handler: () => router.push({ name: ViewNameEnum.HomeView }),
 		isVisible: () => true
+	},
+	{
+		icon: 'group',
+		label: 'Пользователи',
+		name: ViewNameEnum.UsersView,
+		handler: () => router.push({ name: ViewNameEnum.UsersView }),
+		isVisible: () => sessionStore.hasAccessToAction(UserAction.GetAnyUserInfo)
 	},
 	{
 		icon: 'logout',

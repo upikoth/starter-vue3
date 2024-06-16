@@ -11,7 +11,8 @@ import {
 	HealthApi,
 	RegistrationsApi,
 	SessionsApi,
-	PasswordRecoveryRequestsApi
+	PasswordRecoveryRequestsApi,
+	UsersApi
 } from '@/generated/starter'
 
 import { ViewNameEnum } from '@/router'
@@ -35,15 +36,6 @@ export default function useApi() {
 		baseURL: environment.STARTER_API_URL
 	})
 
-	axiosInstance.interceptors.request.use(
-		async (req) => {
-			if (sessionStore.isAuthorized) {
-				req.headers['Authorization-Token'] = sessionStore.sessionToken
-			}
-			return req
-		}
-	)
-
 	axiosInstance.interceptors.response.use(
 		(res: AxiosResponse) => res,
 		(err: AxiosError) => {
@@ -62,12 +54,14 @@ export default function useApi() {
 	const registrations = new RegistrationsApi(undefined, undefined, axiosInstance)
 	const sessions = new SessionsApi(undefined, undefined, axiosInstance)
 	const passwordRecoveryRequest = new PasswordRecoveryRequestsApi(undefined, undefined, axiosInstance)
+	const users = new UsersApi(undefined, undefined, axiosInstance)
 
 	return {
 		health,
 		registrations,
 		sessions,
 		passwordRecoveryRequest,
+		users,
 		getApiErrorOrMessage,
 		checkIsApiErrorField
 	}

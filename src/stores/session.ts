@@ -2,13 +2,29 @@ import { defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
+import type { UserRole } from '@/generated/starter'
+
 import useApi from '@/api'
 
 import { IStoreNameEnum } from './index.types'
 
+export enum UserAction {
+	GetAnyUserInfo = 'get-any-user-info'
+}
+
+const userRoleActionMap: Record<UserRole, Record<UserAction, boolean>> = {
+	user: {
+		[UserAction.GetAnyUserInfo]: false
+	},
+	admin: {
+		[UserAction.GetAnyUserInfo]: true
+	}
+}
+
 interface Session {
 	id: string;
 	token: string;
+	userRole: UserRole
 }
 
 export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
@@ -19,7 +35,8 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 	const session = computed(():Session => {
 		let res = {
 			id: '',
-			token: ''
+			token: '',
+			userRole: 'user' as const
 		}
 
 		try {
@@ -58,12 +75,17 @@ export const useSessionStore = defineStore(IStoreNameEnum.Session, () => {
 		}
 	}
 
+	function hasAccessToAction(action: UserAction) {
+		return userRoleActionMap[session.value.userRole][action]
+	}
+
 	return {
 		sessionId,
 		sessionToken,
 		isAuthorized,
 		setSession,
 		clearSession,
-		checkSession
+		checkSession,
+		hasAccessToAction
 	}
 })

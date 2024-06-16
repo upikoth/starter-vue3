@@ -8,6 +8,7 @@ export enum ViewNameEnum {
 	AuthSignUpConfirmView = 'AUTH_SIGN_UP_CONFIRM_VIEW',
 	AuthRecoveryPasswordView = 'AUTH_RECOVERY_PASSWORD_VIEW',
 	AuthRecoveryPasswordConfirmView = 'AUTH_RECOVERY_PASSWORD_CONFIRM_VIEW',
+	UsersView = 'USERS_VIEW',
 	HomeView = 'HOME_VIEW',
 }
 
@@ -74,6 +75,11 @@ const router = createRouter({
 					path: 'home',
 					name: ViewNameEnum.HomeView,
 					component: () => import('@/views/home-view.vue')
+				},
+				{
+					path: 'users',
+					name: ViewNameEnum.UsersView,
+					component: () => import('@/views/users/users-view.vue')
 				}
 			]
 		},
