@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^6.1.0",
-    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@openapitools/openapi-generator-cli": "^2.13.5",
     "@quasar/vite-plugin": "^1.7.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.14.2",
