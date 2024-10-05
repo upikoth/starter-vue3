@@ -24,7 +24,7 @@ async function initApp() {
 		app,
 		dsn: environment.SENTRY_DSN,
 		environment: environment.ENVIRONMENT,
-		tracePropagationTargets: [environment.STARTER_API_URL],
+		tracePropagationTargets: [environment.API_URL],
 		integrations: [
 			Sentry.browserTracingIntegration({
 				router,

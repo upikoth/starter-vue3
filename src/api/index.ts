@@ -6,14 +6,14 @@ import environment from '@/environment'
 
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
 
-import type { ErrorResponse } from '@/generated/starter'
+import type { ErrorResponse } from '@/generated/app'
 import {
 	HealthApi,
 	RegistrationsApi,
 	SessionsApi,
 	PasswordRecoveryRequestsApi,
 	UsersApi
-} from '@/generated/starter'
+} from '@/generated/app'
 
 import { ViewNameEnum } from '@/router'
 
@@ -33,7 +33,7 @@ export default function useApi() {
 
 	const axiosInstance = axios.create({
 		timeout: MILLISECONDS_IN_MINUTE,
-		baseURL: environment.STARTER_API_URL
+		baseURL: environment.API_URL
 	})
 
 	axiosInstance.interceptors.response.use(

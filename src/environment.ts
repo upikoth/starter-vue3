@@ -1,11 +1,11 @@
 const environment = {
-	STARTER_API_URL: '',
+	API_URL: '',
 	SENTRY_DSN: '',
 	ENVIRONMENT: ''
 }
 
 export const environmentVariablesChecks = {
-	STARTER_API_URL: (value: unknown) => typeof value === 'string' && value !== '',
+	API_URL: (value: unknown) => typeof value === 'string' && value !== '',
 	SENTRY_DSN: (value: unknown) => typeof value === 'string' && value !== '',
 	ENVIRONMENT: (value: unknown) => typeof value === 'string' && value !== ''
 }
@@ -20,7 +20,7 @@ export async function loadEnvironmentVariables() {
 	})
 
 	Object.assign(environment, {
-		STARTER_API_URL: env.STARTER_API_URL,
+		API_URL: env.API_URL,
 		SENTRY_DSN: env.SENTRY_DSN,
 		ENVIRONMENT: env.ENVIRONMENT
 	})

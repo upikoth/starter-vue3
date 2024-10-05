@@ -1,5 +1,5 @@
 {
-  "name": "starter-vue3",
+  "name": "app-vue3",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
     "lint:css": "stylelint \"src/**/*.{vue,scss}\"",
     "lint": "run-p lint:js lint:ts lint:css",
     "format": "prettier --write src/",
-    "update-types": "openapi-generator-cli generate -i https://raw.githubusercontent.com/upikoth/starter-go/main/docs/app/docs.yml -g typescript-axios -o src/generated/starter"
+    "update-types": "openapi-generator-cli generate -i https://raw.githubusercontent.com/upikoth/starter-go/main/docs/app/docs.yml -g typescript-axios -o src/generated/app"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.0",

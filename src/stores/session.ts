@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed } from 'vue'
 import { useLocalStorage } from '@vueuse/core'
 
-import type { UserRole } from '@/generated/starter'
+import type { UserRole } from '@/generated/app'
 
 import useApi from '@/api'
 

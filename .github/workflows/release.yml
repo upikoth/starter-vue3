@@ -70,7 +70,7 @@ jobs:
     environment:
       name: prod
     env:
-      STARTER_API_URL: ${{ vars.STARTER_API_URL }}
+      API_URL: ${{ vars.API_URL }}
       SENTRY_DSN: ${{ vars.SENTRY_DSN }}
       ENVIRONMENT: ${{ vars.ENVIRONMENT }}
     steps:
@@ -104,7 +104,7 @@ jobs:
       - lint
       - test-unit
       - test-environment
-    name: Build starter
+    name: Build app
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -158,7 +158,7 @@ jobs:
         with:
           name: environment.json
           json: '{
-            "STARTER_API_URL":"${{ vars.STARTER_API_URL }}",
+            "API_URL":"${{ vars.API_URL }}",
             "SENTRY_DSN":"${{ vars.SENTRY_DSN }}",
             "ENVIRONMENT":"${{ vars.ENVIRONMENT }}"
             }'

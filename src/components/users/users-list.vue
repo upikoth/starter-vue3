@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { QTableProps } from 'quasar'
 
-import type { User, UserRole } from '@/generated/starter'
+import type { User, UserRole } from '@/generated/app'
 
 import {
 	paginationToLimitOffset

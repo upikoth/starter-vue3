@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">starter-vue3</string>
-    <string name="title_activity_main">starter-vue3</string>
-    <string name="package_name">upikoth.github.io</string>
-    <string name="custom_url_scheme">upikoth.github.io</string>
-</resources>
