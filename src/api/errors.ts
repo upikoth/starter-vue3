@@ -29,9 +29,13 @@ export enum ApiErrorCodeEnum {
 	ErrorCodePasswordRecoveryRequestYdbCheckConfirmationToken = '600',
 	ErrorCodePasswordRecoveryRequestPasswordRecoveryRequestNotFound = '601',
 	ErrorCodePasswordRecoveryRequestGeneratePasswordHash = '602',
-	ErrorCodePasswordRecoveryRequestFindUserByEmail = '603',
-	ErrorCodePasswordRecoveryRequestCreateSession = '604',
-	ErrorCodePasswordRecoveryRequestUpdateUserPassword = '605',
+	ErrorCodePasswordRecoveryRequestCreateSession = '603',
+	ErrorCodePasswordRecoveryRequestUpdateUserPassword = '604',
+
+	ErrorCodeUsersGetListForbidden = '700',
+	ErrorCodeUsersGetListDBError = '701',
+
+	ErrorCodeSessionsCheckTokenDBError = '800',
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
@@ -77,12 +81,18 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 		'Запрос не найден. Попробуйте заново',
 	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestGeneratePasswordHash]:
 		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestFindUserByEmail]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
 	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestCreateSession]:
 		DEFAULT_ERROR_MESSAGE_TEXT,
 	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestUpdateUserPassword]:
-		DEFAULT_ERROR_MESSAGE_TEXT
+		DEFAULT_ERROR_MESSAGE_TEXT,
+
+	[ApiErrorCodeEnum.ErrorCodeUsersGetListForbidden]:
+	DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrorCodeUsersGetListDBError]:
+	DEFAULT_ERROR_MESSAGE_TEXT,
+
+	[ApiErrorCodeEnum.ErrorCodeSessionsCheckTokenDBError]:
+	DEFAULT_ERROR_MESSAGE_TEXT
 }
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
