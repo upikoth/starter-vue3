@@ -36,6 +36,8 @@ export enum ApiErrorCodeEnum {
 	ErrorCodeUsersGetListDBError = '701',
 
 	ErrorCodeSessionsCheckTokenDBError = '800',
+
+	ErrorCodeOauthSourceNotExist = '900',
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
@@ -92,6 +94,9 @@ const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
 	DEFAULT_ERROR_MESSAGE_TEXT,
 
 	[ApiErrorCodeEnum.ErrorCodeSessionsCheckTokenDBError]:
+	DEFAULT_ERROR_MESSAGE_TEXT,
+
+	[ApiErrorCodeEnum.ErrorCodeOauthSourceNotExist]:
 	DEFAULT_ERROR_MESSAGE_TEXT
 }
 

@@ -6,7 +6,7 @@ import environment from '@/environment'
 
 import { MILLISECONDS_IN_MINUTE } from '@/constants'
 
-import type { ErrorResponse } from '@/generated/app'
+import { type ErrorResponse, OauthApi } from '@/generated/app'
 import {
 	HealthApi,
 	RegistrationsApi,
@@ -55,6 +55,7 @@ export default function useApi() {
 	const sessions = new SessionsApi(undefined, undefined, axiosInstance)
 	const passwordRecoveryRequest = new PasswordRecoveryRequestsApi(undefined, undefined, axiosInstance)
 	const users = new UsersApi(undefined, undefined, axiosInstance)
+	const oauth = new OauthApi(undefined, undefined, axiosInstance)
 
 	return {
 		health,
@@ -62,6 +63,7 @@ export default function useApi() {
 		sessions,
 		passwordRecoveryRequest,
 		users,
+		oauth,
 		getApiErrorOrMessage,
 		checkIsApiErrorField
 	}

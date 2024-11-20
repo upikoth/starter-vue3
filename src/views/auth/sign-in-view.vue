@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
+import type { V1AuthorizeUsingOauthRequestBodyOauthSourceEnum } from '@/generated/app'
+
 import useApi, { ApiErrorCodeEnum } from '@/api'
 
 import { ViewNameEnum, getDefaultView } from '@/router'
@@ -33,9 +35,7 @@ const emailRules = [
 	(val: string) => EMAIL_VALIDATION_REGEXP.test(val) || 'Введите корректный email'
 ]
 
-const passwordRules = [
-	(val: string) => !!val || 'Введите пароль'
-]
+const passwordRules = [(val: string) => !!val || 'Введите пароль']
 
 async function onSubmit() {
 	const isFormDataValid = await formRef.value?.validate()
@@ -64,13 +64,34 @@ async function onSubmit() {
 		}
 	}
 }
+
+async function authorizeUsingOauth(oauthSource: V1AuthorizeUsingOauthRequestBodyOauthSourceEnum) {
+	try {
+		await api.oauth.v1AuthorizeUsingOauth({
+			oauthSource
+		})
+	} catch (err) {
+		notification.error(api.getApiErrorOrMessage(err))
+	}
+}
 </script>
 
 <template>
 	<q-page class="sign-in-view">
 		<q-card class="sign-in-view__card shadow-6">
-			<p class="text-h6">
+			<p class="sign-in-view__card-title text-h6">
 				Вход в личный кабинет
+			</p>
+			<div class="sign-in-view__card-oauth">
+				<q-btn
+					round
+					icon="img:/icons/oauth/vk.svg"
+					style="background: #0077ff"
+					@click="authorizeUsingOauth('vk')"
+				/>
+			</div>
+			<p class="sign-in-view__card-oauth-after">
+				или с помощью
 			</p>
 			<q-form
 				ref="formRef"
@@ -149,6 +170,22 @@ async function onSubmit() {
 			flex-direction: column;
 			justify-content: center;
 		}
+	}
+
+	&__card-title {
+		margin-bottom: 8px;
+	}
+
+	&__card-oauth {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 4px;
+	}
+
+	&__card-oauth-after {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 4px;
 	}
 
 	&__submit-button {

@@ -157,6 +157,29 @@ export type UserRole = typeof UserRole[keyof typeof UserRole];
 /**
  * 
  * @export
+ * @interface V1AuthorizeUsingOauthRequestBody
+ */
+export interface V1AuthorizeUsingOauthRequestBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1AuthorizeUsingOauthRequestBody
+     */
+    'oauthSource': V1AuthorizeUsingOauthRequestBodyOauthSourceEnum;
+}
+
+export const V1AuthorizeUsingOauthRequestBodyOauthSourceEnum = {
+    Vk: 'vk',
+    Ok: 'ok',
+    Mail: 'mail',
+    Yandex: 'yandex'
+} as const;
+
+export type V1AuthorizeUsingOauthRequestBodyOauthSourceEnum = typeof V1AuthorizeUsingOauthRequestBodyOauthSourceEnum[keyof typeof V1AuthorizeUsingOauthRequestBodyOauthSourceEnum];
+
+/**
+ * 
+ * @export
  * @interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody
  */
 export interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody {
@@ -507,6 +530,112 @@ export class HealthApi extends BaseAPI {
      */
     public v1CheckHealth(options?: RawAxiosRequestConfig) {
         return HealthApiFp(this.configuration).v1CheckHealth(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * OauthApi - axios parameter creator
+ * @export
+ */
+export const OauthApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Авторизация в приложении с помощью oauth
+         * @param {V1AuthorizeUsingOauthRequestBody} v1AuthorizeUsingOauthRequestBody Запрос для авторизации в приложении с помощью oauth
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauth: async (v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'v1AuthorizeUsingOauthRequestBody' is not null or undefined
+            assertParamExists('v1AuthorizeUsingOauth', 'v1AuthorizeUsingOauthRequestBody', v1AuthorizeUsingOauthRequestBody)
+            const localVarPath = `/api/v1/oauth`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(v1AuthorizeUsingOauthRequestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OauthApi - functional programming interface
+ * @export
+ */
+export const OauthApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OauthApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Авторизация в приложении с помощью oauth
+         * @param {V1AuthorizeUsingOauthRequestBody} v1AuthorizeUsingOauthRequestBody Запрос для авторизации в приложении с помощью oauth
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauth']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * OauthApi - factory interface
+ * @export
+ */
+export const OauthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OauthApiFp(configuration)
+    return {
+        /**
+         * Авторизация в приложении с помощью oauth
+         * @param {V1AuthorizeUsingOauthRequestBody} v1AuthorizeUsingOauthRequestBody Запрос для авторизации в приложении с помощью oauth
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: any): AxiosPromise<ErrorResponse> {
+            return localVarFp.v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OauthApi - object-oriented interface
+ * @export
+ * @class OauthApi
+ * @extends {BaseAPI}
+ */
+export class OauthApi extends BaseAPI {
+    /**
+     * Авторизация в приложении с помощью oauth
+     * @param {V1AuthorizeUsingOauthRequestBody} v1AuthorizeUsingOauthRequestBody Запрос для авторизации в приложении с помощью oauth
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApi
+     */
+    public v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: RawAxiosRequestConfig) {
+        return OauthApiFp(this.configuration).v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
