@@ -67,9 +67,12 @@ async function onSubmit() {
 
 async function authorizeUsingOauth(oauthSource: V1AuthorizeUsingOauthRequestBodyOauthSourceEnum) {
 	try {
-		await api.oauth.v1AuthorizeUsingOauth({
+		const { data } = await api.oauth.v1AuthorizeUsingOauth({
 			oauthSource
 		})
+
+		const { url } = data.data
+		window.location.href = url
 	} catch (err) {
 		notification.error(api.getApiErrorOrMessage(err))
 	}

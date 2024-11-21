@@ -180,6 +180,38 @@ export type V1AuthorizeUsingOauthRequestBodyOauthSourceEnum = typeof V1Authorize
 /**
  * 
  * @export
+ * @interface V1AuthorizeUsingOauthResponse
+ */
+export interface V1AuthorizeUsingOauthResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof V1AuthorizeUsingOauthResponse
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {V1AuthorizeUsingOauthResponseData}
+     * @memberof V1AuthorizeUsingOauthResponse
+     */
+    'data': V1AuthorizeUsingOauthResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface V1AuthorizeUsingOauthResponseData
+ */
+export interface V1AuthorizeUsingOauthResponseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof V1AuthorizeUsingOauthResponseData
+     */
+    'url': string;
+}
+/**
+ * 
+ * @export
  * @interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody
  */
 export interface V1PasswordRecoveryRequestsConfirmPasswordRecoveryRequestRequestBody {
@@ -592,7 +624,7 @@ export const OauthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorResponse>> {
+        async v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1AuthorizeUsingOauthResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauth']?.[localVarOperationServerIndex]?.url;
@@ -614,7 +646,7 @@ export const OauthApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: any): AxiosPromise<ErrorResponse> {
+        v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: any): AxiosPromise<V1AuthorizeUsingOauthResponse> {
             return localVarFp.v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options).then((request) => request(axios, basePath));
         },
     };
