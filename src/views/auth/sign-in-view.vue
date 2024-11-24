@@ -27,6 +27,9 @@ const formData = ref({
 	password: ''
 })
 
+const isOauthVkLoading = ref(false)
+const isOauthMailLoading = ref(false)
+
 const isPasswordVisible = ref(false)
 const isRecoveryPasswordButtonVisible = ref(false)
 
@@ -65,18 +68,38 @@ async function onSubmit() {
 	}
 }
 
-async function authorizeUsingOauth(oauthSource: V1AuthorizeUsingOauthRequestBodyOauthSourceEnum) {
+async function authorizeUsingVkOauth() {
 	try {
+		isOauthVkLoading.value = true
 		const { data } = await api.oauth.v1AuthorizeUsingOauth({
-			oauthSource
+			oauthSource: 'vk'
 		})
 
 		const { url } = data.data
 		window.location.href = url
 	} catch (err) {
 		notification.error(api.getApiErrorOrMessage(err))
+	} finally {
+		isOauthVkLoading.value = false
 	}
 }
+
+async function authorizeUsingMailOauth() {
+	try {
+		isOauthMailLoading.value = true
+		const { data } = await api.oauth.v1AuthorizeUsingOauth({
+			oauthSource: 'mail'
+		})
+
+		const { url } = data.data
+		window.location.href = url
+	} catch (err) {
+		notification.error(api.getApiErrorOrMessage(err))
+	} finally {
+		isOauthMailLoading.value = false
+	}
+}
+
 </script>
 
 <template>
@@ -90,7 +113,14 @@ async function authorizeUsingOauth(oauthSource: V1AuthorizeUsingOauthRequestBody
 					round
 					icon="img:/icons/oauth/vk.svg"
 					style="background: #0077ff"
-					@click="authorizeUsingOauth('vk')"
+					:loading="isOauthVkLoading"
+					@click="authorizeUsingVkOauth()"
+				/>
+				<q-btn
+					round
+					icon="img:/icons/oauth/mail.svg"
+					:loading="isOauthMailLoading"
+					@click="authorizeUsingMailOauth()"
 				/>
 			</div>
 			<p class="sign-in-view__card-oauth-after">
@@ -183,6 +213,7 @@ async function authorizeUsingOauth(oauthSource: V1AuthorizeUsingOauthRequestBody
 		display: flex;
 		justify-content: center;
 		margin-bottom: 4px;
+		gap: 16px;
 	}
 
 	&__card-oauth-after {
