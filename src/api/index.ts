@@ -41,7 +41,7 @@ export default function useApi() {
 		(err: AxiosError) => {
 			const errResponse = err.response?.data as ErrorResponse
 
-			if (errResponse.error.code === ApiErrorCodeEnum.ErrorCodeUserUnauthorized) {
+			if (errResponse.error.code === ApiErrorCodeEnum.ErrCodeUserUnauthorized) {
 				sessionStore.clearSession()
 				router.push({ name: ViewNameEnum.AuthSignInView })
 			}

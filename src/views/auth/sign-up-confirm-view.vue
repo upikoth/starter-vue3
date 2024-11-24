@@ -72,7 +72,7 @@ async function onSubmit() {
 		await router.push({ name: getDefaultView() })
 		confirmationRegistrationState.value = LoadingStateEnum.LoadedSuccess
 	} catch (error) {
-		if (api.checkIsApiErrorField(error) && error.code === ApiErrorCodeEnum.ErrorCodeRegistrationCreateSession) {
+		if (api.checkIsApiErrorField(error) && error.code === ApiErrorCodeEnum.ErrCodeRegistrationCreatingSession) {
 			router.push({ name: ViewNameEnum.AuthSignInView })
 		} else {
 			confirmationRegistrationState.value = LoadingStateEnum.LoadedError

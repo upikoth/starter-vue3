@@ -73,7 +73,7 @@ async function onSubmit() {
 		confirmationPasswordRecoveryRequestState.value = LoadingStateEnum.LoadedSuccess
 	} catch (error) {
 		if (api.checkIsApiErrorField(error)
-			&& error.code === ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestCreateSession
+			&& error.code === ApiErrorCodeEnum.ErrCodePasswordRecoveryRequestCreatingSession
 		) {
 			router.push({ name: ViewNameEnum.AuthSignInView })
 		} else {

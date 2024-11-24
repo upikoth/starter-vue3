@@ -8,6 +8,7 @@ export enum ViewNameEnum {
 	AuthSignUpConfirmView = 'AUTH_SIGN_UP_CONFIRM_VIEW',
 	AuthRecoveryPasswordView = 'AUTH_RECOVERY_PASSWORD_VIEW',
 	AuthRecoveryPasswordConfirmView = 'AUTH_RECOVERY_PASSWORD_CONFIRM_VIEW',
+	AuthHandleAuthView = 'AUTH_HANDLE_AUTH_VIEW',
 	UsersView = 'USERS_VIEW',
 	HomeView = 'HOME_VIEW',
 }
@@ -17,7 +18,8 @@ export const UNAUTHORIZED_VIEWS = new Set([
 	ViewNameEnum.AuthSignUpConfirmView,
 	ViewNameEnum.AuthSignUpView,
 	ViewNameEnum.AuthRecoveryPasswordView,
-	ViewNameEnum.AuthRecoveryPasswordConfirmView
+	ViewNameEnum.AuthRecoveryPasswordConfirmView,
+	ViewNameEnum.AuthHandleAuthView
 ])
 export const ALL_VIEWS = new Set(Object.values(ViewNameEnum))
 
@@ -60,6 +62,11 @@ const router = createRouter({
 					path: 'recovery-password-confirm',
 					name: ViewNameEnum.AuthRecoveryPasswordConfirmView,
 					component: () => import('@/views/auth/recovery-password-confirm-view.vue')
+				},
+				{
+					path: 'handle',
+					name: ViewNameEnum.AuthHandleAuthView,
+					component: () => import('@/views/auth/handle-auth.vue')
 				}
 			]
 		},

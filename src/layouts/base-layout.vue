@@ -21,7 +21,16 @@ const sessionStore = useSessionStore()
 
 const leftDrawerOpen = ref(false)
 
-const menuList = computed(() => ([
+interface IMenuItem {
+	icon: string
+	label: string
+	separator?: boolean
+	name?: ViewNameEnum
+	handler: () => Promise<unknown>
+	isVisible: () => boolean
+}
+
+const menuList = computed((): IMenuItem[] => ([
 	{
 		icon: 'person',
 		label: 'Мой профиль',

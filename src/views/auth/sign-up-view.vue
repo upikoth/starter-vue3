@@ -54,7 +54,7 @@ async function onSubmit() {
 
 		if (
 			api.checkIsApiErrorField(err)
-			&& err.code === ApiErrorCodeEnum.ErrorCodeRegistrationUserWithThisEmailAlreadyExist
+			&& err.code === ApiErrorCodeEnum.ErrCodeRegistrationUserWithThisEmailAlreadyExist
 		) {
 			isRecoveryPasswordButtonVisible.value = true
 		}

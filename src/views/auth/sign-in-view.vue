@@ -58,7 +58,7 @@ async function onSubmit() {
 
 		if (
 			api.checkIsApiErrorField(err)
-			&& err.code === ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionWrongEmailOrPassword
+			&& err.code === ApiErrorCodeEnum.ErrCodeCreateSessionWrongEmailOrPassword
 		) {
 			isRecoveryPasswordButtonVisible.value = true
 		}

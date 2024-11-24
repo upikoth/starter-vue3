@@ -3,101 +3,47 @@ import type { ErrorResponseError } from '@/generated/app'
 const DEFAULT_ERROR_MESSAGE_TEXT = 'Произошла ошибка. Попробуйте позже'
 
 export enum ApiErrorCodeEnum {
-	ErrorCodeValidationByOpenapi = '1',
-	ErrorCodeUserUnauthorized = '2',
+	ErrCodeValidationByOpenapi = '1',
+	ErrCodeUserUnauthorized = '2',
+	ErrCodeInterval = '3',
 
-	ErrorCodeRegistrationSMTPSendEmail = '100',
-	ErrorCodeRegistrationYdbCreateRegistration = '101',
-	ErrorCodeRegistrationYdbFindUser = '102',
-	ErrorCodeRegistrationUserWithThisEmailAlreadyExist = '103',
+	ErrCodeRegistrationUserWithThisEmailAlreadyExist = '100',
+	ErrCodeRegistrationNotFound = '101',
+	ErrCodeRegistrationCreatingSession = '102',
 
-	ErrorCodeRegistrationYdbCheckConfirmationToken = '200',
-	ErrorCodeRegistrationRegistrationNotFound = '201',
-	ErrorCodeRegistrationGeneratePasswordHash = '202',
-	ErrorCodeRegistrationCreateSession = '203',
+	ErrCodeCreateSessionWrongEmailOrPassword = '200',
+	ErrCodeSessionNotFound = '201',
 
-	ErrorCodeSessionsCreateSessionDbError = '300',
-	ErrorCodeSessionsCreateSessionWrongEmailOrPassword = '301',
+	ErrCodePasswordRecoveryRequestNotFound = '300',
+	ErrCodePasswordRecoveryRequestCreatingSession = '301',
 
-	ErrorCodeSessionsDeleteSessionDbError = '400',
-	ErrorCodeSessionsDeleteSessionNotFound = '401',
+	ErrCodeUsersGetListForbidden = '400',
 
-	ErrorCodePasswordRecoveryRequestYdbFindUser = '500',
-	ErrorCodePasswordRecoveryRequestYdbCreatePasswordRecoveryRequest = '501',
-	ErrorCodePasswordRecoveryRequestSMTPSendEmail = '502',
-
-	ErrorCodePasswordRecoveryRequestYdbCheckConfirmationToken = '600',
-	ErrorCodePasswordRecoveryRequestPasswordRecoveryRequestNotFound = '601',
-	ErrorCodePasswordRecoveryRequestGeneratePasswordHash = '602',
-	ErrorCodePasswordRecoveryRequestCreateSession = '603',
-	ErrorCodePasswordRecoveryRequestUpdateUserPassword = '604',
-
-	ErrorCodeUsersGetListForbidden = '700',
-	ErrorCodeUsersGetListDBError = '701',
-
-	ErrorCodeSessionsCheckTokenDBError = '800',
-
-	ErrorCodeOauthSourceNotExist = '900',
+	ErrCodeOauthSourceNotExist = '500',
 }
 
 const apiErrorCodeMessageMapping: Record<ApiErrorCodeEnum, string> = {
-	[ApiErrorCodeEnum.ErrorCodeValidationByOpenapi]: 'Не удалось выполнить действие. Один из параметров задан неверно',
-	[ApiErrorCodeEnum.ErrorCodeUserUnauthorized]: 'Авторизуйтесь для выполнения действия',
+	[ApiErrorCodeEnum.ErrCodeValidationByOpenapi]: 'Не удалось выполнить действие. Один из параметров задан неверно',
+	[ApiErrorCodeEnum.ErrCodeUserUnauthorized]: 'Авторизуйтесь для выполнения действия',
+	[ApiErrorCodeEnum.ErrCodeInterval]: DEFAULT_ERROR_MESSAGE_TEXT,
 
-	[ApiErrorCodeEnum.ErrorCodeRegistrationSMTPSendEmail]: 'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbCreateRegistration]:
-		'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbFindUser]: 'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationUserWithThisEmailAlreadyExist]:
+	[ApiErrorCodeEnum.ErrCodeRegistrationUserWithThisEmailAlreadyExist]:
 		'Пользователь с указанным email уже существует',
+	[ApiErrorCodeEnum.ErrCodeRegistrationNotFound]: 'Регистрация не найдена. Попробуйте зарегистрироваться заново',
+	[ApiErrorCodeEnum.ErrCodeRegistrationCreatingSession]: DEFAULT_ERROR_MESSAGE_TEXT,
 
-	[ApiErrorCodeEnum.ErrorCodeRegistrationYdbCheckConfirmationToken]:
-		'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationRegistrationNotFound]:
-		'Регистрация не найдена. Попробуйте зарегистрироваться заново',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationGeneratePasswordHash]:
-		'Не удалось зарегистрироваться. Попробуйте позже',
-	[ApiErrorCodeEnum.ErrorCodeRegistrationCreateSession]:
-		'Не удалось зарегистрироваться. Попробуйте позже',
-
-	[ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionDbError]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodeSessionsCreateSessionWrongEmailOrPassword]:
+	[ApiErrorCodeEnum.ErrCodeCreateSessionWrongEmailOrPassword]:
 		'Неверные email или пароль',
+	[ApiErrorCodeEnum.ErrCodeSessionNotFound]: DEFAULT_ERROR_MESSAGE_TEXT,
 
-	[ApiErrorCodeEnum.ErrorCodeSessionsDeleteSessionDbError]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodeSessionsDeleteSessionNotFound]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbFindUser]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbCreatePasswordRecoveryRequest]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestSMTPSendEmail]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestYdbCheckConfirmationToken]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestPasswordRecoveryRequestNotFound]:
+	[ApiErrorCodeEnum.ErrCodePasswordRecoveryRequestNotFound]:
 		'Запрос не найден. Попробуйте заново',
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestGeneratePasswordHash]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestCreateSession]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodePasswordRecoveryRequestUpdateUserPassword]:
-		DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrCodePasswordRecoveryRequestCreatingSession]: DEFAULT_ERROR_MESSAGE_TEXT,
 
-	[ApiErrorCodeEnum.ErrorCodeUsersGetListForbidden]:
-	DEFAULT_ERROR_MESSAGE_TEXT,
-	[ApiErrorCodeEnum.ErrorCodeUsersGetListDBError]:
-	DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrCodeUsersGetListForbidden]: DEFAULT_ERROR_MESSAGE_TEXT,
 
-	[ApiErrorCodeEnum.ErrorCodeSessionsCheckTokenDBError]:
-	DEFAULT_ERROR_MESSAGE_TEXT,
+	[ApiErrorCodeEnum.ErrCodeOauthSourceNotExist]: DEFAULT_ERROR_MESSAGE_TEXT
 
-	[ApiErrorCodeEnum.ErrorCodeOauthSourceNotExist]:
-	DEFAULT_ERROR_MESSAGE_TEXT
 }
 
 const allErrorCodes = new Set(Object.keys(apiErrorCodeMessageMapping))
