@@ -29,6 +29,7 @@ const formData = ref({
 
 const isOauthVkLoading = ref(false)
 const isOauthMailLoading = ref(false)
+const isOauthYandexLoading = ref(false)
 
 const isPasswordVisible = ref(false)
 const isRecoveryPasswordButtonVisible = ref(false)
@@ -100,6 +101,22 @@ async function authorizeUsingMailOauth() {
 	}
 }
 
+async function authorizeUsingYandexOauth() {
+	try {
+		isOauthYandexLoading.value = true
+		const { data } = await api.oauth.v1AuthorizeUsingOauth({
+			oauthSource: 'yandex'
+		})
+
+		const { url } = data.data
+		window.location.href = url
+	} catch (err) {
+		notification.error(api.getApiErrorOrMessage(err))
+	} finally {
+		isOauthYandexLoading.value = false
+	}
+}
+
 </script>
 
 <template>
@@ -121,6 +138,14 @@ async function authorizeUsingMailOauth() {
 					icon="img:/icons/oauth/mail.svg"
 					:loading="isOauthMailLoading"
 					@click="authorizeUsingMailOauth()"
+				/>
+				<q-btn
+					round
+					padding="none"
+					size="xl"
+					icon="img:/icons/oauth/yandex.svg"
+					:loading="isOauthYandexLoading"
+					@click="authorizeUsingYandexOauth()"
 				/>
 			</div>
 			<p class="sign-in-view__card-oauth-after">
