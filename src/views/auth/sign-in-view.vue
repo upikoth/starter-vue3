@@ -5,8 +5,6 @@ import { useRouter } from 'vue-router'
 
 import { EMAIL_VALIDATION_REGEXP } from '@/constants'
 
-import type { V1AuthorizeUsingOauthRequestBodyOauthSourceEnum } from '@/generated/app'
-
 import useApi, { ApiErrorCodeEnum } from '@/api'
 
 import { ViewNameEnum, getDefaultView } from '@/router'
