@@ -170,7 +170,6 @@ export interface V1AuthorizeUsingOauthRequestBody {
 
 export const V1AuthorizeUsingOauthRequestBodyOauthSourceEnum = {
     Vk: 'vk',
-    Ok: 'ok',
     Mail: 'mail',
     Yandex: 'yandex'
 } as const;
@@ -608,6 +607,114 @@ export const OauthApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * Обработка редиректа после авторизации в mail.ru
+         * @param {string} code Код, по которому можно получить информацию о пользователе из mail
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleMailRedirect: async (code: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'code' is not null or undefined
+            assertParamExists('v1AuthorizeUsingOauthHandleMailRedirect', 'code', code)
+            const localVarPath = `/api/v1/oauthRedirect/mail`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Обработка редиректа после авторизации в vk
+         * @param {string} code Код, по которому можно получить информацию о пользователе из vk
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleVkRedirect: async (code: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'code' is not null or undefined
+            assertParamExists('v1AuthorizeUsingOauthHandleVkRedirect', 'code', code)
+            const localVarPath = `/api/v1/oauthRedirect/vk`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Обработка редиректа после авторизации в yandex
+         * @param {string} code Код, по которому можно получить информацию о пользователе из yandex
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleYandexRedirect: async (code: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'code' is not null or undefined
+            assertParamExists('v1AuthorizeUsingOauthHandleYandexRedirect', 'code', code)
+            const localVarPath = `/api/v1/oauthRedirect/yandex`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -630,6 +737,42 @@ export const OauthApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauth']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * Обработка редиректа после авторизации в mail.ru
+         * @param {string} code Код, по которому можно получить информацию о пользователе из mail
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1AuthorizeUsingOauthHandleMailRedirect(code: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1AuthorizeUsingOauthHandleMailRedirect(code, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauthHandleMailRedirect']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Обработка редиректа после авторизации в vk
+         * @param {string} code Код, по которому можно получить информацию о пользователе из vk
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1AuthorizeUsingOauthHandleVkRedirect(code: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1AuthorizeUsingOauthHandleVkRedirect(code, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauthHandleVkRedirect']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Обработка редиректа после авторизации в yandex
+         * @param {string} code Код, по которому можно получить информацию о пользователе из yandex
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1AuthorizeUsingOauthHandleYandexRedirect(code: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1AuthorizeUsingOauthHandleYandexRedirect(code, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['OauthApi.v1AuthorizeUsingOauthHandleYandexRedirect']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -648,6 +791,33 @@ export const OauthApiFactory = function (configuration?: Configuration, basePath
          */
         v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: any): AxiosPromise<V1AuthorizeUsingOauthResponse> {
             return localVarFp.v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Обработка редиректа после авторизации в mail.ru
+         * @param {string} code Код, по которому можно получить информацию о пользователе из mail
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleMailRedirect(code: string, options?: any): AxiosPromise<ErrorResponse> {
+            return localVarFp.v1AuthorizeUsingOauthHandleMailRedirect(code, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Обработка редиректа после авторизации в vk
+         * @param {string} code Код, по которому можно получить информацию о пользователе из vk
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleVkRedirect(code: string, options?: any): AxiosPromise<ErrorResponse> {
+            return localVarFp.v1AuthorizeUsingOauthHandleVkRedirect(code, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Обработка редиректа после авторизации в yandex
+         * @param {string} code Код, по которому можно получить информацию о пользователе из yandex
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1AuthorizeUsingOauthHandleYandexRedirect(code: string, options?: any): AxiosPromise<ErrorResponse> {
+            return localVarFp.v1AuthorizeUsingOauthHandleYandexRedirect(code, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -668,6 +838,39 @@ export class OauthApi extends BaseAPI {
      */
     public v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody: V1AuthorizeUsingOauthRequestBody, options?: RawAxiosRequestConfig) {
         return OauthApiFp(this.configuration).v1AuthorizeUsingOauth(v1AuthorizeUsingOauthRequestBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Обработка редиректа после авторизации в mail.ru
+     * @param {string} code Код, по которому можно получить информацию о пользователе из mail
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApi
+     */
+    public v1AuthorizeUsingOauthHandleMailRedirect(code: string, options?: RawAxiosRequestConfig) {
+        return OauthApiFp(this.configuration).v1AuthorizeUsingOauthHandleMailRedirect(code, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Обработка редиректа после авторизации в vk
+     * @param {string} code Код, по которому можно получить информацию о пользователе из vk
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApi
+     */
+    public v1AuthorizeUsingOauthHandleVkRedirect(code: string, options?: RawAxiosRequestConfig) {
+        return OauthApiFp(this.configuration).v1AuthorizeUsingOauthHandleVkRedirect(code, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Обработка редиректа после авторизации в yandex
+     * @param {string} code Код, по которому можно получить информацию о пользователе из yandex
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OauthApi
+     */
+    public v1AuthorizeUsingOauthHandleYandexRedirect(code: string, options?: RawAxiosRequestConfig) {
+        return OauthApiFp(this.configuration).v1AuthorizeUsingOauthHandleYandexRedirect(code, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
