@@ -6,7 +6,17 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
-	box-shadow: inset 0 0 0 30px var(--q-dark);
-	-webkit-text-fill-color: #ffffff;
+	box-shadow: inset 0 0 0 30px #ffffff;
 	transition: background-color 5000s ease-in-out 0s;
+}
+
+body.body--dark {
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active{
+		box-shadow: inset 0 0 0 30px var(--q-dark);
+		-webkit-text-fill-color: #ffffff;
+		transition: background-color 5000s ease-in-out 0s;
+	}
 }
