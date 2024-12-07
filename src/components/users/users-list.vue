@@ -142,6 +142,10 @@ onCreated()
 			z-index: 1;
 			top: 0;
 			background-color: white;
+
+			body.body--dark & {
+				background-color: var(--q-dark);
+			}
 		}
 	}
 }

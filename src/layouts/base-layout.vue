@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
+import { useDark } from '@vueuse/core'
 
 import useApi from '@/api'
 
@@ -20,6 +21,7 @@ const notification = useNotification()
 const sessionStore = useSessionStore()
 
 const leftDrawerOpen = ref(false)
+const isDarkMode = useDark()
 
 interface IMenuItem {
 	icon: string
@@ -82,6 +84,14 @@ function toggleLeftDrawer() {
 					icon="menu"
 					@click="toggleLeftDrawer"
 				/>
+				<q-space />
+				<q-toggle
+					v-model="isDarkMode"
+					color="dark"
+					keep-color
+					checked-icon="dark_mode"
+					unchecked-icon="light_mode"
+				/>
 			</q-toolbar>
 		</q-header>
 
@@ -133,6 +143,14 @@ function toggleLeftDrawer() {
 					round
 					icon="menu"
 					@click="toggleLeftDrawer"
+				/>
+				<q-space />
+				<q-toggle
+					v-model="isDarkMode"
+					color="dark"
+					keep-color
+					checked-icon="dark_mode"
+					unchecked-icon="light_mode"
 				/>
 			</q-toolbar>
 		</q-footer>

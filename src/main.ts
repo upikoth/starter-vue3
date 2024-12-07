@@ -44,7 +44,9 @@ async function initApp() {
 
 	app.use(Quasar, {
 		plugins: { Notify },
-		config: { screen: { bodyClasses: true } },
+		config: {
+			screen: { bodyClasses: true }
+		},
 		lang: langRu
 	})
 	app.use(createPinia())

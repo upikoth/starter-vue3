@@ -135,6 +135,7 @@ async function authorizeUsingYandexOauth() {
 					round
 					icon="img:/icons/oauth/mail.svg"
 					:loading="isOauthMailLoading"
+					style="background: white"
 					@click="authorizeUsingMailOauth()"
 				/>
 				<q-btn
