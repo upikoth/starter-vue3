@@ -237,6 +237,10 @@ async function authorizeUsingYandexOauth() {
 		justify-content: center;
 		margin-bottom: 4px;
 		gap: 16px;
+
+		body.screen--xs & {
+			justify-content: space-around;
+		}
 	}
 
 	&__card-oauth-after {
