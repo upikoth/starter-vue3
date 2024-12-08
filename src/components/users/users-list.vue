@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { QTableProps } from 'quasar'
+import { useRouteQuery } from '@vueuse/router'
 
 import type { User, UserRole } from '@/generated/app'
 
@@ -14,6 +15,8 @@ import { useSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
+import { LoadingStateEnum } from '@/models'
+
 const api = useApi()
 const notification = useNotification()
 const sessionStore = useSessionStore()
@@ -24,12 +27,25 @@ const userRoleRoleNameMapping = {
 }
 
 const rowsPerPageOptions: NonNullable<QTableProps['rowsPerPageOptions']> = [25, 50, 100]
+
+const page = useRouteQuery('page', 1, { transform: Number })
+const rowsPerPage = useRouteQuery('rowsPerPage', rowsPerPageOptions[0], { transform: Number })
 const pagination = ref<NonNullable<QTableProps['pagination']>>({
-	page: 1,
-	rowsPerPage: rowsPerPageOptions[0]
+	page: page.value,
+	rowsPerPage: rowsPerPage.value
 })
 
-const isUsersLoading = ref(false)
+watch(pagination, () => {
+	if (typeof pagination.value.page === 'number') {
+		page.value = pagination.value.page
+	}
+
+	if (typeof pagination.value.rowsPerPage === 'number') {
+		rowsPerPage.value = pagination.value.rowsPerPage
+	}
+}, { deep: true })
+
+const usersLoadingState = ref(LoadingStateEnum.LoadingNotStarted)
 const users = ref<User[]>([])
 
 const columns: QTableProps['columns'] = [
@@ -69,7 +85,7 @@ async function updateUsersList(
 		const newPagination = props?.pagination || pagination.value
 		const { limit, offset } = paginationToLimitOffset(newPagination)
 
-		isUsersLoading.value = true
+		usersLoadingState.value = LoadingStateEnum.Loading
 
 		const { data } = await api.users.v1GetUsers(
 			sessionStore.sessionToken,
@@ -82,10 +98,11 @@ async function updateUsersList(
 		pagination.value.rowsNumber = total
 		pagination.value.page = newPagination.page
 		pagination.value.rowsPerPage = newPagination.rowsPerPage
+
+		usersLoadingState.value = LoadingStateEnum.LoadedError
 	} catch (err) {
+		usersLoadingState.value = LoadingStateEnum.LoadedError
 		notification.error(api.getApiErrorOrMessage(err, 'Не удалось получить список пользователей'))
-	} finally {
-		isUsersLoading.value = false
 	}
 }
 
@@ -96,21 +113,14 @@ onCreated()
 	<div
 		class="users-list"
 	>
-		<p
-			v-if="!users.length && !isUsersLoading"
-			class="text-body1"
-		>
-			Пользователей пока нет
-		</p>
 		<q-table
-			v-else
+			v-if="usersLoadingState !== LoadingStateEnum.LoadingNotStarted"
 			v-model:pagination="pagination"
 			class="users-list__table"
 			:columns="columns"
 			:rows="users"
 			:rows-per-page-options="rowsPerPageOptions"
-			:loading="isUsersLoading"
-			hide-no-data
+			:loading="usersLoadingState === LoadingStateEnum.Loading"
 			@request="updateUsersList"
 		>
 			<template #body-cell-role="props">
@@ -123,6 +133,36 @@ onCreated()
 					showing
 					color="primary"
 				/>
+			</template>
+			<template
+				#no-data
+			>
+				<div
+					v-if="usersLoadingState === LoadingStateEnum.LoadedSuccess"
+					class="full-width row flex-center"
+				>
+					<span class="text-body1">
+						Пользователей пока нет
+					</span>
+				</div>
+				<div
+					v-if="usersLoadingState === LoadingStateEnum.LoadedError"
+					class="full-width column flex-center"
+				>
+					<span class="text-body1">
+						Произошла ошибка при получении списка
+					</span>
+					<q-btn
+						flat
+						no-caps
+						color="primary"
+						icon-right="refresh"
+						class="q-mt-md"
+						@click="updateUsersList()"
+					>
+						Попробовать еще раз
+					</q-btn>
+				</div>
 			</template>
 		</q-table>
 	</div>
@@ -146,6 +186,10 @@ onCreated()
 			body.body--dark & {
 				background-color: var(--q-dark);
 			}
+		}
+
+		:deep(.q-table__bottom--nodata) {
+			flex-grow: 9999;
 		}
 	}
 }
