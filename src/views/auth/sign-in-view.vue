@@ -13,6 +13,8 @@ import { useSessionStore } from '@/stores'
 
 import { useNotification } from '@/composables'
 
+import { LoadingStateEnum } from '@/models'
+
 const api = useApi()
 const notification = useNotification()
 const router = useRouter()
@@ -29,6 +31,7 @@ const isOauthVkLoading = ref(false)
 const isOauthMailLoading = ref(false)
 const isOauthYandexLoading = ref(false)
 
+const signInLoadingState = ref(LoadingStateEnum.LoadingNotStarted)
 const isPasswordVisible = ref(false)
 const isRecoveryPasswordButtonVisible = ref(false)
 
@@ -40,6 +43,7 @@ const emailRules = [
 const passwordRules = [(val: string) => !!val || 'Введите пароль']
 
 async function onSubmit() {
+	signInLoadingState.value = LoadingStateEnum.Loading
 	const isFormDataValid = await formRef.value?.validate()
 
 	if (!isFormDataValid) {
@@ -54,8 +58,10 @@ async function onSubmit() {
 		const { session } = data.data
 		sessionStore.setSession(session)
 
+		signInLoadingState.value = LoadingStateEnum.LoadedSuccess
 		router.push({ name: getDefaultView() })
 	} catch (err) {
+		signInLoadingState.value = LoadingStateEnum.LoadedError
 		notification.error(api.getApiErrorOrMessage(err))
 
 		if (
@@ -183,6 +189,7 @@ async function authorizeUsingYandexOauth() {
 					class="sign-in-view__submit-button"
 					type="submit"
 					color="primary"
+					:loading="signInLoadingState === LoadingStateEnum.Loading"
 				>
 					Войти
 				</q-btn>
