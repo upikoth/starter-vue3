@@ -10,7 +10,7 @@ export enum ViewNameEnum {
 	AuthRecoveryPasswordConfirmView = 'AUTH_RECOVERY_PASSWORD_CONFIRM_VIEW',
 	AuthHandleAuthView = 'AUTH_HANDLE_AUTH_VIEW',
 	UsersView = 'USERS_VIEW',
-	HomeView = 'HOME_VIEW',
+	ProfileView = 'PROFILE_VIEW',
 }
 
 export const UNAUTHORIZED_VIEWS = new Set([
@@ -28,7 +28,7 @@ export function checkIsView(view: unknown): view is ViewNameEnum {
 }
 
 export function getDefaultView(): ViewNameEnum {
-	return ViewNameEnum.HomeView
+	return ViewNameEnum.ProfileView
 }
 
 const router = createRouter({
@@ -76,12 +76,12 @@ const router = createRouter({
 			children: [
 				{
 					path: '',
-					redirect: () => ({ name: ViewNameEnum.HomeView })
+					redirect: () => ({ name: ViewNameEnum.ProfileView })
 				},
 				{
-					path: 'home',
-					name: ViewNameEnum.HomeView,
-					component: () => import('@/views/home-view.vue')
+					path: 'profile',
+					name: ViewNameEnum.ProfileView,
+					component: () => import('@/views/profile-view.vue')
 				},
 				{
 					path: 'users',

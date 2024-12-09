@@ -421,6 +421,38 @@ export interface V1SessionsCreateSessionResponse {
 /**
  * 
  * @export
+ * @interface V1UsersGetUserResponse
+ */
+export interface V1UsersGetUserResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof V1UsersGetUserResponse
+     */
+    'success': boolean;
+    /**
+     * 
+     * @type {V1UsersGetUserResponseData}
+     * @memberof V1UsersGetUserResponse
+     */
+    'data': V1UsersGetUserResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface V1UsersGetUserResponseData
+ */
+export interface V1UsersGetUserResponseData {
+    /**
+     * 
+     * @type {User}
+     * @memberof V1UsersGetUserResponseData
+     */
+    'user': User;
+}
+/**
+ * 
+ * @export
  * @interface V1UsersGetUsersResponse
  */
 export interface V1UsersGetUsersResponse {
@@ -1468,6 +1500,42 @@ export class SessionsApi extends BaseAPI {
 export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
+         * Получение информации о текущем пользователе
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1GetCurrentUser: async (authorizationToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authorizationToken' is not null or undefined
+            assertParamExists('v1GetCurrentUser', 'authorizationToken', authorizationToken)
+            const localVarPath = `/api/v1/user`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (authorizationToken != null) {
+                localVarHeaderParameter['Authorization-Token'] = String(authorizationToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Получение информации обо всех пользователях
          * @param {string} authorizationToken 
          * @param {number} [limit] Максимальное количество элементов в ответе
@@ -1524,6 +1592,18 @@ export const UsersApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
     return {
         /**
+         * Получение информации о текущем пользователе
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async v1GetCurrentUser(authorizationToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<V1UsersGetUserResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.v1GetCurrentUser(authorizationToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.v1GetCurrentUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Получение информации обо всех пользователях
          * @param {string} authorizationToken 
          * @param {number} [limit] Максимальное количество элементов в ответе
@@ -1548,6 +1628,15 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     const localVarFp = UsersApiFp(configuration)
     return {
         /**
+         * Получение информации о текущем пользователе
+         * @param {string} authorizationToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        v1GetCurrentUser(authorizationToken: string, options?: any): AxiosPromise<V1UsersGetUserResponse> {
+            return localVarFp.v1GetCurrentUser(authorizationToken, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Получение информации обо всех пользователях
          * @param {string} authorizationToken 
          * @param {number} [limit] Максимальное количество элементов в ответе
@@ -1568,6 +1657,17 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI {
+    /**
+     * Получение информации о текущем пользователе
+     * @param {string} authorizationToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public v1GetCurrentUser(authorizationToken: string, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).v1GetCurrentUser(authorizationToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Получение информации обо всех пользователях
      * @param {string} authorizationToken 
